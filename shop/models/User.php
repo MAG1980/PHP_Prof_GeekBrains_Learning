@@ -2,7 +2,15 @@
 
 namespace app\models;
 
-class User
+class User extends Model
 {
+    public $id;
+    public $login;
+    public $pass;
+
+    function getTableName(): string
+    {
+        return 'users';
+    }
 
 }
