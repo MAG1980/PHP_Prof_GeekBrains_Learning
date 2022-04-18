@@ -7,13 +7,15 @@ use app\interfaces\IModel;
 
 abstract class Model implements IModel
 {
-    public $lastUpdated = null;
+    public $lastUpdated = '';
+    public $updPropList = [];
 
 
     public function __set($name, $value)
     {
         $this->$name = $value;
         $this->lastUpdated = $name;
+        $this->updPropList["{$name}"] = $value;
     }
 
     public function insert(): object
@@ -28,7 +30,7 @@ abstract class Model implements IModel
 //            if ($key === 'id') {
 //                continue;
 //            }
-            if ($key != 'id' && $key != 'lastUpdated') {
+            if ($key != 'id' && $key != 'lastUpdated' && $key != 'updPropList') {
                 $keys[] = $key;
                 $params[":".$key] = $value;
             }
@@ -44,11 +46,33 @@ abstract class Model implements IModel
         return $this;
     }
 
+    public function update()
+    {
+        $tableName = $this->getTableName();
+        $updatedFields = [];
+        $params = [':id' => $this->id];
+        foreach ($this->updPropList as $key => $value) {
+            $updatedFields[] = "{$key}=:{$key}";
+            $params[":{$key}"] = $value;
+        }
+
+        $this->updPropList = [];
+        $this->lastUpdated = '';
+
+        $updatedFields = implode(', ', $updatedFields);
+        $sql = "UPDATE {$tableName} SET {$updatedFields} WHERE id=:id";
+        var_dump($sql);
+        var_dump($params);
+//        die();
+        Db::getInstance()->execute($sql, $params);
+        return $this;
+    }
+
     /**
      * Для уменьшения объема передаваемых данных, в запросе участвует только последнее изменённое свойство объекта.
      * @return object
      */
-    public function update(): object
+    public function updateOneProp(): object
     {
         $tableName = $this->getTableName();
         $updatedFieldTitle = $this->lastUpdated;
@@ -59,12 +83,11 @@ abstract class Model implements IModel
         ];
 
         $sql = "UPDATE {$tableName} SET {$updatedFieldTitle} = {$value} WHERE id = :id";
-
         Db::getInstance()->execute($sql, $params);
-        $this->id = Db::getInstance()->lastInsertId();
+        $this->updPropList = [];
+        $this->lastUpdated = '';
         return $this;
     }
-
 
     public function delete()
     {

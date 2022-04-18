@@ -5,9 +5,9 @@ namespace app\models;
 class User extends Model
 {
     public ?int $id = null;
-    public ?string $login;
-    public ?string $password;
-    public ?string $hash;
+    protected ?string $login;
+    protected ?string $password;
+    protected ?string $hash;
 
     /**
      * @param $login
