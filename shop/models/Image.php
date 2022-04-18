@@ -4,9 +4,9 @@ namespace app\models;
 
 class Image extends Model
 {
-    public $id;
-    public $filename;
-    public $likes;
+    public ?int $id = null;
+    public string $filename;
+    public int $likes;
 
     public function getTableName(): string
     {

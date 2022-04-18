@@ -1,13 +1,14 @@
 <?php
 
+namespace app\engine;
+
 class Autoload
 {
     public function loadClass($className)
     {
-        $className = preg_replace('/^app/', dirname(__DIR__), $className . '.php');
+        $className = preg_replace('/^app/', ROOT, $className.'.php');
 
-        $className = explode('\\', $className);
-        $className = implode('/', $className);
+        $className = str_replace('\\', '/', $className);
 
         if (file_exists($className)) {
             include $className;

@@ -4,11 +4,11 @@ namespace app\models;
 
 class Order extends Model
 {
-    public $id;
-    public $cart_session;
-    public $login;
-    public $customer_name;
-    public $phone_number;
+    public ?int $id = null;
+    public string $cart_session;
+    public string $login;
+    public string $customer_name;
+    public string $phone_number;
 
     public function getTableName(): string
     {

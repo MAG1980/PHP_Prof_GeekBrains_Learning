@@ -4,8 +4,8 @@ namespace app\interfaces;
 
 interface IModel
 {
-    public function getOne($id): string;
+    public function getOne(int $id);
 
-    public function getAll(): string;
+    public function getAll();
 
 }

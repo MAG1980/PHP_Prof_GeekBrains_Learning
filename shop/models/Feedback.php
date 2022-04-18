@@ -4,9 +4,9 @@ namespace app\models;
 
 class Feedback extends Model
 {
-    public $id;
-    public $name;
-    public $text;
+    public ?int $id = null;
+    public string $name;
+    public string $text;
 
     public function getTableName(): string
     {
