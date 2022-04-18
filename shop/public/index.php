@@ -1,7 +1,7 @@
 <?php
 
 use app\engine\{Autoload};
-use app\models\{Product, User};
+use app\models\{Product};
 
 include dirname(__DIR__)."/config/config.php";
 include ROOT."/engine/Autoload.php";
@@ -11,12 +11,23 @@ include ROOT."/engine/Autoload.php";
 spl_autoload_register([new Autoload(), 'loadClass']);
 
 
-$product = new Product('Торт', 'cake.jgp', "Описание", 225);
-$product = $product->insert();
-$product = $product->delete();
-var_dump($product);
+//$product = new Product('Торт4', 'cake.jgp', "Описание", 225);
+//$product->insert();
 
-$user = new User('user5', "12345");
-$user = $user->insert();
-var_dump($user);
+//$product = $product->getOne(41)->delete();
+//$product = $product->delete();
+//var_dump($product);
+
+$product = new Product();
+$product = $product->getOne(43);
+var_dump($product);
+//die();
+
+$product->description = 'Опять изменённое описание продукта';
+var_dump($product);
+echo "Последнее изменённое свойство объекта: ".$product->lastUpdated;
+$product->update();
+//$user = new User('user5', "12345");
+//$user = $user->insert();
+//var_dump($user);
 

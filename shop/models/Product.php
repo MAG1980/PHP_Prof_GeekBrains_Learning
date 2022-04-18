@@ -5,10 +5,10 @@ namespace app\models;
 class Product extends Model
 {
     public ?int $id = null;
-    public string $name;
-    public string $image;
-    public string $description;
-    public float $price;
+    protected ?string $name;
+    protected ?string $image;
+    protected ?string $description;
+    protected ?float $price;
 
     /**
      * @param $name

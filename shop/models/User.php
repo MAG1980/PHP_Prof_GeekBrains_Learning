@@ -5,8 +5,8 @@ namespace app\models;
 class User extends Model
 {
     public ?int $id = null;
-    public string $login;
-    public string $password;
+    public ?string $login;
+    public ?string $password;
     public ?string $hash;
 
     /**

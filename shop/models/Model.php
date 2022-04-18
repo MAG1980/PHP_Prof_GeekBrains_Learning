@@ -7,6 +7,15 @@ use app\interfaces\IModel;
 
 abstract class Model implements IModel
 {
+    public $lastUpdated = null;
+
+
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+        $this->lastUpdated = $name;
+    }
+
     public function insert(): object
     {
         $keys = [];
@@ -19,7 +28,7 @@ abstract class Model implements IModel
 //            if ($key === 'id') {
 //                continue;
 //            }
-            if ($key != 'id') {
+            if ($key != 'id' && $key != 'lastUpdated') {
                 $keys[] = $key;
                 $params[":".$key] = $value;
             }
@@ -34,6 +43,28 @@ abstract class Model implements IModel
         $this->id = Db::getInstance()->lastInsertId();
         return $this;
     }
+
+    /**
+     * Для уменьшения объема передаваемых данных, в запросе участвует только последнее изменённое свойство объекта.
+     * @return object
+     */
+    public function update(): object
+    {
+        $tableName = $this->getTableName();
+        $updatedFieldTitle = $this->lastUpdated;
+        $value = ":".$updatedFieldTitle;
+        $params = [
+            $value => $this->$updatedFieldTitle,
+            ':id' => $this->id
+        ];
+
+        $sql = "UPDATE {$tableName} SET {$updatedFieldTitle} = {$value} WHERE id = :id";
+
+        Db::getInstance()->execute($sql, $params);
+        $this->id = Db::getInstance()->lastInsertId();
+        return $this;
+    }
+
 
     public function delete()
     {
