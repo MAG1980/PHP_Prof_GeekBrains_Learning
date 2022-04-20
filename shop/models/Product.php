@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class Product extends Model
+class Product extends DBModel
 {
     public ?int $id = null;
     protected ?string $name;
@@ -23,7 +23,7 @@ class Product extends Model
         $this->price = $price;
     }
 
-    function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'goods';
     }

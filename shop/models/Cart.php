@@ -9,6 +9,11 @@ class Cart extends Model
     public ?int $goods_id;
     public ?int $number;
 
+    public static function getBasket()
+    {
+        //запрос на корзину
+    }
+
     function getTableName(): string
     {
         return 'cart';

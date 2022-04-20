@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class Feedback extends Model
+class Feedback extends DBModel
 {
     public ?int $id = null;
     public ?string $name;

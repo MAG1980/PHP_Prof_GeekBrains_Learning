@@ -80,7 +80,16 @@ class Db
         return $STH->fetch();
     }
 
-    public function queryOne($sql, $params = []): array
+    public function queryLimit($sql, $limit)
+    {
+        var_dump($sql, $limit);
+        $STH = $this->getConnection()->prepare($sql);
+        $STH->bindValue(1, $limit, \PDO::PARAM_INT);
+        $STH->execute();
+        return $STH->fetchAll();
+    }
+
+    public function queryOne($sql, $params = [])
     {
         //возвращаем данные, извлечённые из объекта, возвращённого методом query( $sql, $params )
         return $this->query($sql, $params)->fetch();

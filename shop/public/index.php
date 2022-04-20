@@ -1,7 +1,7 @@
 <?php
 
 use app\engine\{Autoload};
-use app\models\{Product, User};
+use app\models\{Product};
 
 include dirname(__DIR__)."/config/config.php";
 include ROOT."/engine/Autoload.php";
@@ -10,9 +10,24 @@ include ROOT."/engine/Autoload.php";
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 
-
 $product = new Product('Cake10', 'cake.jgp', "Описание", 325);
-$product->insert();
+
+//Получаем имена контроллера и экшена из адресной строки браузера
+$controllerName = $_GET['c'] ? :'product';
+$actionName = $_GET['a'];
+
+//Формируем название класса контроллера вида: 'app\controllers\ИмяконтроллераController'
+$controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";
+
+if (class_exists($controllerClass)) {
+    $controller = new $controllerClass();
+    $controller->runAction($actionName);
+} else {
+    die("Нет такого контроллера");
+}
+
+
+/*$product->insert();
 
 $product = $product->getOne(68)->delete();
 var_dump($product);
@@ -36,6 +51,6 @@ $user->password = "asdfdsafasdf";
 $user->hash = "!@#$%$#%$ASDFASDW$@#$@";
 var_dump($user);
 $user->update();
-var_dump($user);
+var_dump($user);*/
 
 

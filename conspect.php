@@ -346,18 +346,14 @@ class Model
 
 {
 
- 
 
   public function __construct()
 
   {
-
     $this->db = new Db();
-
   }
 
  
-
   public function getOne()
 
 {
@@ -510,3 +506,18 @@ traits можно подключить в другие классы с помо�
 
     Пропустить итерацию в цикле:
     if (true) continue;
+
+    Лекция №4
+
+
+    ucfirst(string $string): string - Возвращает строку string, в которой первый символ переведён в верхний регистр,  если этот символ является буквой.
+
+
+    Метод для создания пагинации при статическом рендеринге
+
+    public static function getLimit($limit)
+    {
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM {$tableName} LIMIT 0, ?";
+        return Db::getInstance()->queryLimit($sql, $limit);
+    }

@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class Image extends Model
+class Image extends DBModel
 {
     public ?int $id = null;
     public ?string $filename;
