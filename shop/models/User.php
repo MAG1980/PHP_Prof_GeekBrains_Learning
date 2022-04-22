@@ -21,7 +21,7 @@ class User extends DBModel
     }
 
 
-    function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'users';
     }

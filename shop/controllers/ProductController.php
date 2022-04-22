@@ -11,6 +11,7 @@ class ProductController
 
     public function runAction($action)
     {
+        //Если экшен не передан, то выполняем дефолтный
         $this->action = $action ? :$this->defaultAction;
         $method = 'action'.ucfirst($this->action);
         if (method_exists($this, $method)) {
@@ -20,6 +21,7 @@ class ProductController
         }
     }
 
+    //Дефолтный экшен
     private function actionIndex()
     {
         echo $this->render('index');
@@ -56,14 +58,25 @@ class ProductController
 
     }
 
-
+    /**
+     * @param $template  - название шаблона страницы
+     * @param $params  - ассоциативный массив с данными, которые нужно передать в шаблон. Имена ключей соответствуют
+     * именам переменных, доступных в шаблоне
+     * @return false|string
+     */
     public function renderTemplate($template, $params = [])
     {
+        //Сохраняем вывод скрипта в буфере
         ob_start();
+
+        /*Импортируем данные из ассоциативного массива в переменные,
+        имена которых соответствуют ключам элементов массива*/
         extract($params);
+
+        //Собираем путь до файла с шаблоном страницы и подключаем его
         include VIEWS_DIR.$template.'.php';
+
+        /*  Заканчиваем буферизацию вывода, возвращаем накопленное содержимое буфера вывода и очищаем буфер */
         return ob_get_clean();
     }
-
-
 }

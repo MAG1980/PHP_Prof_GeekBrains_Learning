@@ -8,7 +8,7 @@ class Feedback extends DBModel
     public ?string $name;
     public ?string $text;
 
-    public function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'feedback';
     }

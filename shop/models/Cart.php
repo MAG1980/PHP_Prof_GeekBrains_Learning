@@ -14,7 +14,7 @@ class Cart extends Model
         //запрос на корзину
     }
 
-    function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'cart';
     }

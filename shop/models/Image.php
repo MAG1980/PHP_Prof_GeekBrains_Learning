@@ -8,7 +8,7 @@ class Image extends DBModel
     public ?string $filename;
     public ?int $likes;
 
-    public function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'images';
     }

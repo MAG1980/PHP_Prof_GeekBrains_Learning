@@ -12,7 +12,8 @@ spl_autoload_register([new Autoload(), 'loadClass']);
 
 $product = new Product('Cake10', 'cake.jgp', "Описание", 325);
 
-//Получаем имена контроллера и экшена из адресной строки браузера
+/*Получаем имена контроллера и экшена из адресной строки браузера
+Если имя контроллера из адресной строки не получено, то выбираем 'product'.*/
 $controllerName = $_GET['c'] ? :'product';
 $actionName = $_GET['a'];
 
@@ -20,7 +21,9 @@ $actionName = $_GET['a'];
 $controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";
 
 if (class_exists($controllerClass)) {
+    //Создаём экземпляр класса существующего контроллера
     $controller = new $controllerClass();
+    //Вызываем экшен, полученный из адресной строки браузера
     $controller->runAction($actionName);
 } else {
     die("Нет такого контроллера");

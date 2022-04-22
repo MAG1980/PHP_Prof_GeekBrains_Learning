@@ -10,7 +10,7 @@ class Order extends DBModel
     public ?string $customer_name;
     public ?string $phone_number;
 
-    public function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'orders';
     }
