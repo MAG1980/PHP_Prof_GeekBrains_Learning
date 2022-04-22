@@ -52,9 +52,9 @@ class FeedbackController
     function actionSave()
     {
         var_dump($_POST);
-        $id = (int) $_GET['id'];
         $obj = new \stdClass();
-        $obj->id = $id;
+        $id = $_GET['id'];
+        $obj->id = $id ? (int) $id:null;
         $obj->name = $_POST['name'];
         $obj->text = $_POST['text'];
         $_POST = [];
@@ -62,6 +62,7 @@ class FeedbackController
         if ($obj->name === '' || $obj->text === '') {
             header('Location:/feedback/?status=error');
         } else {
+            var_dump($obj);
             Feedback::save($obj);
 
 //            executeSql("INSERT INTO feedback (name, text) VALUES ('{$name}', '{$feedback}')");

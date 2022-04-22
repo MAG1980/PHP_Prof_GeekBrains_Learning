@@ -51,7 +51,6 @@ abstract class DBModel extends Model
             $updPropList[$key] = $obj->$key;
         }
         $obj->updPropList = $updPropList;
-        var_dump($obj);
         $tableName = static::getTableName();
         $updatedFields = [];
         $params = [':id' => $obj->id];
@@ -65,8 +64,6 @@ abstract class DBModel extends Model
 
         $updatedFields = implode(', ', $updatedFields);
         $sql = "UPDATE {$tableName} SET {$updatedFields} WHERE id=:id";
-        var_dump($sql);
-        var_dump($params);
         Db::getInstance()->execute($sql, $params);
         return $obj;
     }
@@ -126,10 +123,13 @@ abstract class DBModel extends Model
 
     public static function save($obj)
     {
+        var_dump($obj);
         //TODO реализовать умный save
         if (is_null($obj->id)) {
             Feedback::insert($obj);
+            var_dump('insert');
         } else {
+            var_dump('update');
             Feedback::update($obj);
         }
     }
