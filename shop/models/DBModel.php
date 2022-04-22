@@ -8,15 +8,16 @@ abstract class DBModel extends Model
 {
     abstract protected static function getTableName(): string;
 
-    public function insert(): object
+    public static function insert($obj): object
     {
+        var_dump($obj);
         $keys = [];
         $names = '';
         $values = '';
         $params = [];
 
         $tableName = static::getTableName();
-        foreach ($this as $key => $value) {
+        foreach ($obj as $key => $value) {
 //            if ($key === 'id') {
 //                continue;
 //            }
@@ -30,10 +31,10 @@ abstract class DBModel extends Model
         $values = "(".implode(", ", array_keys($params)).")";
 
         $sql = "INSERT INTO {$tableName} {$names} VALUES {$values}";
-
+        var_dump($sql, $params);
         Db::getInstance()->execute($sql, $params);
-        $this->id = Db::getInstance()->lastInsertId();
-        return $this;
+        $obj->id = Db::getInstance()->lastInsertId();
+        return $obj;
     }
 
     public function update()
@@ -79,11 +80,11 @@ abstract class DBModel extends Model
         return $this;
     }
 
-    public function delete()
+    public static function delete($id)
     {
-        $tableName = $this->getTableName();
+        $tableName = static::getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
-        return Db::getInstance()->execute($sql, ['id' => $this->id]);
+        return Db::getInstance()->execute($sql, ['id' => $id], static::class);
     }
 
 
@@ -111,13 +112,13 @@ abstract class DBModel extends Model
 
     }
 
-    public function save()
+    public static function save($obj)
     {
         //TODO реализовать умный save
-        if (is_null($this->id)) {
-            $this->insert();
+        if (is_null($obj->id)) {
+            Feedback::insert($obj);
         } else {
-            $this->update();
+            Feedback::update($obj);
         }
     }
 }

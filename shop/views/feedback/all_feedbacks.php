@@ -5,16 +5,12 @@
 <? endif; ?>
 
 
-<form action="/feedback/<?= $action ?>" method="post">
+<form action="/?c=feedback&a=save&id=<?= $editable_feedback['id'] ?>" method="post">
 	Оставьте отзыв: <br>
 	<input type="text" name="name" placeholder="Ваше имя" value="<?= $editable_feedback['name'] ?>"><br>
 	<input type="textarea" name="text" placeholder="Ваш отзыв" value="<?= $editable_feedback['text'] ?>"><br>
 
-	<a href="/?c=feedback&a=save&id=<?= $editable_feedback['id'] ?>">Save</a>
-	<!--	<form action="/?c=feedback&a=save">-->
-	<!--		<button type=" submit">Save</button>-->
-	<!--	</form>-->
-
+	<button type="submit">Save</button>
 </form>
 
 <?php foreach ($feedbacks as $item): ?>

@@ -49,18 +49,37 @@ class FeedbackController
         ]);
     }
 
-    function addFeedBack()
+    function actionSave()
     {
-        $name = secureRequestPrepare($_POST['name']);
-        $feedback = secureRequestPrepare($_POST['text']);
-        $_Post = [];
+        var_dump($_POST);
+        $obj = new \stdClass();
+        $obj->name = $_POST['name'];
+        $obj->text = $_POST['text'];
+        $_POST = [];
 
-        if ($name === '' || $feedback === '') {
+        if ($obj->name === '' || $obj->feedback === '') {
             header('Location:/feedback/?status=error');
         } else {
-            executeSql("INSERT INTO feedback (name, text) VALUES ('{$name}', '{$feedback}')");
-            header('Location:/feedback/?status=ok');
+            Feedback::save($obj);
+
+//            executeSql("INSERT INTO feedback (name, text) VALUES ('{$name}', '{$feedback}')");
+            header('Location:/?c=feedback&a=get_all');
+            die();
         }
+
+
+        $id = $_GET['id'];
+        var_dump($this);
+        Feedback::update($id);
+        die('save');
+
+        $name = secureRequestPrepare($_POST['name']);
+        $text = secureRequestPrepare($_POST['text']);
+        $id = secureRequestPrepare((int) $_GET['id']);
+        $sql = "UPDATE feedback SET name = '{$name}', text = '{$text}' WHERE id = {$id}";
+        executeSql($sql);
+        header('Location: /feedback/?status=edit');
+
     }
 
     function actionDelete()
@@ -75,21 +94,6 @@ class FeedbackController
 //        executeSql($sql);
 //        header('Location:/feedback/?status=delete');
 //        die();
-    }
-
-
-    function actionSave()
-    {
-        var_dump($this);
-        Feedback::update($id);
-        die('save');
-
-        $name = secureRequestPrepare($_POST['name']);
-        $text = secureRequestPrepare($_POST['text']);
-        $id = secureRequestPrepare((int) $_GET['id']);
-        $sql = "UPDATE feedback SET name = '{$name}', text = '{$text}' WHERE id = {$id}";
-        executeSql($sql);
-        header('Location: /feedback/?status=edit');
     }
 
     function getFeedbackMessage()
