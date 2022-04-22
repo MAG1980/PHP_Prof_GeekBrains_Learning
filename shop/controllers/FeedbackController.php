@@ -52,12 +52,14 @@ class FeedbackController
     function actionSave()
     {
         var_dump($_POST);
+        $id = (int) $_GET['id'];
         $obj = new \stdClass();
+        $obj->id = $id;
         $obj->name = $_POST['name'];
         $obj->text = $_POST['text'];
         $_POST = [];
 
-        if ($obj->name === '' || $obj->feedback === '') {
+        if ($obj->name === '' || $obj->text === '') {
             header('Location:/feedback/?status=error');
         } else {
             Feedback::save($obj);
