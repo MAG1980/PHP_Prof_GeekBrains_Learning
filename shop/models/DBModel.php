@@ -10,7 +10,6 @@ abstract class DBModel extends Model
 
     public static function insert($obj): object
     {
-        var_dump($obj);
         $keys = [];
         $names = '';
         $values = '';
@@ -31,7 +30,6 @@ abstract class DBModel extends Model
         $values = "(".implode(", ", array_keys($params)).")";
 
         $sql = "INSERT INTO {$tableName} {$names} VALUES {$values}";
-        var_dump($sql, $params);
         Db::getInstance()->execute($sql, $params);
         $obj->id = Db::getInstance()->lastInsertId();
         return $obj;
@@ -40,8 +38,6 @@ abstract class DBModel extends Model
     public static function update($obj)
     {
         $editable_feedback = Feedback::getOne($obj->id);
-        var_dump($obj, $editable_feedback);
-
         $updPropList = [];
         foreach ($obj as $key => $value) {
 
@@ -123,13 +119,10 @@ abstract class DBModel extends Model
 
     public static function save($obj)
     {
-        var_dump($obj);
         //TODO реализовать умный save
         if (is_null($obj->id)) {
             Feedback::insert($obj);
-            var_dump('insert');
         } else {
-            var_dump('update');
             Feedback::update($obj);
         }
     }

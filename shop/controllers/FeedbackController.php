@@ -14,7 +14,6 @@ class FeedbackController
         //Если экшен не передан, то выполняем дефолтный
         $this->action = $action ? :$this->defaultAction;
         $method = 'action'.ucfirst($this->action);
-        var_dump($method);
         if (method_exists($this, $method)) {
             $this->$method();
         } else {
@@ -41,7 +40,6 @@ class FeedbackController
         $id = $_GET['id'];
         $feedbacks = Feedback::getAll();
         $editable_feedback = (array) Feedback::getOne($id);
-        var_dump($editable_feedback);
 
         echo $this->render('feedback/all_feedbacks', [
             'editable_feedback' => $editable_feedback,
@@ -51,7 +49,6 @@ class FeedbackController
 
     function actionSave()
     {
-        var_dump($_POST);
         $obj = new \stdClass();
         $id = $_GET['id'];
         $obj->id = $id ? (int) $id:null;
@@ -62,41 +59,18 @@ class FeedbackController
         if ($obj->name === '' || $obj->text === '') {
             header('Location:/feedback/?status=error');
         } else {
-            var_dump($obj);
             Feedback::save($obj);
-
-//            executeSql("INSERT INTO feedback (name, text) VALUES ('{$name}', '{$feedback}')");
             header('Location:/?c=feedback&a=get_all');
             die();
         }
-
-
-        $id = $_GET['id'];
-        var_dump($this);
-        Feedback::update($id);
-        die('save');
-
-        $name = secureRequestPrepare($_POST['name']);
-        $text = secureRequestPrepare($_POST['text']);
-        $id = secureRequestPrepare((int) $_GET['id']);
-        $sql = "UPDATE feedback SET name = '{$name}', text = '{$text}' WHERE id = {$id}";
-        executeSql($sql);
-        header('Location: /feedback/?status=edit');
-
     }
 
     function actionDelete()
     {
         $id = $_GET['id'];
-        var_dump('delete');
         Feedback::delete($id);
         header('Location:/?c=feedback&a=get_all');
         die();
-//        $id = secureRequestPrepare((int) $_GET['id']);
-//        $sql = "DELETE FROM feedback WHERE id = {$id}";
-//        executeSql($sql);
-//        header('Location:/feedback/?status=delete');
-//        die();
     }
 
     function getFeedbackMessage()
