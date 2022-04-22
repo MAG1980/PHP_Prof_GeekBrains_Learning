@@ -31,9 +31,20 @@ class FeedbackController
     function actionGet_all()
     {
         $feedbacks = Feedback::getAll();
-        var_dump($feedbacks);
-        // $catalog = Product::getLimit(($page + 1) * 2);
         echo $this->render('feedback/all_feedbacks', [
+            'feedbacks' => $feedbacks
+        ]);
+    }
+
+    function actionEdit()
+    {
+        $id = $_GET['id'];
+        $feedbacks = Feedback::getAll();
+        $editable_feedback = (array) Feedback::getOne($id);
+        var_dump($editable_feedback);
+
+        echo $this->render('feedback/all_feedbacks', [
+            'editable_feedback' => $editable_feedback,
             'feedbacks' => $feedbacks
         ]);
     }
@@ -52,50 +63,33 @@ class FeedbackController
         }
     }
 
-    function deleteFeedBack()
+    function actionDelete()
     {
-        $id = secureRequestPrepare((int) $_GET['id']);
-        $sql = "DELETE FROM feedback WHERE id = {$id}";
-        executeSql($sql);
-        header('Location:/feedback/?status=delete');
+        $id = $_GET['id'];
+        var_dump('delete');
+        Feedback::delete($id);
+        header('Location:/?c=feedback&a=get_all');
         die();
+//        $id = secureRequestPrepare((int) $_GET['id']);
+//        $sql = "DELETE FROM feedback WHERE id = {$id}";
+//        executeSql($sql);
+//        header('Location:/feedback/?status=delete');
+//        die();
     }
 
-    function getEditableFeedback($action)
-    {
-        if ($action == "edit") {
-            $id = secureRequestPrepare((int) $_GET['id']);
-            $sql = "SELECT * FROM feedback WHERE id = {$id}";
-            return $editable_feedback = getOneResult($sql);
-        } else {
-            return null;
-        }
-    }
 
-    function saveEditableFeedback()
+    function actionSave()
     {
+        var_dump($this);
+        Feedback::update($id);
+        die('save');
+
         $name = secureRequestPrepare($_POST['name']);
         $text = secureRequestPrepare($_POST['text']);
         $id = secureRequestPrepare((int) $_GET['id']);
         $sql = "UPDATE feedback SET name = '{$name}', text = '{$text}' WHERE id = {$id}";
         executeSql($sql);
         header('Location: /feedback/?status=edit');
-    }
-
-    function doFeedbackAction($action)
-    {
-        if ($action == "add") {
-            addFeedBack();
-
-        }
-        if ($action == "delete") {
-            deleteFeedBack();
-        }
-
-        if ($action == "save") {
-            saveEditableFeedback();
-            die();
-        }
     }
 
     function getFeedbackMessage()
