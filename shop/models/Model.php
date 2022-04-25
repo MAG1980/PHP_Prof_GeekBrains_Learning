@@ -6,7 +6,6 @@ use app\interfaces\IModel;
 
 abstract class Model implements IModel
 {
-    public $lastUpdated = '';
     public $updPropList = [];
 
 

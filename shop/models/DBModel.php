@@ -68,23 +68,7 @@ abstract class DBModel extends Model
      * Для уменьшения объема передаваемых данных, в запросе участвует только последнее изменённое свойство объекта.
      * @return object
      */
-    public function updateOneProp(): object
-    {
-        $tableName = $this->getTableName();
-        $updatedFieldTitle = $this->lastUpdated;
-        $value = ":".$updatedFieldTitle;
-        $params = [
-            $value => $this->$updatedFieldTitle,
-            ':id' => $this->id
-        ];
-
-        $sql = "UPDATE {$tableName} SET {$updatedFieldTitle} = {$value} WHERE id = :id";
-        Db::getInstance()->execute($sql, $params);
-        $this->updPropList = [];
-        $this->lastUpdated = '';
-        return $this;
-    }
-
+   
     public static function delete($id)
     {
         $tableName = static::getTableName();
