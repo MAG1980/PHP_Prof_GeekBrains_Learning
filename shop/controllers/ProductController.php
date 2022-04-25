@@ -4,30 +4,9 @@ namespace app\controllers;
 
 use app\models\Product;
 
-class ProductController
+class ProductController extends Controller
 {
-    private $action;
-    private $defaultAction = 'index';
-
-    public function runAction($action)
-    {
-        //Если экшен не передан, то выполняем дефолтный
-        $this->action = $action ? :$this->defaultAction;
-        $method = 'action'.ucfirst($this->action);
-        if (method_exists($this, $method)) {
-            $this->$method();
-        } else {
-            die('404 нет такого экшена');
-        }
-    }
-
-    //Дефолтный экшен
-    private function actionIndex()
-    {
-        echo $this->render('index');
-    }
-
-    private function actionCatalog()
+    protected function actionCatalog()
     {
         $page = $_GET['page'] ?? 0;
 
@@ -39,7 +18,7 @@ class ProductController
         ]);
     }
 
-    private function actionCard()
+    protected function actionCard()
     {
         $id = $_GET['id'];
         $product = Product::getOne($id);
@@ -49,7 +28,9 @@ class ProductController
         ]);
     }
 
-    public function render($template, $params = [])
+    /*    Этот метод инкапсулирован в класс, потому что он формирует содержимое шаблона конкретно данного класса.
+        В отличие от него метод renderTemplate() не привязан к какому-либо классу.*/
+    private function render($template, $params = [])
     {
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', $params),
@@ -58,25 +39,8 @@ class ProductController
 
     }
 
-    /**
-     * @param $template  - название шаблона страницы
-     * @param $params  - ассоциативный массив с данными, которые нужно передать в шаблон. Имена ключей соответствуют
-     * именам переменных, доступных в шаблоне
-     * @return false|string
-     */
-    public function renderTemplate($template, $params = [])
+    private function renderTemplate($template, $params = [])
     {
-        //Сохраняем вывод скрипта в буфере
-        ob_start();
-
-        /*Импортируем данные из ассоциативного массива в переменные,
-        имена которых соответствуют ключам элементов массива*/
-        extract($params);
-
-        //Собираем путь до файла с шаблоном страницы и подключаем его
-        include VIEWS_DIR.$template.'.php';
-
-        /*  Заканчиваем буферизацию вывода, возвращаем накопленное содержимое буфера вывода и очищаем буфер */
-        return ob_get_clean();
+        return $this->render->renderTemplate($template, $params);
     }
 }

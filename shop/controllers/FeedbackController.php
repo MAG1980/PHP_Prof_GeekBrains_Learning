@@ -4,30 +4,9 @@ namespace app\controllers;
 
 use app\models\Feedback;
 
-class FeedbackController
+class FeedbackController extends Controller
 {
-    private $action;
-    private $defaultAction = 'index';
-
-    public function runAction($action)
-    {
-        //Если экшен не передан, то выполняем дефолтный
-        $this->action = $action ? :$this->defaultAction;
-        $method = 'action'.ucfirst($this->action);
-        if (method_exists($this, $method)) {
-            $this->$method();
-        } else {
-            die('404 нет такого экшена');
-        }
-    }
-
-    //Дефолтный экшен
-    private function actionIndex()
-    {
-        echo $this->render('index');
-    }
-
-    function actionGet_all()
+    protected function actionGet_all()
     {
         $feedbacks = Feedback::getAll();
         echo $this->render('feedback/all_feedbacks', [
@@ -35,7 +14,7 @@ class FeedbackController
         ]);
     }
 
-    function actionEdit()
+    protected function actionEdit()
     {
         $id = $_GET['id'];
         $feedbacks = Feedback::getAll();
@@ -47,7 +26,7 @@ class FeedbackController
         ]);
     }
 
-    function actionSave()
+    protected function actionSave()
     {
         $obj = new \stdClass();
         $id = $_GET['id'];
@@ -65,7 +44,7 @@ class FeedbackController
         }
     }
 
-    function actionDelete()
+    protected function actionDelete()
     {
         $id = $_GET['id'];
         Feedback::delete($id);
@@ -84,20 +63,16 @@ class FeedbackController
         return (isset($_GET['status'])) ? $messages [$_GET['status']]:'';
     }
 
-    public function render($template, $params = [])
+    private function render($template, $params = [])
     {
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', $params),
             'content' => $this->renderTemplate($template, $params)
         ]);
-
     }
 
-    public function renderTemplate($template, $params = [])
+    private function renderTemplate($template, $params = [])
     {
-        ob_start();
-        extract($params);
-        include VIEWS_DIR.$template.'.php';
-        return ob_get_clean();
+        return $this->render->renderTemplate($template, $params);
     }
 }

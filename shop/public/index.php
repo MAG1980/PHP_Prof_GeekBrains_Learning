@@ -1,6 +1,6 @@
 <?php
 
-use app\engine\{Autoload};
+use app\engine\{Autoload, PhpRender};
 use app\models\{Product};
 
 include dirname(__DIR__)."/config/config.php";
@@ -14,7 +14,7 @@ $product = new Product('Cake10', 'cake.jgp', "Описание", 325);
 
 /*Получаем имена контроллера и экшена из адресной строки браузера
 Если имя контроллера из адресной строки не получено, то выбираем 'product'.*/
-$controllerName = $_GET['c'] ? :'product';
+$controllerName = $_GET['c'] ? :'index';
 $actionName = $_GET['a'];
 
 //Формируем название класса контроллера вида: 'app\controllers\ИмяконтроллераController'
@@ -22,7 +22,7 @@ $controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";
 
 if (class_exists($controllerClass)) {
     //Создаём экземпляр класса существующего контроллера
-    $controller = new $controllerClass();
+    $controller = new $controllerClass(new PhpRender());
     //Вызываем экшен, полученный из адресной строки браузера
     $controller->runAction($actionName);
 } else {
