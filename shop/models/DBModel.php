@@ -8,7 +8,7 @@ abstract class DBModel extends Model
 {
     abstract protected static function getTableName(): string;
 
-    public static function insert($obj): object
+    public function insert(): object
     {
         $keys = [];
         $names = '';
@@ -35,31 +35,32 @@ abstract class DBModel extends Model
         return $obj;
     }
 
-    public static function update($obj)
+    public function update()
     {
-        $editable_feedback = Feedback::getOne($obj->id);
-        $updPropList = [];
-        foreach ($obj as $key => $value) {
+        $editable_feedback = $this->getOne();
+        var_dump($obj);
+        foreach ($obj->updPropList as $key) {
 
             if ($editable_feedback->$key === $obj->$key) {
                 continue;
             }
             $updPropList[$key] = $obj->$key;
         }
-        $obj->updPropList = $updPropList;
+
         $tableName = static::getTableName();
         $updatedFields = [];
         $params = [':id' => $obj->id];
-        foreach ($obj->updPropList as $key => $value) {
+        foreach ($obj->updPropList as $key) {
             $updatedFields[] = "{$key}=:{$key}";
-            $params[":{$key}"] = $value;
+            $params[":{$key}"] = $obj->$key;
         }
 
         $obj->updPropList = [];
-        $obj->lastUpdated = '';
 
         $updatedFields = implode(', ', $updatedFields);
         $sql = "UPDATE {$tableName} SET {$updatedFields} WHERE id=:id";
+        var_dump($sql);
+        die();
         Db::getInstance()->execute($sql, $params);
         return $obj;
     }
@@ -68,7 +69,7 @@ abstract class DBModel extends Model
      * Для уменьшения объема передаваемых данных, в запросе участвует только последнее изменённое свойство объекта.
      * @return object
      */
-   
+
     public static function delete($id)
     {
         $tableName = static::getTableName();
@@ -77,12 +78,12 @@ abstract class DBModel extends Model
     }
 
 
-    public static function getOne(int $id): object
+    public function getOne(): object
     {
         $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
 //        return Db::getInstance()->queryOne($sql, ['id' => $id]);
-        return Db::getInstance()->queryOneObject($sql, ['id' => $id], static::class);
+        return Db::getInstance()->queryOneObject($sql, ['id' => $this->id], static::class);
 
     }
 
@@ -101,13 +102,13 @@ abstract class DBModel extends Model
 
     }
 
-    public static function save($obj)
+    public function save()
     {
         //TODO реализовать умный save
-        if (is_null($obj->id)) {
-            Feedback::insert($obj);
+        if (is_null($this->id)) {
+            $this->insert();
         } else {
-            Feedback::update($obj);
+            $this->update();
         }
     }
 }

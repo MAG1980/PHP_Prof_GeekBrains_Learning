@@ -12,8 +12,7 @@ abstract class Model implements IModel
     public function __set($name, $value)
     {
         $this->$name = $value;
-        $this->lastUpdated = $name;
-        $this->updPropList["{$name}"] = $value;
+        $this->updPropList[] = $name;
     }
 
     public function __get($name)

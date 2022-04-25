@@ -28,17 +28,18 @@ class FeedbackController extends Controller
 
     protected function actionSave()
     {
-        $obj = new \stdClass();
         $id = $_GET['id'];
-        $obj->id = $id ? (int) $id:null;
-        $obj->name = $_POST['name'];
-        $obj->text = $_POST['text'];
+        $id = $id ? (int) $id:null;
+        $name = $_POST['name'];
+        $text = $_POST['text'];
         $_POST = [];
+        $obj = new Feedback($id, $name, $text);
+        var_dump($obj);
 
         if ($obj->name === '' || $obj->text === '') {
             header('Location:/feedback/?status=error');
         } else {
-            Feedback::save($obj);
+            Feedback::save();
             header('Location:/?c=feedback&a=get_all');
             die();
         }

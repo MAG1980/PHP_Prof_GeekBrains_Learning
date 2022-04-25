@@ -4,7 +4,7 @@ namespace app\interfaces;
 
 interface IModel
 {
-    public static function getOne(int $id);
+    public function getOne();
 
     public static function getAll();
 }
