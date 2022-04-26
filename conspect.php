@@ -675,3 +675,36 @@ Dependency inversion Principle (DIP) (принцип инверсии завис
 Модули верхних уровней не должны импортировать сущности из модулей нижних уровней:
 
 !запрещено!    public function __constructor (new Class()) !запрещено!
+    
+    
+    Работа с Composer
+    
+    Для удобства работы нужно не только установить composer, но и создать .bat-файл,
+    чтобы можно было вызывать composer без обращения к php.
+    
+    Папка  vendor - аналог node_modules.
+    
+    composer.json - хранит информацию об установленных модулях
+    
+    Команды:
+    composer install - устанавливает зависимости, указанные в composer.json
+    composer update - обновляет зависимости, указанные в composer.json
+
+    
+    //Настраиваем автозагрузчик Twig
+
+$loader = new \Twig\Loader\FilesystemLoader(ROOT.'/templates');
+
+
+//Создаём экземпляр объекта Twig
+
+//Настройка загрузчика
+$loader = new \Twig\Loader\FilesystemLoader('/path/to/templates');
+
+//Настройка окружения
+$twig = new \Twig\Environment($loader, [
+//'cache' => '/path/to/compilation_cache',  //Настройка кеширования
+//'debug' => '/path/to/compilation_cache',  //Включение режима Debug
+]);
+
+echo $twig->render('index.twig', ['name' => 'Fabien']);

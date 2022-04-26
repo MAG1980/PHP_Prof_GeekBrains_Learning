@@ -8,6 +8,9 @@ include ROOT."/engine/Autoload.php";
 
 //для автозагрузки сторонней библиотеки достаточно подключить её автозагрузчик через include
 
+//Автозагрузчик composer - создаётся автоматически для всех подключенных библиотек
+require_once ROOT.'/vendor/autoload.php';
+
 spl_autoload_register([new Autoload(), 'loadClass']);
 
 $product = new Product('Cake10', 'cake.jgp', "Описание", 325);
