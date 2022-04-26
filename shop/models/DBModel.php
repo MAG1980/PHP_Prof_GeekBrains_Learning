@@ -37,32 +37,32 @@ abstract class DBModel extends Model
 
     public function update()
     {
-        $editable_feedback = $this->getOne();
-        var_dump($obj);
-        foreach ($obj->updPropList as $key) {
-
-            if ($editable_feedback->$key === $obj->$key) {
+        $editable_feedback = $this->getOne($this->id);
+        foreach ($editable_feedback as $key => $value) {
+            var_dump($key);
+            if ($editable_feedback->$key === $this->$key) {
                 continue;
             }
-            $updPropList[$key] = $obj->$key;
+            $updPropList[$key] = $key;
         }
+        $this->updPropList = $updPropList;
+        var_dump($this);
 
         $tableName = static::getTableName();
         $updatedFields = [];
-        $params = [':id' => $obj->id];
-        foreach ($obj->updPropList as $key) {
+        $params = [':id' => $this->id];
+        foreach ($this->updPropList as $key) {
             $updatedFields[] = "{$key}=:{$key}";
-            $params[":{$key}"] = $obj->$key;
+            $params[":{$key}"] = $this->$key;
         }
-
-        $obj->updPropList = [];
+        var_dump($updatedFields, $params);
+        $this->updPropList = [];
 
         $updatedFields = implode(', ', $updatedFields);
         $sql = "UPDATE {$tableName} SET {$updatedFields} WHERE id=:id";
         var_dump($sql);
-        die();
         Db::getInstance()->execute($sql, $params);
-        return $obj;
+        return $this;
     }
 
     /**
@@ -78,12 +78,12 @@ abstract class DBModel extends Model
     }
 
 
-    public function getOne(): object
+    public static function getOne($id): object
     {
         $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
 //        return Db::getInstance()->queryOne($sql, ['id' => $id]);
-        return Db::getInstance()->queryOneObject($sql, ['id' => $this->id], static::class);
+        return Db::getInstance()->queryOneObject($sql, ['id' => $id], static::class);
 
     }
 

@@ -33,13 +33,13 @@ class FeedbackController extends Controller
         $name = $_POST['name'];
         $text = $_POST['text'];
         $_POST = [];
-        $obj = new Feedback($id, $name, $text);
-        var_dump($obj);
+        $feedback = new Feedback($id, $name, $text);
+        var_dump($feedback);
 
-        if ($obj->name === '' || $obj->text === '') {
+        if ($feedback->name === '' || $feedback->text === '') {
             header('Location:/feedback/?status=error');
         } else {
-            Feedback::save();
+            $feedback->save();
             header('Location:/?c=feedback&a=get_all');
             die();
         }
