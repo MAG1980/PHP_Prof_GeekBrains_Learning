@@ -53,7 +53,7 @@ $user->login = 'admin55';
 $user->password = "asdfdsafasdf";
 $user->hash = "!@#$%$#%$ASDFASDW$@#$@";
 
-$user->update();
-var_dump($user);*/
+$user->update();*/
+
 
 

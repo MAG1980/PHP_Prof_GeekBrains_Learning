@@ -10,43 +10,41 @@ abstract class DBModel extends Model
 
     public function insert(): object
     {
+
         $keys = [];
         $names = '';
         $values = '';
         $params = [];
 
         $tableName = static::getTableName();
-        foreach ($obj as $key => $value) {
-//            if ($key === 'id') {
-//                continue;
-//            }
-            if ($key != 'id' && $key != 'lastUpdated' && $key != 'updPropList') {
-                $keys[] = $key;
-                $params[":".$key] = $value;
+        foreach ($this as $key => $value) {
+            if ($key === 'updPropList') {
+                continue;
             }
+            $keys[] = $key;
+            $params[":".$key] = $value;
         }
-
         $names = "(".implode(", ", $keys).")";
         $values = "(".implode(", ", array_keys($params)).")";
 
         $sql = "INSERT INTO {$tableName} {$names} VALUES {$values}";
         Db::getInstance()->execute($sql, $params);
-        $obj->id = Db::getInstance()->lastInsertId();
-        return $obj;
+
+        $this->id = Db::getInstance()->lastInsertId();
+
+        return $this;
     }
 
     public function update()
     {
         $editable_feedback = $this->getOne($this->id);
         foreach ($editable_feedback as $key => $value) {
-            var_dump($key);
             if ($editable_feedback->$key === $this->$key) {
                 continue;
             }
             $updPropList[$key] = $key;
         }
         $this->updPropList = $updPropList;
-        var_dump($this);
 
         $tableName = static::getTableName();
         $updatedFields = [];
@@ -55,12 +53,10 @@ abstract class DBModel extends Model
             $updatedFields[] = "{$key}=:{$key}";
             $params[":{$key}"] = $this->$key;
         }
-        var_dump($updatedFields, $params);
         $this->updPropList = [];
 
         $updatedFields = implode(', ', $updatedFields);
         $sql = "UPDATE {$tableName} SET {$updatedFields} WHERE id=:id";
-        var_dump($sql);
         Db::getInstance()->execute($sql, $params);
         return $this;
     }

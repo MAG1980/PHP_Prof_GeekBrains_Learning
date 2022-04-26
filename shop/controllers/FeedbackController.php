@@ -34,7 +34,6 @@ class FeedbackController extends Controller
         $text = $_POST['text'];
         $_POST = [];
         $feedback = new Feedback($id, $name, $text);
-        var_dump($feedback);
 
         if ($feedback->name === '' || $feedback->text === '') {
             header('Location:/feedback/?status=error');
