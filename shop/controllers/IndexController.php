@@ -6,8 +6,7 @@ class IndexController extends Controller
 {
 
     /**    Дефолтный экшен
-     *  Вывод на страницу результата работы собственного метода render(), который вызывает собственный метод
-     * renderTemplate().
+     *  Вывод на страницу результата работы собственного метода render(), который вызывает собственный метод renderTemplate().
      * renderTemplate() возвращает результат работы метода, хранящегося в поле renderTemplate, значение которого
      * получено из конструктора родительского класса Controller, который вызывается в файле index.php и принимает
      * параметром класс, экземпляр которого будет храниться в поле renderTemplate.
@@ -28,11 +27,10 @@ class IndexController extends Controller
 
     private function renderTemplate($template, $params = [])
     {
-        /*  В данном случае писать $params = [] нельзя, т.к. проиходит не объявление, а вызов метода. Это приведёт к
+        /*  В данном случае писать $params = [] нельзя, т.к. проиcходит не объявление, а вызов метода. Это приведёт к
         тому, что значением параметра $params всегда будет пустой массив.
       . Здесь мы не указываем дефолтные значения, а передаём конкретные*/
-        return $this->render->renderTemplate
-        ($template,
-            $params);
+        
+        return $this->render->renderTemplate($template, $params);;
     }
 }

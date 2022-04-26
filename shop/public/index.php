@@ -1,6 +1,6 @@
 <?php
 
-use app\engine\{Autoload, PhpRender};
+use app\engine\{Autoload};
 use app\models\{Product};
 
 include dirname(__DIR__)."/config/config.php";
@@ -25,7 +25,8 @@ $controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";
 
 if (class_exists($controllerClass)) {
     //Создаём экземпляр класса существующего контроллера
-    $controller = new $controllerClass(new PhpRender());
+//    $controller = new $controllerClass(new app\engine\PhpRender());
+    $controller = new $controllerClass(new app\engine\TwigRender());
     //Вызываем экшен, полученный из адресной строки браузера
     $controller->runAction($actionName);
 } else {
