@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 use app\engine\{Autoload};
 use app\models\{Product};
 

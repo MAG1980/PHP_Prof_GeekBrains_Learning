@@ -8,6 +8,20 @@ abstract class DBModel extends Model
 {
     abstract protected static function getTableName(): string;
 
+    /**Формирует SQL запрос с условием вида $name=$value
+     * @param $name название столбца в БД
+     * @param $value искомое значение
+     * @return mixed
+     */
+    public static function getWhere(string $name, string $value)
+    {
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM $tableName WHERE {$name}=:value";
+        //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
+        $params = ['value' => $value];
+        return Db::getInstance()->queryOneObject($sql, $params, static::class);
+    }
+
     public function insert(): object
     {
 

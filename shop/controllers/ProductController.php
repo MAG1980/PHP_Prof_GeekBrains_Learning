@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\Product;
+use app\models\{Product, User};
 
 class ProductController extends Controller
 {
@@ -32,6 +32,8 @@ class ProductController extends Controller
         В отличие от него метод renderTemplate() не привязан к какому-либо классу.*/
     private function render($template, $params = [])
     {
+        $params ['is_auth'] = User::isAuth();
+        $params ['user'] = User::getLogin();
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', $params),
             'content' => $this->renderTemplate($template, $params)

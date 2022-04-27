@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\Feedback;
+use app\models\{Feedback, User};
 
 class FeedbackController extends Controller
 {
@@ -65,6 +65,8 @@ class FeedbackController extends Controller
 
     private function render($template, $params = [])
     {
+        $params ['is_auth'] = User::isAuth();
+        $params ['user'] = User::getLogin();
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', $params),
             'content' => $this->renderTemplate($template, $params)
