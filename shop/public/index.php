@@ -17,10 +17,16 @@ spl_autoload_register([new Autoload(), 'loadClass']);
 
 $product = new Product('Cake10', 'cake.jgp', "Описание", 325);
 
+
 /*Получаем имена контроллера и экшена из адресной строки браузера
 Если имя контроллера из адресной строки не получено, то выбираем 'product'.*/
-$controllerName = $_GET['c'] ? :'index';
-$actionName = $_GET['a'];
+/*$controllerName = $_GET['c'] ? :'index';
+$actionName = $_GET['a'];*/
+
+$url = explode('/', $_SERVER['REQUEST_URI']);
+$controllerName = $url[1] ? :'index';
+$actionName = $url[2];
+var_dump($_SERVER['REQUEST_URI'], $url[0], $controllerName, $actionName);
 
 //Формируем название класса контроллера вида: 'app\controllers\ИмяконтроллераController'
 $controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";
