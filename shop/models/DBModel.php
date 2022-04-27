@@ -51,9 +51,9 @@ abstract class DBModel extends Model
 
     public function update()
     {
-        $editable_feedback = $this->getOne($this->id);
-        foreach ($editable_feedback as $key => $value) {
-            if ($editable_feedback->$key === $this->$key) {
+        $object = $this->getOne($this->id);
+        foreach ($object as $key => $value) {
+            if ($object->$key === $this->$key || $key === "updPropList") {
                 continue;
             }
             $updPropList[$key] = $key;
@@ -71,6 +71,8 @@ abstract class DBModel extends Model
 
         $updatedFields = implode(', ', $updatedFields);
         $sql = "UPDATE {$tableName} SET {$updatedFields} WHERE id=:id";
+        var_dump($sql, $params);
+
         Db::getInstance()->execute($sql, $params);
         return $this;
     }

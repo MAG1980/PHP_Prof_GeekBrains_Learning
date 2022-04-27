@@ -66,7 +66,7 @@ class Db
         return $STH;
     }
 
-    public function queryOneObject($sql, $params = [], $class): object
+    public function queryOneObject($sql, $params = [], $class)
     {
         //Сохранение данных, полученных из БД в объект
         $STH = $this->query($sql, $params);

@@ -23,6 +23,9 @@ class AuthController extends Controller
     {
         session_regenerate_id();
         session_destroy();
+
+        //Делаем cookie просроченными
+        setcookie('hash', '', time() - 3600, '/');
         header('Location:/');
         die();
     }

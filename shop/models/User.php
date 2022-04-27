@@ -30,6 +30,17 @@ class User extends DBModel
         $user = User::getWhere('login', $login);
         if (password_verify($password, $user->password)) {
             $_SESSION['login'] = $login;
+
+            if (isset($_POST['save'])) {
+                //генерация hash для сохранения в cookie и БД
+                $hash = uniqid(rand(), true);
+                unset($user->hash);
+                $user->hash = $hash;
+                $user->update();
+                //обновляем hash в БД для соответствующего пользователя
+
+                setcookie('hash', $hash, time() + 3600, '/');
+            }
             return true;
         }
         return false;
@@ -37,6 +48,14 @@ class User extends DBModel
 
     public static function isAuth()
     {
+        $cookieHash = $_COOKIE['hash'];
+        if (isset($cookieHash)) {
+            $user = User::getWhere('hash', $cookieHash);
+
+            if ($user) {
+                $_SESSION['login'] = $user->login;
+            }
+        }
         return isset($_SESSION['login']);
     }
 
