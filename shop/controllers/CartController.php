@@ -24,10 +24,11 @@ class CartController extends Controller
         $data = json_decode($postData, true);
 
         $id = (int) $data['id'];
+        $price = $data['price'];
 //        $session_id = session_id();     // пользователь
         $session_id = (new Session())->getId();
         //создаём экземпляр корзины и вызываем у него insert() или update()
-        $cart = new Cart($session_id, $id);
+        $cart = new Cart($session_id, $id, $price);
         $cart->save();
         $response = [
             'status' => 'ok',

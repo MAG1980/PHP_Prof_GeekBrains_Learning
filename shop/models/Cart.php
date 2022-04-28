@@ -35,7 +35,7 @@ class Cart extends DBModel
     {
         //Этот запрос позволяет получить суммарное количество по каждому id
         /*        $sql = "SELECT cart.goods_id, COUNT(*) as number, COUNT(*) * goods.price as full_price, cart.session_id, goods.name AS good_name, goods.image AS good_image, goods.description AS good_description, goods.price AS good_price FROM cart  INNER JOIN goods ON cart.goods_id = goods.id WHERE cart.session_id = '{$session_id}' GROUP BY cart.goods_id";*/
-        $sql = "SELECT cart.id as cart_id, cart.goods_id, cart.session_id, goods.name AS good_name, goods.image AS good_image, goods.description AS good_description, goods.price AS good_price, cart.number as good_number FROM cart  INNER JOIN goods ON cart.goods_id = goods.id WHERE cart.session_id = '{$session_id}'";
+        $sql = "SELECT cart.id as cart_id, cart.goods_id, cart.session_id, goods.name AS good_name, goods.image AS good_image, goods.description AS good_description, cart.price AS good_price, cart.number as good_number FROM cart  INNER JOIN goods ON cart.goods_id = goods.id WHERE cart.session_id = '{$session_id}'";
         return Db::getInstance()->queryAll($sql);
     }
 

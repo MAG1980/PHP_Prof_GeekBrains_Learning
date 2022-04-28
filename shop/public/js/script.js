@@ -5,8 +5,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	ButtonsBuy.forEach( ( button ) => {
 		button.addEventListener( 'click', () => {
 			let id = button.getAttribute( 'data-id' );
-			const data = { 'id': id };
-
+			let price = button.getAttribute( 'data-price' );
+			console.log( price );
+			const data = {
+				'id': id,
+				'price': price
+			};
+			console.log( data );
 			(async () => {
 					const response = await fetch( '/cart/add/',
 						{
