@@ -12,10 +12,15 @@ class Cart extends DBModel
     protected float $price;
     protected int $number;
 
-    public static function getCart()
+    public static function getCart($session_id)
     {
-        $sql = "SELECT cart.goods_id, COUNT(*) as number, COUNT(*) * goods.price as full_price, cart.session_id, goods.name AS good_name, goods.image AS good_image, goods.description AS good_description, goods.price AS good_price FROM cart  INNER JOIN goods ON cart.goods_id = goods.id WHERE cart.session_id = '84hitp0hka5ael98k0n377e6436sqr3f' GROUP BY cart.goods_id";
+        $sql = "SELECT cart.goods_id, COUNT(*) as number, COUNT(*) * goods.price as full_price, cart.session_id, goods.name AS good_name, goods.image AS good_image, goods.description AS good_description, goods.price AS good_price FROM cart  INNER JOIN goods ON cart.goods_id = goods.id WHERE cart.session_id = {$session_id} GROUP BY cart.goods_id";
         return Db::getInstance()->queryAll($sql);
+    }
+
+    public function add()
+    {
+
     }
 
     protected static function getTableName(): string

@@ -776,3 +776,5 @@ $twig->addExtension(new \Twig\Extension\DebugExtension());
 <pre>
     {{ dump(user) }}
 </pre>
+
+Запросы, которые изменяют состояние на сервере необходимо передавать методом POST: добавление, изменение, удаление.
