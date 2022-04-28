@@ -55,6 +55,7 @@ abstract class DBModel extends Model
         $values = "(".implode(", ", array_keys($params)).")";
 
         $sql = "INSERT INTO {$tableName} {$names} VALUES {$values}";
+  
         Db::getInstance()->execute($sql, $params);
 
         $this->id = Db::getInstance()->lastInsertId();

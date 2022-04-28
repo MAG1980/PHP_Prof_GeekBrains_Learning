@@ -1,12 +1,12 @@
 <h2>Каталог</h2>
 {% for item in catalog %}
-    <form action="/cart/add/?id={{ item.id }}" method="post">
+    <div>
         <div>
             <h3><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h3>
             <p>price: {{ item.price }}</p>
-            <button type="submit">Купить</button>
+            <button class="buy" type="submit" data-id="{{ item.id }}">Купить</button>
         </div>
-    </form>
+    </div>
 {% endfor %}
 
 <a href="/product/catalog/?page={{ page }}">Еще</a>
