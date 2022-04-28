@@ -2,8 +2,7 @@
 
 session_start();
 
-use app\engine\{Autoload};
-use app\models\{Product};
+use app\engine\{Autoload, Request};
 
 include dirname(__DIR__)."/config/config.php";
 include ROOT."/engine/Autoload.php";
@@ -15,7 +14,7 @@ require_once ROOT.'/vendor/autoload.php';
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 
-$product = new Product('Cake10', 'cake.jgp', "Описание", 325);
+$request = new Request();
 
 
 /*Получаем имена контроллера и экшена из адресной строки браузера
@@ -23,9 +22,9 @@ $product = new Product('Cake10', 'cake.jgp', "Описание", 325);
 /*$controllerName = $_GET['c'] ? :'index';
 $actionName = $_GET['a'];*/
 
-$url = explode('/', $_SERVER['REQUEST_URI']);
-$controllerName = $url[1] ? :'index';
-$actionName = $url[2];
+
+$controllerName = $request->getControllerName() ? :'index';
+$actionName = $request->getActionName();
 
 //Формируем название класса контроллера вида: 'app\controllers\ИмяконтроллераController'
 $controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";

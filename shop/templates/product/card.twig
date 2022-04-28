@@ -1,8 +1,8 @@
 <h2>Товар</h2>
-{{ dump(product) }}
-<form action="/cart/add/?id={{ product.id }}" method="post">
+{# {{ dump(product) }} #}
+<div>
     <h3>{{ product.name }}</h3>
     <p>{{ product.description }}</p>
     <p>price: {{ product.price }}</p>
     <button class="buy" data-id="{{ product.id }}" type="submit">Купить</button>
-</form>
+</div>

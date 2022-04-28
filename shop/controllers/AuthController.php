@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\engine\Request;
 use app\models\{User};
 
 class AuthController extends Controller
@@ -9,13 +10,16 @@ class AuthController extends Controller
     //action="/?c=auth&a=login"
     public function actionLogin()
     {
-        $login = $_POST['login'];
-        $pass = $_POST['password'];
+        $request = new Request();
+//        $login = $_POST['login'];
+        $login = ($request->getParams())['login'];
+//        $pass = $_POST['password'];
+        $pass = $request->getParams()['password'];
         if (User::Auth($login, $pass)) {
             header('Location:'.$_SERVER["HTTP_REFERER"]);
             die();
         } else {
-            'Такой пользователь не существует или введён неправильный пароль!';
+            die('Такой пользователь не существует или введён неправильный пароль!');
         }
     }
 
