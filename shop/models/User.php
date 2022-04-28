@@ -28,7 +28,7 @@ class User extends DBModel
     public static function Auth($login, $password)
     {
         $user = User::getWhere('login', $login);
-        if (password_verify($password, $user->password)) {
+        if ($user != false && password_verify($password, $user->password)) {
             $_SESSION['login'] = $login;
 
             if (isset($_POST['save'])) {

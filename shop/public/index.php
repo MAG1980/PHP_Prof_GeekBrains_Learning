@@ -26,7 +26,6 @@ $actionName = $_GET['a'];*/
 $url = explode('/', $_SERVER['REQUEST_URI']);
 $controllerName = $url[1] ? :'index';
 $actionName = $url[2];
-var_dump($_SERVER['REQUEST_URI'], $url[0], $controllerName, $actionName);
 
 //Формируем название класса контроллера вида: 'app\controllers\ИмяконтроллераController'
 $controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";

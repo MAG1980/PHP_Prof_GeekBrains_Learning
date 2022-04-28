@@ -1,7 +1,7 @@
 <h2>Каталог</h2>
 {% for item in catalog %}
     <div>
-        <h3><a href="/product/card/&id={{ item.id }}">{{ item.name }}</a></h3>
+        <h3><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h3>
         <p>price: {{ item.price }}</p>
         <button>Купить</button>
     </div>
