@@ -1,6 +1,6 @@
-<pre>
-    {{ dump(cart) }}
-</pre>
+{# <pre> #}
+{#    {{ dump(cart) }} #}
+{# </pre> #}
 <div class="cart">
     {% if (cart == null) %}
         <div class="cart__message"><?= $message ?></div>
@@ -15,17 +15,17 @@
             <div class="cart__column cart__good-total-price"></div>
         </div>
         {% for key, cartLine in cart %}
-            <div class="cart__row">
+            <div class="cart__row cart__row-{{ cartLine.cart_id }}">
                 <div class="cart__column cart__good-id">{{ key }}</div>
                 <div class="cart__column cart__good-name">{{ cartLine.good_name }}</div>
                 <div class="cart__column cart__goog-price">{{ cartLine.good_price }}</div>
-                <div class="cart__column cart__good-quantity">{{ cartLine.number }}</div>
+                <div class="cart__column cart__good-quantity">{{ cartLine.good_number }}</div>
                 <div class="cart__column cart__good-total-price">{{ cartLine.full_price }}</div>
-                <form action="/cart/delete/" method="post">
-                    <input type="text" name="goods_id" value="{{ cartLine.goods_id }}" hidden>
-                    <input type="text" name="goods_count" value="{{ cartLine.number }}" hidden>
-                    <button class="cart__button" type="submit">Удалить</button>
-                </form>
+
+                <input type="text" name="goods_id" value="{{ cartLine.goods_id }}" hidden>
+                <input type="text" name="goods_count" value="{{ cartLine.number }}" hidden>
+                <button class="remove" type="submit" data-id="{{ cartLine.cart_id }}">Удалить</button>
+
             </div>
         {% endfor %}
         <div class="cart__header cart__row">

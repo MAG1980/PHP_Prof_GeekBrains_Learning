@@ -797,3 +797,25 @@ https://symfony.ru/doc/current/templating.html#css-javascript-twig
 
         В HTML нужно использовать абсолютные пути, начинающиеся с /,
         в противном случае к пути может добавиться url исходной страницы.
+
+
+    Обработка асинхронных запросов методом POST
+
+Frontend:
+
+            (async () => {
+					const response = await fetch( '/cart/add/',
+						{
+							method: 'POST',
+							body: JSON.stringify( data ), // данные могут быть 'строкой' или {объектом}!
+							headers: {
+								'Content-Type': 'application/json'
+							}
+						} )
+					const answer = await response.json();
+
+    На стороне сервера данные нужно декодировать:
+    //'php://input' - неизменный параметр
+
+    $postData = file_get_contents('php://input');
+        $data = json_decode($postData, true);

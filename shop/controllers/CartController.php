@@ -18,7 +18,10 @@ class CartController extends Controller
 
     public function actionAdd()
     {
-        $id = $_GET['id'];              // товар
+        $postData = file_get_contents('php://input');
+        $data = json_decode($postData, true);
+
+        $id = (int) $data['id'];
         $session_id = session_id();     // пользователь
         //создаём экземпляр корзины и вызываем у него insert() или update()
         $cart = new Cart($session_id, $id);
@@ -33,5 +36,23 @@ class CartController extends Controller
         /*      при синхронных запросах (статическом рендеринге) после опрации с БД нужно выполнить редирект
                 header('Location:/product/catalog');
                 die();*/
+    }
+
+    public function actionRemove()
+    {
+        $postData = file_get_contents('php://input');
+        $data = json_decode($postData, true);
+
+        $id = (int) $data['id'];
+        $session_id = session_id();     // пользователь
+        //создаём экземпляр корзины и вызываем у него delete()
+        $cart = new Cart($session_id, $id);
+        $cart->delete($id);
+        $response = [
+            'status' => 'ok',
+            'count' => Cart::getCountWhere('session_id', $session_id)
+        ];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        die();
     }
 }
