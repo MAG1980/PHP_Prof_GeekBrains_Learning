@@ -39,7 +39,7 @@ class FeedbackController extends Controller
             header('Location:/feedback/?status=error');
         } else {
             $feedback->save();
-            header('Location:/?c=feedback&a=get_all');
+            header('Location:/feedback/get_all');
             die();
         }
     }
@@ -48,7 +48,7 @@ class FeedbackController extends Controller
     {
         $id = $_GET['id'];
         Feedback::delete($id);
-        header('Location:/?c=feedback&a=get_all');
+        header('Location:/feedback/get_all');
         die();
     }
 
