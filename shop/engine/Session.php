@@ -32,6 +32,14 @@ class Session
         return $this->login;
     }
 
+    /**
+     * @return false|string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
     public function regenerate_id()
     {
         session_regenerate_id();
