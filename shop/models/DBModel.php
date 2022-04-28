@@ -22,6 +22,19 @@ abstract class DBModel extends Model
         return Db::getInstance()->queryOneObject($sql, $params, static::class);
     }
 
+    /**Подсчёт количества записей, удовлетворяющих параметрам запроса
+     * @param  string  $name
+     * @param  string  $value
+     * @return int количество записей в БД, удовлетворяющих условию запроса
+     */
+    public static function getCountWhere(string $name, string $value): int
+    {
+        $tableName = static::getTableName();
+        $sql = "SELECT count(id) as count FROM {$tableName} WHERE {$name}=:value";
+        $params = ['value' => $value];
+        return Db::getInstance()->queryOne($sql, $params)['count'];
+    }
+
     public function insert(): object
     {
 

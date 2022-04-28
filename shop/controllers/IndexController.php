@@ -2,8 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\User;
-
 class IndexController extends Controller
 {
 
@@ -16,25 +14,5 @@ class IndexController extends Controller
     protected function actionIndex()
     {
         echo $this->render('index');
-    }
-
-    private function render($template, $params = [])
-    {
-        $params ['is_auth'] = User::isAuth();
-        $params ['user'] = User::getLogin();
-        return $this->renderTemplate('layouts/main', [
-            'menu' => $this->renderTemplate('menu', $params),
-            'content' => $this->renderTemplate($template, $params)
-        ]);
-
-    }
-
-    private function renderTemplate($template, $params = [])
-    {
-        /*  В данном случае писать $params = [] нельзя, т.к. проиcходит не объявление, а вызов метода. Это приведёт к
-        тому, что значением параметра $params всегда будет пустой массив.
-      . Здесь мы не указываем дефолтные значения, а передаём конкретные*/
-
-        return $this->render->renderTemplate($template, $params);;
     }
 }

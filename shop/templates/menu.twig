@@ -15,10 +15,8 @@
     <li class="menu_item"><a class="menu__link" href="/product/catalog">Каталог</a></li>
     <li class="menu_item"><a class="menu__link" href="/feedback/get_all">Отзывы</a>
     </li>
-    <li class="menu_item"><a class="menu__link menu__cart" href="/cart">Корзина
-            {#            <?php if (isset($_SESSION['cartCounter']) && $_SESSION['cartCounter'] > 0): ?>
-            <span class="menu__cart-span"><?= $_SESSION['cartCounter'] ?></span>
-            <?php endif; ?> #}
+    <li class="menu_item"><a class="menu__link menu__cart" href="/cart">
+            Корзина<span id='count'>{{ count }}</span>
         </a>
     </li>
     {% if  is_auth != true %}

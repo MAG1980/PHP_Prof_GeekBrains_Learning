@@ -777,4 +777,7 @@ $twig->addExtension(new \Twig\Extension\DebugExtension());
     {{ dump(user) }}
 </pre>
 
+Подключение JS и CSS к TWIG
+https://symfony.ru/doc/current/templating.html#css-javascript-twig
+
 Запросы, которые изменяют состояние на сервере необходимо передавать методом POST: добавление, изменение, удаление.

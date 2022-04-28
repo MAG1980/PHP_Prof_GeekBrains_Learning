@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\{Feedback, User};
+use app\models\{Feedback};
 
 class FeedbackController extends Controller
 {
@@ -52,29 +52,14 @@ class FeedbackController extends Controller
         die();
     }
 
-    function getFeedbackMessage()
-    {
-        $messages = [
-            'ok' => 'Сообщение добавлено',
-            'delete' => 'Сообщение удалено',
-            'edit' => 'Сообщение изменено',
-            'error' => 'Возникла ошибка!'
-        ];
-        return (isset($_GET['status'])) ? $messages [$_GET['status']]:'';
-    }
-
-    private function render($template, $params = [])
-    {
-        $params ['is_auth'] = User::isAuth();
-        $params ['user'] = User::getLogin();
-        return $this->renderTemplate('layouts/main', [
-            'menu' => $this->renderTemplate('menu', $params),
-            'content' => $this->renderTemplate($template, $params)
-        ]);
-    }
-
-    private function renderTemplate($template, $params = [])
-    {
-        return $this->render->renderTemplate($template, $params);
-    }
+//    function getFeedbackMessage()
+//    {
+//        $messages = [
+//            'ok' => 'Сообщение добавлено',
+//            'delete' => 'Сообщение удалено',
+//            'edit' => 'Сообщение изменено',
+//            'error' => 'Возникла ошибка!'
+//        ];
+//        return (isset($_GET['status'])) ? $messages [$_GET['status']]:'';
+//    }
 }
