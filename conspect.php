@@ -756,3 +756,23 @@ $url = explode('/', $_SERVER['REQUEST_URI']);
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.php
+
+Перед удалением товаров из корзины нужно проверять сессию пользователя.
+
+По умолчанию функция dump недоступна в шаблонах Twig.
+ Вы должны явно \Twig\Extension\DebugExtension расширение
+\ Twig \ Extension \ DebugExtension при создании среды Twig:
+
+$twig = new \Twig\Environment($loader, [
+    'debug' => true,
+    // ...
+]);
+$twig->addExtension(new \Twig\Extension\DebugExtension());
+
+Даже когда она включена, функция dump ничего не отображает, если параметр debug в среде не включен (чтобы избежать утечки отладочной информации на производственном сервере).
+
+В контексте HTML оберните вывод тегом pre , чтобы его было легче читать:
+
+<pre>
+    {{ dump(user) }}
+</pre>
