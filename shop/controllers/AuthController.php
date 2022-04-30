@@ -27,9 +27,7 @@ class AuthController extends Controller
     public function actionLogOut()
     {
         $session = new Session();
-//        session_regenerate_id();
         $session->regenerate_id();
-//        session_destroy();
         $session->destroy();
 
 

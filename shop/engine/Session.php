@@ -4,45 +4,31 @@ namespace app\engine;
 
 class Session
 {
-    protected string $login;
-    /**
-     * id сессии
-     * @param  string  $id
-     */
-    protected string $id;
 
-
-    public function __construct()
+    public function __construct(string $login = null)
     {
-        $this->id = session_id();
+        if (!is_null($login)) {
+            $_SESSION['login'] = $login;
+        }
     }
 
-
-    /**
-     * Устанавливает login
-     * @param  string  $login
-     */
-    public function setLogin(string $login): void
-    {
-        $this->login = $login;
-    }
 
     /**
      * Возвращает login
      * @return string
      */
-    public function getLogin(): string
+    public function getLogin(): ?string
     {
-        return $this->login;
+        return $_SESSION['login'];
     }
 
     /**
-     * Возвращает id
+     * Возвращает id сессии
      * @return false|string
      */
     public function getId(): string
     {
-        return $this->id;
+        return session_id();
     }
 
     public function regenerate_id()
@@ -54,5 +40,4 @@ class Session
     {
         session_destroy();
     }
-
 }

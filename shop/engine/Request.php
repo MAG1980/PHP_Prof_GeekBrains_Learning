@@ -42,7 +42,7 @@ class Request
      * Возвращает имя экшена
      * @return string
      */
-    public function getActionName(): string
+    public function getActionName(): ?string
     {
         return $this->actionName;
     }

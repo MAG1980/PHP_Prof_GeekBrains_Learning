@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\engine\Session;
+
 class User extends DBModel
 {
     public ?int $id = null;
@@ -32,7 +34,8 @@ class User extends DBModel
     {
         $user = User::getWhere('login', $login);
         if ($user != false && password_verify($password, $user->password)) {
-            $_SESSION['login'] = $login;
+//            $_SESSION['login'] = $login;
+            new Session($login);
 
             if (isset($_POST['save'])) {
                 //генерация hash для сохранения в cookie и БД
@@ -56,15 +59,17 @@ class User extends DBModel
             $user = User::getWhere('hash', $cookieHash);
 
             if ($user) {
-                $_SESSION['login'] = $user->login;
+//                $_SESSION['login'] = $user->login;
+                new Session($user->login);
             }
         }
-        return isset($_SESSION['login']);
+        $login = (new Session())->getLogin();
+        return isset($login);
     }
 
     public static function getLogin()
     {
-        return $_SESSION['login'];
+        return (new Session())->getLogin();
     }
 
     protected static function getTableName(): string
