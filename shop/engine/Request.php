@@ -26,7 +26,6 @@ class Request
         $this->actionName = $url[2];
 
         $this->params = $_REQUEST;
-
     }
 
     /**

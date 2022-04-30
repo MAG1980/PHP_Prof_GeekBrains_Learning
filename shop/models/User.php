@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\engine\Request;
 use app\engine\Session;
 
 class User extends DBModel
@@ -37,7 +38,8 @@ class User extends DBModel
 //            $_SESSION['login'] = $login;
             new Session($login);
 
-            if (isset($_POST['save'])) {
+//            if (isset($_POST['save'])) {
+            if (isset((new Request())->getParams()['save'])) {
                 //генерация hash для сохранения в cookie и БД
                 $hash = uniqid(rand(), true);
                 unset($user->hash);
