@@ -26,6 +26,11 @@ class Request
         $this->actionName = $url[2];
 
         $this->params = $_REQUEST;
+
+        //Получение данных c Frontend
+        $postData = file_get_contents('php://input');
+        $data = json_decode($postData, true);
+        $this->params['data'] = $data;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\engine\Request;
 use app\engine\Session;
 use app\models\{Cart};
 
@@ -20,8 +21,10 @@ class CartController extends Controller
 
     public function actionAdd()
     {
-        $postData = file_get_contents('php://input');
-        $data = json_decode($postData, true);
+//Получение данных c Frontend вынес в класс Request
+//        $postData = file_get_contents('php://input');
+//        $data = json_decode($postData, true);
+        $data = (new Request())->getParams()['data'];
 
         $id = (int) $data['id'];
         $price = $data['price'];
