@@ -8,9 +8,10 @@ abstract class DBModel extends Model
 {
     abstract protected static function getTableName(): string;
 
-    /**Формирует SQL запрос с условием вида $name=$value
-     * @param $name название столбца в БД
-     * @param $value искомое значение
+    /**
+     * Формирует SQL запрос с условием вида $name=$value
+     * @param    $name DBModel
+     * @param    $value string
      * @return mixed
      */
     public static function getWhere(string $name, string $value)
@@ -22,10 +23,12 @@ abstract class DBModel extends Model
         return Db::getInstance()->queryOneObject($sql, $params, static::class);
     }
 
-    /**Подсчёт количества записей, удовлетворяющих параметрам запроса
+    /**
+     * Подсчёт количества записей, удовлетворяющих параметрам запроса
      * @param  string  $name
      * @param  string  $value
-     * @return int количество записей в БД, удовлетворяющих условию запроса
+     * @return int
+     * количество записей в БД, удовлетворяющих условию запроса
      */
     public static function getCountWhere(string $name, string $value): int
     {
@@ -55,7 +58,7 @@ abstract class DBModel extends Model
         $values = "(".implode(", ", array_keys($params)).")";
 
         $sql = "INSERT INTO {$tableName} {$names} VALUES {$values}";
-  
+
         Db::getInstance()->execute($sql, $params);
 
         $this->id = Db::getInstance()->lastInsertId();

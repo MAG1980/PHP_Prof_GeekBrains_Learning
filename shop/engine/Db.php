@@ -100,10 +100,14 @@ class Db
         return $this->query($sql, $params)->fetchAll();
     }
 
-    /**Используется для запросов к БД, которые не возвращают данные
-     * @param $sql  - запрос
-     * @param $params  - массив параметров запроса
-     * @return $this - экземпляр класса Db
+    /**
+     * Используется для запросов к БД, которые не возвращают данные
+     * @param  string  $sql
+     * SQL-запрос
+     * @param  array  $params
+     * ассоциативный массив с параметрами запроса
+     * @return Db $this
+     * экэемпляр класса Db
      */
     public function execute($sql, array $params = []): object
     {

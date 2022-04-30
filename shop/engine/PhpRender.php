@@ -7,8 +7,10 @@ use app\interfaces\IRender;
 class PhpRender implements IRender
 {
     /**
-     * @param $template  - название шаблона страницы
-     * @param $params  - ассоциативный массив с данными, которые нужно передать в шаблон. Имена ключей соответствуют именам переменных, доступных в шаблоне
+     * @param  string  $template
+     * имя шаблона
+     * @param  array  $params
+     * ассоциативный массив с данными, которые нужно передать в шаблон. Имена ключей соответствуют именам переменных, доступных в шаблоне
      * @return false|string
      */
     public function renderTemplate($template, $params = [])

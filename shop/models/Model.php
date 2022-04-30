@@ -20,11 +20,13 @@ abstract class Model implements IModel
         return $this->$name;
     }
 
-    /**Проверяет наличие у объекта поля с именем $name
-     * @param $name
+    /**
+     * Проверяет наличие у объекта поля с именем $name
+     * @param  string  $name
+     * название поля объекта
      * @return bool
      */
-    public function __isset($name)
+    public function __isset(string $name)
     {
         return isset($this->$name);
     }

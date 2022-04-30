@@ -30,30 +30,34 @@ class Request
     }
 
     /**
-     * @return mixed
+     * Возвращает имя контроллера
+     * @return string
      */
-    public function getControllerName()
+    public function getControllerName(): string
     {
         return $this->controllerName;
     }
 
     /**
-     * @return mixed
+     * Возвращает имя экшена
+     * @return string
      */
-    public function getActionName()
+    public function getActionName(): string
     {
         return $this->actionName;
     }
 
     /**
-     * @return mixed
+     * Возвращает название метода
+     * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
 
     /**
+     * Возвращает ассоциативный массив с параметрами запроса
      * @return array
      */
     public function getParams(): array

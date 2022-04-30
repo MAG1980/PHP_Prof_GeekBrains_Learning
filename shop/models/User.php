@@ -10,8 +10,10 @@ class User extends DBModel
     protected ?string $hash;
 
     /**
-     * @param $login
-     * @param $pass
+     * @param  string  $login
+     * @param  string  $pass
+     * @param  string  $hash
+     * хеш пароля
      */
     public function __construct(string $login = null, string $password = null, string $hash = null)
     {
@@ -20,12 +22,13 @@ class User extends DBModel
         $this->hash = $hash;
     }
 
-    /**Возвращает результат проверки наличия пользователя в БД и соответствие переданного пароля hash, хранимому в БД
-     * @param $login
-     * @param $password
+    /**
+     * Возвращает результат проверки наличия пользователя в БД и соответствие переданного пароля hash, хранимому в БД
+     * @param  string  $login
+     * @param  string password
      * @return bool
      */
-    public static function Auth($login, $password)
+    public static function Auth(string $login, string $password)
     {
         $user = User::getWhere('login', $login);
         if ($user != false && password_verify($password, $user->password)) {

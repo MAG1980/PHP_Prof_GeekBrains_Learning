@@ -11,12 +11,23 @@ class Product extends DBModel
     protected ?float $price;
 
     /**
-     * @param $name
-     * @param $description  $id будет сгенерирован БД автоматически (автоинкремент)
-     * @param $price
+     * @param  string  $name
+     * наименование товара
+     * @param  string  $image
+     * название файла с изображением товара
+     * @param  string  $description
+     * @param  number  $id
+     * количество товаров
+     * @param  float  $price
+     * цена единицы товара
      */
-    public function __construct($name = null, $image = null, $description = null, $price = null)
-    {
+    public function __construct(
+        string $name = null,
+        string $image = null,
+        string $description = null,
+        float $price =
+        null
+    ) {
         $this->name = $name;
         $this->image = $image;
         $this->description = $description;

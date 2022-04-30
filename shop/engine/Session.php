@@ -5,11 +5,13 @@ namespace app\engine;
 class Session
 {
     protected string $login;
-    protected string $id;
-
     /**
+     * id сессии
      * @param  string  $id
      */
+    protected string $id;
+
+
     public function __construct()
     {
         $this->id = session_id();
@@ -17,7 +19,8 @@ class Session
 
 
     /**
-     * @param  mixed  $login
+     * Устанавливает login
+     * @param  string  $login
      */
     public function setLogin(string $login): void
     {
@@ -25,7 +28,8 @@ class Session
     }
 
     /**
-     * @return mixed
+     * Возвращает login
+     * @return string
      */
     public function getLogin(): string
     {
@@ -33,6 +37,7 @@ class Session
     }
 
     /**
+     * Возвращает id
      * @return false|string
      */
     public function getId(): string
