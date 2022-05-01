@@ -61,7 +61,12 @@ class CartController extends Controller
 //        $cart = new Cart($session_id, $id);
 //        $cart->delete($id);
         $cart = Cart::getOne($id);
-        $cart->delete();
+        $currentSession = (new Session())->getId();
+
+        //Проверка прав пользователя на удаление товара
+        if ($currentSession === $cart->session_id) {
+            $cart->delete();
+        }
 
         $response = [
             'status' => 'ok',
