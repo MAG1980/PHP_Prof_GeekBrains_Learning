@@ -2,21 +2,21 @@
 
 namespace app\models;
 
-use app\engine\Db;
+use app\interfaces\IRepository;
 
-abstract class DBModel extends Model
+abstract class Repository implements IRepository
 {
     abstract protected static function getTableName(): string;
 
     /**
      * Формирует SQL запрос с условием вида $name=$value
-     * @param    $name DBModel
+     * @param    $name Repository
      * @param    $value string
      * @return mixed
      */
-    public static function getWhere(string $name, string $value)
+    public function getWhere(string $name, string $value)
     {
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $sql = "SELECT * FROM $tableName WHERE {$name}=:value";
         //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
         $params = ['value' => $value];
@@ -30,9 +30,9 @@ abstract class DBModel extends Model
      * @return int
      * количество записей в БД, удовлетворяющих условию запроса
      */
-    public static function getCountWhere(string $name, string $value): int
+    public function getCountWhere(string $name, string $value): int
     {
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $sql = "SELECT count(id) as count FROM {$tableName} WHERE {$name}=:value";
         $params = ['value' => $value];
         return Db::getInstance()->queryOne($sql, $params)['count'];
@@ -46,7 +46,7 @@ abstract class DBModel extends Model
         $values = '';
         $params = [];
 
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         foreach ($this as $key => $value) {
             if ($key === 'updPropList') {
                 continue;
@@ -77,7 +77,7 @@ abstract class DBModel extends Model
         }
         $this->updPropList = $updPropList;
 
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $updatedFields = [];
         $params = [':id' => $this->id];
         foreach ($this->updPropList as $key) {
@@ -101,31 +101,31 @@ abstract class DBModel extends Model
 
     public function delete(): object
     {
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
         return Db::getInstance()->execute($sql, ['id' => $this->id]);
     }
 
 
-    public static function getOne($id): object
+    public function getOne($id): object
     {
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
 //        return Db::getInstance()->queryOne($sql, ['id' => $id]);
         return Db::getInstance()->queryOneObject($sql, ['id' => $id], static::class);
 
     }
 
-    public static function getAll()
+    public function getAll()
     {
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName}";
         return Db::getInstance()->queryAll($sql);
     }
 
-    public static function getLimit($limit)
+    public function getLimit($limit)
     {
-        $tableName = static::getTableName();
+        $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} LIMIT 0, ?";
         return Db::getInstance()->queryLimit($sql, $limit);
 

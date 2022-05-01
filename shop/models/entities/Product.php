@@ -1,8 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\models\entities;
 
-class Product extends DBModel
+use app\models\Model;
+
+class Product extends Model
 {
     public ?int $id = null;
     protected ?string $name;
@@ -32,10 +34,5 @@ class Product extends DBModel
         $this->image = $image;
         $this->description = $description;
         $this->price = $price;
-    }
-
-    protected static function getTableName(): string
-    {
-        return 'goods';
     }
 }

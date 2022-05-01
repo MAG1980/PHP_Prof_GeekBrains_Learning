@@ -1,10 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\models\entities;
 
 use app\engine\Session;
+use app\models\Model;
 
-class Order extends DBModel
+class Order extends Model
 {
     public ?int $id = null;
     public ?string $cart_session;
@@ -24,10 +25,5 @@ class Order extends DBModel
         $this->login = $login;
         $this->customer_name = $customer_name;
         $this->phone_number = $phone_number;
-    }
-
-    protected static function getTableName(): string
-    {
-        return 'orders';
     }
 }

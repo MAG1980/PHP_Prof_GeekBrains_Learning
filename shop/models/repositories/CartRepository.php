@@ -1,0 +1,19 @@
+<?php
+
+namespace app\models\repositories;
+
+use app\models\Repository;
+
+class CartRepository extends Repository
+{
+    public static function getCart($session_id)
+    {
+        $sql = "SELECT cart.id as cart_id, cart.goods_id, cart.session_id, goods.name AS good_name, goods.image AS good_image, goods.description AS good_description, cart.price AS good_price, cart.number as good_number FROM cart  INNER JOIN goods ON cart.goods_id = goods.id WHERE cart.session_id = '{$session_id}'";
+        return Db::getInstance()->queryAll($sql);
+    }
+
+    protected static function getTableName(): string
+    {
+        return 'cart';
+    }
+}
