@@ -47,15 +47,22 @@ class CartController extends Controller
 
     public function actionRemove()
     {
-        $postData = file_get_contents('php://input');
-        $data = json_decode($postData, true);
+//Получение данных c Frontend вынес в класс Request
+//        $postData = file_get_contents('php://input');
+//        $data = json_decode($postData, true);
+        $data = (new Request())->getParams()['data'];
 
         $id = (int) $data['id'];
 //        $session_id = session_id();     // пользователь
         $session_id = (new Session())->getId();
+
+        //Неправильно! Нарушение принципов SOLID!
         //создаём экземпляр корзины и вызываем у него delete()
-        $cart = new Cart($session_id, $id);
-        $cart->delete($id);
+//        $cart = new Cart($session_id, $id);
+//        $cart->delete($id);
+        $cart = Cart::getOne($id);
+        $cart->delete();
+
         $response = [
             'status' => 'ok',
             'count' => Cart::getCountWhere('session_id', $session_id)

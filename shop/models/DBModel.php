@@ -99,11 +99,11 @@ abstract class DBModel extends Model
      * @return object
      */
 
-    public static function delete($id)
+    public function delete(): object
     {
         $tableName = static::getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
-        return Db::getInstance()->execute($sql, ['id' => $id], static::class);
+        return Db::getInstance()->execute($sql, ['id' => $this->id]);
     }
 
 

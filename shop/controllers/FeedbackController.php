@@ -47,7 +47,8 @@ class FeedbackController extends Controller
     protected function actionDelete()
     {
         $id = $_GET['id'];
-        Feedback::delete($id);
+        $feedback = Feedback::getOne($id);
+        $feedback->delete();
         header('Location:/feedback/get_all');
         die();
     }
