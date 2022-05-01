@@ -23,7 +23,7 @@ abstract class Repository implements IRepository
         $sql = "SELECT * FROM $tableName WHERE {$name}=:value";
         //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
         $params = ['value' => $value];
-        return Db::getInstance()->queryOneObject($sql, $params, static::class);
+        return Db::getInstance()->queryOneObject($sql, $params, $this->getEntityClass());
     }
 
     /**
@@ -41,7 +41,7 @@ abstract class Repository implements IRepository
         return Db::getInstance()->queryOne($sql, $params)['count'];
     }
 
-    public function insert(): object
+    public function insert(Model $entity): object
     {
 
         $keys = [];
@@ -49,8 +49,8 @@ abstract class Repository implements IRepository
         $values = '';
         $params = [];
 
-        $tableName = $this->getTableName();
-        foreach ($this as $key => $value) {
+        $tableName = $entity->getTableName();
+        foreach ($entity as $key => $value) {
             if ($key === 'updPropList') {
                 continue;
             }
@@ -64,37 +64,36 @@ abstract class Repository implements IRepository
 
         Db::getInstance()->execute($sql, $params);
 
-        $this->id = Db::getInstance()->lastInsertId();
+        $entity->id = Db::getInstance()->lastInsertId();
 
-        return $this;
+        return $entity;
     }
 
-    public function update()
+    public function update(Model $entity)
     {
-        $object = $this->getOne($this->id);
+        $object = $entity->getOne($entity->id);
         foreach ($object as $key => $value) {
-            if ($object->$key === $this->$key || $key === "updPropList") {
+            if ($object->$key === $entity->$key || $key === "updPropList") {
                 continue;
             }
             $updPropList[$key] = $key;
         }
-        $this->updPropList = $updPropList;
+        $entity->updPropList = $updPropList;
 
-        $tableName = $this->getTableName();
+        $tableName = $entity->getTableName();
         $updatedFields = [];
-        $params = [':id' => $this->id];
-        foreach ($this->updPropList as $key) {
+        $params = [':id' => $entity->id];
+        foreach ($entity->updPropList as $key) {
             $updatedFields[] = "{$key}=:{$key}";
-            $params[":{$key}"] = $this->$key;
+            $params[":{$key}"] = $entity->$key;
         }
-        $this->updPropList = [];
+        $entity->updPropList = [];
 
         $updatedFields = implode(', ', $updatedFields);
         $sql = "UPDATE {$tableName} SET {$updatedFields} WHERE id=:id";
-        var_dump($sql, $params);
 
         Db::getInstance()->execute($sql, $params);
-        return $this;
+        return $entity;
     }
 
     /**
@@ -102,11 +101,11 @@ abstract class Repository implements IRepository
      * @return object
      */
 
-    public function delete(): object
+    public function delete(Model $entity): object
     {
-        $tableName = $this->getTableName();
+        $tableName = $entity->getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
-        return Db::getInstance()->execute($sql, ['id' => $this->id]);
+        return Db::getInstance()->execute($sql, ['id' => $entity->id]);
     }
 
 
@@ -115,7 +114,7 @@ abstract class Repository implements IRepository
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
 //        return Db::getInstance()->queryOne($sql, ['id' => $id]);
-        return Db::getInstance()->queryOneObject($sql, ['id' => $id], static::class);
+        return Db::getInstance()->queryOneObject($sql, ['id' => $id], $this->getEntityClass());
 
     }
 
@@ -134,10 +133,10 @@ abstract class Repository implements IRepository
 
     }
 
-    public function save()
+    public function save(Model $entity)
     {
         //TODO реализовать умный save
-        if (is_null($this->id)) {
+        if (is_null($entity->id)) {
             $this->insert();
         } else {
             $this->update();
