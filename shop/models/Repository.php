@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\engine\Db;
 use app\interfaces\IRepository;
 
 abstract class Repository implements IRepository

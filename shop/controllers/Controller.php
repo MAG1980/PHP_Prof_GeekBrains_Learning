@@ -3,7 +3,8 @@
 namespace app\controllers;
 
 use app\interfaces\IRender;
-use app\models\{Cart, User};
+use app\models\repositories\CartRepository;
+use app\models\repositories\UserRepository;
 
 abstract class Controller
 {
@@ -32,11 +33,11 @@ abstract class Controller
     В отличие от него метод renderTemplate() не привязан к какому-либо классу.*/
     protected function render($template, $params = [])
     {
-        $params ['is_auth'] = User::isAuth();
-        $params ['user'] = User::getLogin();
+        $params ['is_auth'] = (new UserRepository())->isAuth();
+        $params ['user'] = (new UserRepository())->getLogin();
 
         //Количество товаров в корзине, соответствующее данной сессии
-        $params ['count'] = Cart::getCountWhere('session_id', session_id());
+        $params ['count'] = (new CartRepository())->getCountWhere('session_id', session_id());
 
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', $params),

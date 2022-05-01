@@ -2,6 +2,7 @@
 
 namespace app\models\repositories;
 
+use app\engine\Db;
 use app\models\entities\Cart;
 use app\models\Repository;
 

@@ -4,19 +4,17 @@ namespace app\controllers;
 
 use app\engine\Request;
 use app\engine\Session;
-use app\models\{User};
+use app\models\{repositories\UserRepository};
 
 class AuthController extends Controller
 {
-    //action="/?c=auth&a=login"
+
     public function actionLogin()
     {
         $request = new Request();
-//        $login = $_POST['login'];
         $login = ($request->getParams())['login'];
-//        $pass = $_POST['password'];
         $pass = $request->getParams()['password'];
-        if (User::Auth($login, $pass)) {
+        if ((new UserRepository())->Auth($login, $pass)) {
             header('Location:'.$_SERVER["HTTP_REFERER"]);
             die();
         } else {
