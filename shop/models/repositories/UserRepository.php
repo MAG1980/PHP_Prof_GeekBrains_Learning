@@ -1,9 +1,10 @@
 <?php
 
-namespace app\models\entities;
+namespace app\models\repositories;
 
 use app\engine\Request;
 use app\engine\Session;
+use app\models\entities\User;
 use app\models\Repository;
 
 class UserRepository extends Repository
@@ -57,5 +58,11 @@ class UserRepository extends Repository
     protected function getTableName(): string
     {
         return 'users';
+    }
+
+    protected function getEntityClass(): string
+    {
+        //Возвращает полное имя класса (вместе с namespace)
+        return User::class;
     }
 }

@@ -6,7 +6,10 @@ use app\interfaces\IRepository;
 
 abstract class Repository implements IRepository
 {
-    abstract protected static function getTableName(): string;
+    abstract protected function getTableName(): string;
+
+    abstract protected function getEntityClass(): string;
+
 
     /**
      * Формирует SQL запрос с условием вида $name=$value
