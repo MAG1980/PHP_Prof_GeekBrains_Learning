@@ -24,7 +24,7 @@ class CartController extends Controller
 //Получение данных c Frontend вынес в класс Request
 //        $postData = file_get_contents('php://input');
 //        $data = json_decode($postData, true);
-        $data = (new Request())->getParams()['data'];
+        $data = (new Request())->getParams();
 
         $id = (int) $data['id'];
         $price = $data['price'];
@@ -50,7 +50,7 @@ class CartController extends Controller
 //Получение данных c Frontend вынес в класс Request
 //        $postData = file_get_contents('php://input');
 //        $data = json_decode($postData, true);
-        $data = (new Request())->getParams()['data'];
+        $data = (new Request())->getParams();
 
         $id = (int) $data['id'];
 //        $session_id = session_id();     // пользователь

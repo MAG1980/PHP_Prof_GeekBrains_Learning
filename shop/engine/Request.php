@@ -30,7 +30,14 @@ class Request
         //Получение данных c Frontend
         $postData = file_get_contents('php://input');
         $data = json_decode($postData, true);
-        $this->params['data'] = $data;
+
+        //Вношу данные, полученные с Frontend в объект класса Request
+        if (!is_null($data)) {
+            foreach ($data as $key => $value) {
+                $this->params[$key] = $value;
+            }
+//            $this->params['data'] = $data;
+        }
     }
 
     /**
