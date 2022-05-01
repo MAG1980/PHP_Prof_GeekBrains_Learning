@@ -60,16 +60,23 @@ class CartController extends Controller
         //создаём экземпляр корзины и вызываем у него delete()
 //        $cart = new Cart($session_id, $id);
 //        $cart->delete($id);
+        $status = 'ok';
         $cart = Cart::getOne($id);
+        if (!$cart) {
+            $status = 'error1';
+        }
+
         $currentSession = (new Session())->getId();
 
         //Проверка прав пользователя на удаление товара
         if ($currentSession === $cart->session_id) {
             $cart->delete();
+        } else {
+            $status = 'error2';
         }
 
         $response = [
-            'status' => 'ok',
+            'status' => $status,
             'count' => Cart::getCountWhere('session_id', $session_id)
         ];
         echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
