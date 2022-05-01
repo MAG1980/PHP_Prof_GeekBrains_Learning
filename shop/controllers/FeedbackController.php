@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\engine\Request;
 use app\models\{Feedback};
 
 class FeedbackController extends Controller
@@ -16,7 +17,7 @@ class FeedbackController extends Controller
 
     protected function actionEdit()
     {
-        $id = $_GET['id'];
+        $id = (new Request())->getParams()['id'];
         $feedbacks = Feedback::getAll();
         $editable_feedback = (array) Feedback::getOne($id);
 
@@ -28,13 +29,15 @@ class FeedbackController extends Controller
 
     protected function actionSave()
     {
-        $id = $_GET['id'];
+        $request = new Request();
+        $id = $request->getParams()['id'];
         $id = $id ? (int) $id:null;
-        $name = $_POST['name'];
-        $text = $_POST['text'];
+        $name = $request->getParams()['name'];
+        $text = $request->getParams()['text'];
         $_POST = [];
         $feedback = new Feedback($id, $name, $text);
-
+        
+// TODO Создать страницы с сообщениями об ошибках
         if ($feedback->name === '' || $feedback->text === '') {
             header('Location:/feedback/?status=error');
         } else {
@@ -46,7 +49,7 @@ class FeedbackController extends Controller
 
     protected function actionDelete()
     {
-        $id = $_GET['id'];
+        $id = (new Request())->getParams()['id'];
         $feedback = Feedback::getOne($id);
         $feedback->delete();
         header('Location:/feedback/get_all');
