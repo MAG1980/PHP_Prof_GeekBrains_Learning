@@ -11,6 +11,13 @@ class Product extends Model
     protected ?string $image;
     protected ?string $description;
     protected ?float $price;
+    protected $props = [
+        'name' => false,
+        'image' => false,
+        'description' => false,
+        'price' => false,
+    ];
+
 
     /**
      * @param  string  $name

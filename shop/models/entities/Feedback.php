@@ -6,13 +6,16 @@ use app\models\Model;
 
 class Feedback extends Model
 {
-    public ?int $id = null;
-    public ?string $name;
-    public ?string $text;
+    protected ?int $id = null;
+    protected ?string $name;
+    protected ?string $text;
+    protected $props = [
+        'name' => false,
+        'text' => false,
+    ];
 
-    public function __construct(int $id = null, string $name = null, string $text = null)
+    public function __construct(string $name = null, string $text = null)
     {
-        $this->id = $id;
         $this->name = $name;
         $this->text = $text;
     }

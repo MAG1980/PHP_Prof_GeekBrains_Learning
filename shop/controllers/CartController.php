@@ -26,17 +26,22 @@ class CartController extends Controller
 
         $id = (int) $data['id'];
         $price = $data['price'];
-//        $session_id = session_id();     // пользователь
+
         $session_id = (new Session())->getId();
 
         //создаём экземпляр корзины и вызываем у него insert() или update()
         $cart = new Cart($session_id, $id, $price);
-        (new CartRepository())->save($cart);
+        if ((new CartRepository())->save($cart)) {
+            $status = 'ok';
+        } else {
+            $status = 'error3';
+        };
 
         $response = [
-            'status' => 'ok',
+            'status' => $status,
             'count' => (new CartRepository())->getCountWhere('session_id', $session_id)
         ];
+
         echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         die();
 
@@ -79,7 +84,9 @@ class CartController extends Controller
             'status' => $status,
             'count' => (new CartRepository())->getCountWhere('session_id', $session_id)
         ];
+
         echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
         die();
     }
 }

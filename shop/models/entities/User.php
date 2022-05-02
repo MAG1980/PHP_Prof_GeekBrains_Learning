@@ -10,6 +10,11 @@ class User extends Model
     protected ?string $login;
     protected ?string $password;
     protected ?string $hash;
+    protected $props = [
+        'login' => false,
+        'password' => false,
+        'hash' => false,
+    ];
 
     /**
      * @param  string  $login

@@ -5,8 +5,9 @@
 <? endif; ?> #}
 
 
-<form action="/feedback/save/?id={{ editable_feedback.id }}" method="post">
+<form action="/feedback/save/" method="post">
     Оставьте отзыв: <br>
+    <input type="text" name="id" value="{{ editable_feedback.id }}" hidden><br>
     <input type="text" name="name" placeholder="Ваше имя" value="{{ editable_feedback.name }}"><br>
     <input type="textarea" name="text" placeholder="Ваш отзыв" value="{{ editable_feedback.text }}"><br>
 

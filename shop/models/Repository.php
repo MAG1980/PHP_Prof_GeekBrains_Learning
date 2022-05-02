@@ -36,65 +36,59 @@ abstract class Repository implements IRepository
      */
     public function getCountWhere(string $name, string $value): int
     {
+
         $tableName = $this->getTableName();
         $sql = "SELECT count(id) as count FROM {$tableName} WHERE {$name}=:value";
         $params = ['value' => $value];
         return Db::getInstance()->queryOne($sql, $params)['count'];
     }
 
-    public function insert(Model $entity): object
+    public function insert(Model $entity)
     {
-
-        $keys = [];
-        $names = '';
-        $values = '';
         $params = [];
+        $columns = [];
+
+        foreach ($entity->props as $key => $value) {
+            $params[":".$key] = $entity->$key;
+            $columns[] = $key;
+        }
+
+        $columns = implode(', ', $columns);
+        $values = implode(', ', array_keys($params));
+
 
         $tableName = $this->getTableName();
-        foreach ($entity as $key => $value) {
-            if ($key === 'updPropList') {
-                continue;
-            }
-            $keys[] = $key;
-            $params[":".$key] = $value;
-        }
-        $names = "(".implode(", ", $keys).")";
-        $values = "(".implode(", ", array_keys($params)).")";
 
-        $sql = "INSERT INTO {$tableName} {$names} VALUES {$values}";
+        $sql = "INSERT INTO `{$tableName}`($columns) VALUES ($values)";
 
-        Db::getInstance()->execute($sql, $params);
+//        var_dump($columns, $values, $sql);
 
+        $result = Db::getInstance()->execute($sql, $params);
         $entity->id = Db::getInstance()->lastInsertId();
-
-        return $entity;
+        return $result;
     }
 
     public function update(Model $entity)
     {
-        $object = $this->getOne($entity->id);
-        foreach ($object as $key => $value) {
-            if ($object->$key === $entity->$key || $key === "updPropList") {
+        $params = [];
+        $colums = [];
+
+        $tableName = static::getTableName();
+
+        foreach ($entity->props as $key => $value) {
+            if (!$value) {
                 continue;
             }
-            $updPropList[$key] = $key;
+            $params["{$key}"] = $entity->$key;
+            $colums[] .= "`{$key}` = :{$key}";
+            $entity->props[$key] = false;
         }
-        $entity->updPropList = $updPropList;
+        $colums = implode(", ", $colums);
+        $params['id'] = $entity->id;
 
-        $tableName = $this->getTableName();
-        $updatedFields = [];
-        $params = [':id' => $entity->id];
-        foreach ($entity->updPropList as $key) {
-            $updatedFields[] = "{$key}=:{$key}";
-            $params[":{$key}"] = $entity->$key;
-        }
-        $entity->updPropList = [];
-
-        $updatedFields = implode(', ', $updatedFields);
-        $sql = "UPDATE {$tableName} SET {$updatedFields} WHERE id=:id";
-
-        Db::getInstance()->execute($sql, $params);
-        return $entity;
+        $sql = "UPDATE `{$tableName}` SET {$colums} WHERE `id` = :id";
+        $result = Db::getInstance()->execute($sql, $params);
+        return $result;
     }
 
     /**
@@ -138,9 +132,10 @@ abstract class Repository implements IRepository
     {
         //TODO реализовать умный save
         if (is_null($entity->id)) {
-            $this->insert($entity);
+            return $this->insert($entity);
+
         } else {
-            $this->update($entity);
+            return $this->update($entity);
         }
     }
 }

@@ -7,11 +7,18 @@ use app\models\Model;
 
 class Order extends Model
 {
-    public ?int $id = null;
-    public ?string $cart_session;
-    public ?string $login;
-    public ?string $customer_name;
-    public ?string $phone_number;
+    protected ?int $id = null;
+    protected ?string $cart_session;
+    protected ?string $login;
+    protected ?string $customer_name;
+    protected ?string $phone_number;
+    protected $props = [
+        'cart_session' => false,
+        'login' => false,
+        'customer_name' => false,
+        'phone_number' => false,
+    ];
+
 
     /**
      * @param  string|null  $cart_session

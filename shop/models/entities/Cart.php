@@ -7,10 +7,17 @@ use app\models\Model;
 class Cart extends Model
 {
     protected $id;
-    protected $session_id;
-    protected $goods_id;
-    protected $price;
-    protected $number;
+    protected ?string $session_id;
+    protected ?int $goods_id;
+    protected ?float $price;
+    protected ?int $number;
+
+    protected $props = [
+        'session_id' => false,
+        'goods_id' => false,
+        'price' => false,
+        'number' => false,
+    ];
 
     /**
      * @param  string  $session_id

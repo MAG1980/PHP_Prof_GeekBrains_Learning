@@ -20,7 +20,7 @@ class FeedbackController extends Controller
     {
         $id = (new Request())->getParams()['id'];
         $feedbacks = (new FeedbackRepository())->getAll();
-        $editable_feedback = (array) (new FeedbackRepository())->getOne($id);
+        $editable_feedback = (new FeedbackRepository())->getWhere('id', $id);
 
         echo $this->render('feedback/all_feedbacks', [
             'editable_feedback' => $editable_feedback,
@@ -31,12 +31,22 @@ class FeedbackController extends Controller
     protected function actionSave()
     {
         $request = new Request();
+        var_dump($request);
+
         $id = $request->getParams()['id'];
-        $id = $id ? (int) $id:null;
         $name = $request->getParams()['name'];
         $text = $request->getParams()['text'];
+        $id = $id ? (int) $id:null;
+
+        if (!is_null($id)) {
+            $feedback = (new FeedbackRepository())->getWhere('id', $id);
+            $feedback->__set('name', $name);
+            $feedback->__set('text', $text);
+        } else {
+            $feedback = new Feedback($name, $text);
+        }
+
         $_POST = [];
-        $feedback = new Feedback($id, $name, $text);
 
 // TODO Создать страницы с сообщениями об ошибках
         if ($feedback->name === '' || $feedback->text === '') {
@@ -51,7 +61,7 @@ class FeedbackController extends Controller
     protected function actionDelete()
     {
         $id = (new Request())->getParams()['id'];
-        $feedback = (new FeedbackRepository())->getOne($id);
+        $feedback = (new FeedbackRepository())->getWhere('id', $id);
         (new FeedbackRepository())->delete($feedback);
         header('Location:/feedback/get_all');
         die();
