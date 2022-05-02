@@ -12,7 +12,6 @@ class CartController extends Controller
     //Выполняется, если экшен не передан
     public function actionIndex()
     {
-//        $session_id = session_id();
         $session_id = (new Session())->getId();
         $cart = (new CartRepository())->getCart($session_id);
         echo $this->render('cart', [
@@ -23,9 +22,9 @@ class CartController extends Controller
     public function actionAdd()
     {
         $data = (new Request())->getParams();
-
-        $id = (int) $data['id'];
+        $goods_id = (int) $data['id'];
         $price = $data['price'];
+<<<<<<< Updated upstream
 
         $session_id = (new Session())->getId();
 
@@ -39,6 +38,22 @@ class CartController extends Controller
 
         $response = [
             'status' => $status,
+=======
+
+        $session_id = (new Session())->getId(); // пользователь
+
+        //создаём экземпляр корзины и вызываем у его репозитория insert() или update()
+        $cart = new Cart($session_id, $goods_id, $price);
+        (new CartRepository())->save($cart);
+        $entity = json_encode($cart);
+
+        $response = [
+            '$entity' => $cart,
+            '$session_id' => $session_id,
+            '$goods_id' => $goods_id,
+            '$price' => $price,
+            'status' => 'ok',
+>>>>>>> Stashed changes
             'count' => (new CartRepository())->getCountWhere('session_id', $session_id)
         ];
 
@@ -53,16 +68,13 @@ class CartController extends Controller
     public function actionRemove()
     {
 //Получение данных c Frontend вынес в класс Request
-//        $postData = file_get_contents('php://input');
-//        $data = json_decode($postData, true);
+
         $data = (new Request())->getParams();
 
         $id = (int) $data['id'];
 
-        //Неправильно! Нарушение принципов SOLID!
-        //создаём экземпляр корзины и вызываем у него delete()
-//        $cart = new Cart($session_id, $id);
-//        $cart->delete($id);
+        $session_id = (new Session())->getId();  // пользователь
+
         $status = 'ok';
         $cart = (new CartRepository())->getWhere('id', $id);
         if (!$cart) {

@@ -22,6 +22,6 @@ class CartRepository extends Repository
     protected function getEntityClass(): string
     {
         //Возвращает полное имя класса (вместе с namespace)
-        return CART::class;
+        return Cart::class;
     }
 }

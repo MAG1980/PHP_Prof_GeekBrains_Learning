@@ -53,9 +53,14 @@ abstract class Repository implements IRepository
             $columns[] = $key;
         }
 
+<<<<<<< Updated upstream
         $columns = implode(', ', $columns);
         $values = implode(', ', array_keys($params));
 
+=======
+        $sql = "INSERT INTO {$tableName} {$names} VALUES {$values}";
+        Db::getInstance()->execute($sql, $params);
+>>>>>>> Stashed changes
 
         $tableName = $this->getTableName();
 
