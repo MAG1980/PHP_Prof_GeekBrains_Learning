@@ -14,29 +14,33 @@ require_once ROOT.'/vendor/autoload.php';
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 
-$request = new Request();
+try {
+    $request = new Request();
 
 
-/*Получаем имена контроллера и экшена из адресной строки браузера
-Если имя контроллера из адресной строки не получено, то выбираем 'product'.*/
-/*$controllerName = $_GET['c'] ? :'index';
-$actionName = $_GET['a'];*/
+    /*Получаем имена контроллера и экшена из адресной строки браузера
+    Если имя контроллера из адресной строки не получено, то выбираем 'product'.*/
+    /*$controllerName = $_GET['c'] ? :'index';
+    $actionName = $_GET['a'];*/
 
 
-$controllerName = $request->getControllerName() ? :'index';
-$actionName = $request->getActionName();
+    $controllerName = $request->getControllerName() ? :'index';
+    $actionName = $request->getActionName();
 
 //Формируем название класса контроллера вида: 'app\controllers\ИмяконтроллераController'
-$controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";
+    $controllerClass = CONTROLLER_NAMESPACE.ucfirst($controllerName)."Controller";
 
-if (class_exists($controllerClass)) {
-    //Создаём экземпляр класса существующего контроллера
+    if (class_exists($controllerClass)) {
+        //Создаём экземпляр класса существующего контроллера
 //    $controller = new $controllerClass(new app\engine\PhpRender());
-    $controller = new $controllerClass(new app\engine\TwigRender());
-    //Вызываем экшен, полученный из адресной строки браузера
-    $controller->runAction($actionName);
-} else {
-    die("Нет такого контроллера");
+        $controller = new $controllerClass(new app\engine\TwigRender());
+        //Вызываем экшен, полученный из адресной строки браузера
+        $controller->runAction($actionName);
+    } else {
+        die("Нет такого контроллера");
+    }
+} catch (Exception $exception) {
+    var_dump($exception->getMessage());
 }
 
 

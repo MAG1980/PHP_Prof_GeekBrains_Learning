@@ -10,14 +10,23 @@ abstract class Model
     public function __set($name, $value)
     {
         //TODO разрешать менять только те поля, что есть в params
-        $this->props[$name] = true;
-        $this->$name = $value;
+        if (property_exists($this, $name)) {
+            $this->props[$name] = true;
+            $this->$name = $value;
+        } else {
+            throw new Exception("Нет такого свойства в объекте!");
+        }
     }
 
     public function __get($name)
     {
         //TODO разрешать читать только те поля, что есть в params
-        return $this->$name;
+
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        } else {
+            throw new Exception("Нет такого свойства в объекте!");
+        }
     }
 
     /**
