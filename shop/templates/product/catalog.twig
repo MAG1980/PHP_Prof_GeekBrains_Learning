@@ -1,0 +1,15 @@
+<pre>
+    {{ dump(catalog) }}
+</pre>
+<h2>Каталог</h2>
+{% for item in catalog %}
+    <div>
+        <div>
+            <h3><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h3>
+            <p>price: {{ item.price }}</p>
+            <button class="buy" type="submit" data-id="{{ item.id }}" data-price="{{ item.price }}">Купить</button>
+        </div>
+    </div>
+{% endfor %}
+
+<a href="/product/catalog/?page={{ page }}">Еще</a>
