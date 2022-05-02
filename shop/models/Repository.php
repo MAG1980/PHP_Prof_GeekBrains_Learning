@@ -50,7 +50,7 @@ abstract class Repository implements IRepository
         $values = '';
         $params = [];
 
-        $tableName = $entity->getTableName();
+        $tableName = $this->getTableName();
         foreach ($entity as $key => $value) {
             if ($key === 'updPropList') {
                 continue;
@@ -72,7 +72,7 @@ abstract class Repository implements IRepository
 
     public function update(Model $entity)
     {
-        $object = $entity->getOne($entity->id);
+        $object = $this->getOne($entity->id);
         foreach ($object as $key => $value) {
             if ($object->$key === $entity->$key || $key === "updPropList") {
                 continue;
@@ -81,7 +81,7 @@ abstract class Repository implements IRepository
         }
         $entity->updPropList = $updPropList;
 
-        $tableName = $entity->getTableName();
+        $tableName = $this->getTableName();
         $updatedFields = [];
         $params = [':id' => $entity->id];
         foreach ($entity->updPropList as $key) {
@@ -104,7 +104,7 @@ abstract class Repository implements IRepository
 
     public function delete(Model $entity): object
     {
-        $tableName = $entity->getTableName();
+        $tableName = $this->getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
         return Db::getInstance()->execute($sql, ['id' => $entity->id]);
     }
@@ -138,9 +138,9 @@ abstract class Repository implements IRepository
     {
         //TODO реализовать умный save
         if (is_null($entity->id)) {
-            $this->insert();
+            $this->insert($entity);
         } else {
-            $this->update();
+            $this->update($entity);
         }
     }
 }

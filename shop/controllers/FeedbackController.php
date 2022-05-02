@@ -3,13 +3,14 @@
 namespace app\controllers;
 
 use app\engine\Request;
-use app\models\{Feedback};
+use app\models\entities\Feedback;
+use app\models\repositories\FeedbackRepository;
 
 class FeedbackController extends Controller
 {
     protected function actionGet_all()
     {
-        $feedbacks = Feedback::getAll();
+        $feedbacks = (new FeedbackRepository())->getAll();
         echo $this->render('feedback/all_feedbacks', [
             'feedbacks' => $feedbacks
         ]);
@@ -18,8 +19,8 @@ class FeedbackController extends Controller
     protected function actionEdit()
     {
         $id = (new Request())->getParams()['id'];
-        $feedbacks = Feedback::getAll();
-        $editable_feedback = (array) Feedback::getOne($id);
+        $feedbacks = (new FeedbackRepository())->getAll();
+        $editable_feedback = (array) (new FeedbackRepository())->getOne($id);
 
         echo $this->render('feedback/all_feedbacks', [
             'editable_feedback' => $editable_feedback,
@@ -36,12 +37,12 @@ class FeedbackController extends Controller
         $text = $request->getParams()['text'];
         $_POST = [];
         $feedback = new Feedback($id, $name, $text);
-        
+
 // TODO Создать страницы с сообщениями об ошибках
         if ($feedback->name === '' || $feedback->text === '') {
             header('Location:/feedback/?status=error');
         } else {
-            $feedback->save();
+            (new FeedbackRepository())->save($feedback);
             header('Location:/feedback/get_all');
             die();
         }
@@ -50,8 +51,8 @@ class FeedbackController extends Controller
     protected function actionDelete()
     {
         $id = (new Request())->getParams()['id'];
-        $feedback = Feedback::getOne($id);
-        $feedback->delete();
+        $feedback = (new FeedbackRepository())->getOne($id);
+        (new FeedbackRepository())->delete($feedback);
         header('Location:/feedback/get_all');
         die();
     }
