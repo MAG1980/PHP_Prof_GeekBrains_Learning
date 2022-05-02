@@ -4,5 +4,7 @@
     <h3>{{ product.name }}</h3>
     <p>{{ product.description }}</p>
     <p>price: {{ product.price }}</p>
-    <button class="buy" data-id="{{ product.id }}" type="submit">Купить</button>
+    <button class="buy" data-id="{{ product.id }}" data-price="{{ product.price }}" type="submit">
+        Купить
+    </button>
 </div>

@@ -58,20 +58,18 @@ class CartController extends Controller
         $data = (new Request())->getParams();
 
         $id = (int) $data['id'];
-//        $session_id = session_id();     // пользователь
-        $session_id = (new Session())->getId();
 
         //Неправильно! Нарушение принципов SOLID!
         //создаём экземпляр корзины и вызываем у него delete()
 //        $cart = new Cart($session_id, $id);
 //        $cart->delete($id);
         $status = 'ok';
-        $cart = (new CartRepository())->getOne($id);
+        $cart = (new CartRepository())->getWhere('id', $id);
         if (!$cart) {
             $status = 'error1';
         }
 
-        $currentSession = (new Session())->getId();
+        $currentSession = (new Session())->getId(); // пользователь
 
         //Проверка прав пользователя на удаление товара
         if ($currentSession === $cart->session_id) {
@@ -82,7 +80,7 @@ class CartController extends Controller
 
         $response = [
             'status' => $status,
-            'count' => (new CartRepository())->getCountWhere('session_id', $session_id)
+            'count' => (new CartRepository())->getCountWhere('session_id', $currentSession)
         ];
 
         echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
