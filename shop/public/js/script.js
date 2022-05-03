@@ -7,9 +7,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			let id = button.getAttribute( 'data-id' );
 			let price = button.getAttribute( 'data-price' );
 			console.log( price );
+
+			const Parent = button.parentElement;
+			let totalPrice = Parent.querySelector( ".item_total-price" ).textContent;
+			console.log( "totalPrice=", totalPrice );
 			const data = {
 				'id': id,
-				'price': price
+				'price': price,
+				'totalPrice': totalPrice
 			};
 			console.log( data );
 			(async () => {
