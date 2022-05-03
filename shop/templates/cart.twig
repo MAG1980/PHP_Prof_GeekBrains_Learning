@@ -35,20 +35,22 @@
                 <div class="cart__column cart__order-price"></div>
             </div>
             <div class="cart__checkout">
-                <div class="cart__checkout-space">
-                    <form class="cart__checkout-form dn" action="/cart/checkout/" method="post">
-                        <input type="text" name="checkout" value="{{ cartLine.session_id }}" hidden>
-                        <input class="cart__checkout-input" type="text" name="customer_name" placeholder="Имя"
-                               value="<?= $_SESSION['login'] ?>">
-                        <input class="cart__checkout-input" type="tel" name="phone_number" placeholder="Номер телефона">
-                        <button class="cart__button cart__checkout-button" type="submit">Отправить сведения о заказе
-                        </button>
-                    </form>
-                </div>
-                <button class="cart__button cart__button-checkout">Оформить</button>
+                <div class="cart__checkout-space"></div>
+                <button class="cart__button order__issue-button">Оформить</button>
             </div>
         </div>
+
     {% endif %}
+</div>
+<div class="order">
+    <form class="order__submit-form dn" action="/cart/checkout/" method="post">
+        <p>Укажите свои контактные данные:</p>
+        <input type="text" name="checkout" value="{{ cartLine.session_id }}" hidden>
+        <input class="cart__checkout-input" type="text" name="customer_name" placeholder="Имя">
+        <input class="cart__checkout-input" type="tel" name="phone_number" placeholder="Номер телефона">
+        <button class="cart__button cart__checkout-submit-button" type="submit">Подтвердить заказ
+        </button>
+    </form>
 </div>
 
 

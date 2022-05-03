@@ -138,10 +138,6 @@ a:hover img {
 	align-self: center;
 }
 
-.dn {
-	display: none;
-}
-
 .menu__button, .menu__input {
 	padding: 10px 15px;
 	font-size: 14px;
@@ -181,4 +177,17 @@ a:hover img {
 	flex-direction: column;
 	width: 50%;
 	transform: translate(50%, 50%);
+}
+
+.order {
+	width: 100%;
+}
+
+.order__submit-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.dn {
+	display: none;
 }

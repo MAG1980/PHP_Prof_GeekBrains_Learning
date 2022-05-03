@@ -3,6 +3,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const CartTable = document.querySelector( '.cart__table' );
 	const count = document.getElementById( 'count' );
 	const ButtonsBuy = document.querySelectorAll( '.buy' );
+	const OrderIssueButton = document.querySelector( '.order__issue-button' );
+	const OrderSubmitForm = document.querySelector( '.order__submit-form' );
 	ButtonsBuy.forEach( ( button ) => {
 		button.addEventListener( 'click', () => {
 			let id = button.getAttribute( 'data-id' );
@@ -68,6 +70,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		} )
 	} )
 
+	OrderIssueButton.addEventListener( 'click', () => {
+		OrderIssueButton.classList.add( 'dn' );
+		OrderSubmitForm.classList.remove( 'dn' );
+	} )
 
 	rowsPricesCount();
 	orderPriceCount();
