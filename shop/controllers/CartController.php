@@ -24,7 +24,8 @@ class CartController extends Controller
         $data = (new Request())->getParams();
         $goods_id = (int) $data['id'];
         $price = $data['price'];
-
+        var_dump($data);
+        die();
         $session_id = (new Session())->getId();
 //TODO Переделать на getWhere
         //создаём экземпляр корзины и вызываем у него insert() или update()

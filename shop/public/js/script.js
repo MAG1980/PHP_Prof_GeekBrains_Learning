@@ -9,11 +9,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			console.log( price );
 
 			const Parent = button.parentElement;
+			let number = Parent.querySelector( '.item_number' ).value;
 			let totalPrice = Parent.querySelector( ".item_total-price" ).textContent;
 			console.log( "totalPrice=", totalPrice );
 			const data = {
 				'id': id,
 				'price': price,
+				'number': number,
 				'totalPrice': totalPrice
 			};
 			console.log( data );
