@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\exceptions\ModelException;
+
 abstract class Model
 {
     protected $props = [];
@@ -14,7 +16,7 @@ abstract class Model
             $this->props[$name] = true;
             $this->$name = $value;
         } else {
-            throw new \Exception("Попытка записи в несуществующее свойство объекта!");
+            throw new ModelException("Попытка записи в несуществующее свойство объекта!");
         }
     }
 
@@ -25,7 +27,7 @@ abstract class Model
         if (property_exists($this, $name)) {
             return $this->$name;
         } else {
-            throw new \Exception("Попытка чтения данных из несуществующего свойства объекта!");
+            throw new ModelException("Попытка чтения данных из несуществующего свойства объекта!");
         }
     }
 

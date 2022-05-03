@@ -42,6 +42,10 @@ try {
     } else {
         die("Нет такого контроллера");
     }
+} catch (PDOException $exception) {
+    var_dump($exception->getMessage());
+} catch (\app\exceptions\ModelException $exception) {
+    var_dump($exception->getMessage());
 } catch (Exception $exception) {
     var_dump($exception->getMessage());
 }
