@@ -31,7 +31,6 @@ class FeedbackController extends Controller
     protected function actionSave()
     {
         $request = new Request();
-        var_dump($request);
 
         $id = $request->getParams()['id'];
         $name = $request->getParams()['name'];

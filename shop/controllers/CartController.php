@@ -24,12 +24,11 @@ class CartController extends Controller
         $data = (new Request())->getParams();
         $goods_id = (int) $data['id'];
         $price = $data['price'];
-<<<<<<< Updated upstream
 
         $session_id = (new Session())->getId();
-
+//TODO Переделать на getWhere
         //создаём экземпляр корзины и вызываем у него insert() или update()
-        $cart = new Cart($session_id, $id, $price);
+        $cart = new Cart($session_id, $goods_id, $price);
         if ((new CartRepository())->save($cart)) {
             $status = 'ok';
         } else {
@@ -38,22 +37,6 @@ class CartController extends Controller
 
         $response = [
             'status' => $status,
-=======
-
-        $session_id = (new Session())->getId(); // пользователь
-
-        //создаём экземпляр корзины и вызываем у его репозитория insert() или update()
-        $cart = new Cart($session_id, $goods_id, $price);
-        (new CartRepository())->save($cart);
-        $entity = json_encode($cart);
-
-        $response = [
-            '$entity' => $cart,
-            '$session_id' => $session_id,
-            '$goods_id' => $goods_id,
-            '$price' => $price,
-            'status' => 'ok',
->>>>>>> Stashed changes
             'count' => (new CartRepository())->getCountWhere('session_id', $session_id)
         ];
 

@@ -7,7 +7,6 @@ use app\models\Model;
 class Cart extends Model
 {
     protected $id;
-<<<<<<< Updated upstream
     protected ?string $session_id;
     protected ?int $goods_id;
     protected ?float $price;
@@ -19,12 +18,6 @@ class Cart extends Model
         'price' => false,
         'number' => false,
     ];
-=======
-    protected string $session_id;
-    protected int $goods_id;
-    protected float $price;
-    protected int $number;
->>>>>>> Stashed changes
 
     /**
      * @param  string  $session_id

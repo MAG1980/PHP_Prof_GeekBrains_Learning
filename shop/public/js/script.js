@@ -30,6 +30,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			)()
 		} )
 	} )
+
 	const ButtonsRemove = document.querySelectorAll( '.remove' );
 	ButtonsRemove.forEach( ( button ) => {
 		button.addEventListener( 'click', () => {
@@ -58,5 +59,36 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		} )
 	} )
 
-} )
+	const AmountInputs = document.querySelectorAll( '.item_number' );
 
+	const totalPriceCalc = ( event ) => {
+		const currentInput = event.target;
+		const parentDiv = currentInput.parentElement;
+		console.log( parentDiv );
+		let itemPrice = parentDiv.querySelector( '.item_price' ).textContent;
+
+		const totalPrice = parentDiv.querySelector( '.item_total-price' );
+		currentInput.addEventListener( 'change', ( event ) => {
+			let itemNumber = parentDiv.querySelector( '.item_number' ).value;
+			totalPrice.textContent = Number( itemPrice ) * Number( itemNumber );
+		} )
+	}
+
+	AmountInputs.forEach( ( input ) => {
+
+		input.addEventListener( 'focus', ( event ) => {
+			input.addEventListener( 'focusin', totalPriceCalc );
+			input.style.background = 'green';
+			console.log( "input in focus" );
+		} )
+
+		input.addEventListener( 'blur', () => {
+			input.removeEventListener( 'focusout', totalPriceCalc );
+			input.style.background = 'white';
+			console.log( "input out of focus" );
+		} )
+
+
+	} )
+
+} )
