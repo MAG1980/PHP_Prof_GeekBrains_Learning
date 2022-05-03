@@ -1,5 +1,6 @@
 document.addEventListener( 'DOMContentLoaded', () => {
 	console.log( 'ready' )
+	const CartTable = document.querySelector( '.cart__table' );
 	const count = document.getElementById( 'count' );
 	const ButtonsBuy = document.querySelectorAll( '.buy' );
 	ButtonsBuy.forEach( ( button ) => {
@@ -60,42 +61,85 @@ document.addEventListener( 'DOMContentLoaded', () => {
 						count.textContent = answer.count;
 						document.querySelector( '.cart__row-' + id ).remove();
 						console.log( ('cart__row-' + id + ' removed') )
+						orderPriceCount();
 					}
 				}
 			)()
 		} )
 	} )
 
-	const AmountInputs = document.querySelectorAll( '.item_number' );
 
-	const totalPriceCalc = ( event ) => {
-		const currentInput = event.target;
-		const parentDiv = currentInput.parentElement;
-		console.log( parentDiv );
-		let itemPrice = parentDiv.querySelector( '.item_price' ).textContent;
+	rowsPricesCount();
+	orderPriceCount();
 
-		const totalPrice = parentDiv.querySelector( '.item_total-price' );
-		currentInput.addEventListener( 'change', ( event ) => {
-			let itemNumber = parentDiv.querySelector( '.item_number' ).value;
-			totalPrice.textContent = Number( itemPrice ) * Number( itemNumber );
+	function rowsPricesCount() {
+		const AmountInputs = document.querySelectorAll( '.item_number' );
+
+		const totalPriceCalc = ( event ) => {
+			const currentInput = event.target;
+			const parentDiv = currentInput.parentElement;
+			console.log( parentDiv );
+			let itemPrice = parentDiv.querySelector( '.item_price' ).textContent;
+
+			const totalPrice = parentDiv.querySelector( '.item_total-price' );
+			currentInput.addEventListener( 'change', ( event ) => {
+				let itemNumber = parentDiv.querySelector( '.item_number' ).value;
+				totalPrice.textContent = Number( itemPrice ) * Number( itemNumber );
+			} )
+		}
+
+		AmountInputs.forEach( ( input ) => {
+
+			input.addEventListener( 'focus', ( event ) => {
+				input.addEventListener( 'focusin', totalPriceCalc );
+				input.style.background = 'green';
+				console.log( "input in focus" );
+			} )
+
+			input.addEventListener( 'blur', () => {
+				input.removeEventListener( 'focusout', totalPriceCalc );
+				input.style.background = 'white';
+				console.log( "input out of focus" );
+			} )
+
+
+		} )
+
+		const CartRowTotalPrices = document.querySelectorAll( '.cart__good-total-price' );
+		const CartOrderPrice = document.querySelector( '.cart__order-price' );
+
+		CartRowTotalPrices.forEach( ( item ) => {
+			const cartRow = item.parentElement;
+			const number = +cartRow.querySelector( '.cart__good-quantity' ).textContent;
+			const price = +cartRow.querySelector( '.cart__goog-price' ).textContent;
+			const rowTotalPriceDiv = cartRow.querySelector( '.cart__good-total-price' );
+			rowTotalPriceDiv.textContent = number * price;
 		} )
 	}
 
-	AmountInputs.forEach( ( input ) => {
+	function orderPriceCount() {
+		const CartItemsTotalPrices = document.querySelectorAll( '.cart__good-total-price' );
+		console.log( CartItemsTotalPrices );
+		const rowsPrices = [];
+		let orderPrice = 0;
+		if ( CartItemsTotalPrices.length !== 0 ) {
+			CartItemsTotalPrices.forEach( item => {
+				console.log( +item.textContent );
+				rowsPrices.push( +item.textContent );
+				console.log( rowsPrices );
+			} )
+			console.log( rowsPrices );
+			orderPrice = rowsPrices.reduce( ( acc, price ) => {
+				return acc += price;
+			} )
+		} else {
+			CartTable.textContent = "Ваша корзина пуста!"
+		}
 
-		input.addEventListener( 'focus', ( event ) => {
-			input.addEventListener( 'focusin', totalPriceCalc );
-			input.style.background = 'green';
-			console.log( "input in focus" );
-		} )
-
-		input.addEventListener( 'blur', () => {
-			input.removeEventListener( 'focusout', totalPriceCalc );
-			input.style.background = 'white';
-			console.log( "input out of focus" );
-		} )
-
-
-	} )
+		console.log( orderPrice );
+		const OrderPrice = document.querySelector( '.cart__order-price' );
+		OrderPrice.textContent = orderPrice;
+		console.log( OrderPrice );
+	}
 
 } )
