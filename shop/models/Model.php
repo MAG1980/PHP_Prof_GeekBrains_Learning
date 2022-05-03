@@ -14,7 +14,7 @@ abstract class Model
             $this->props[$name] = true;
             $this->$name = $value;
         } else {
-            throw new Exception("Попытка записи в несуществующее свойство объекта!");
+            throw new \Exception("Попытка записи в несуществующее свойство объекта!");
         }
     }
 
@@ -25,7 +25,7 @@ abstract class Model
         if (property_exists($this, $name)) {
             return $this->$name;
         } else {
-            throw new Exception("Попытка чтения данных из несуществующего свойства объекта!");
+            throw new \Exception("Попытка чтения данных из несуществующего свойства объекта!");
         }
     }
 
