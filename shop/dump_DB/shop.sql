@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Апр 26 2022 г., 17:55
+-- Время создания: Май 03 2022 г., 19:44
 -- Версия сервера: 8.0.24
 -- Версия PHP: 7.4.27
 
@@ -31,55 +31,22 @@ CREATE TABLE `cart` (
   `id` int NOT NULL,
   `session_id` varchar(255) NOT NULL,
   `goods_id` int NOT NULL,
-  `number` int NOT NULL DEFAULT '1'
+  `price` double DEFAULT NULL,
+  `number` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `cart`
 --
 
-INSERT INTO `cart` (`id`, `session_id`, `goods_id`, `number`) VALUES
-(122, 'knoe4o69jvhqqgfsc39aaeokklrm33fh', 1, 1),
-(123, 'knoe4o69jvhqqgfsc39aaeokklrm33fh', 1, 1),
-(124, 'knoe4o69jvhqqgfsc39aaeokklrm33fh', 2, 1),
-(125, 'knoe4o69jvhqqgfsc39aaeokklrm33fh', 6, 1),
-(126, 'knoe4o69jvhqqgfsc39aaeokklrm33fh', 6, 1),
-(127, 'knoe4o69jvhqqgfsc39aaeokklrm33fh', 6, 1),
-(128, '7fkh5s44hfnlf886thevu4i5brat9e92', 1, 1),
-(129, '7fkh5s44hfnlf886thevu4i5brat9e92', 2, 1),
-(130, '7fkh5s44hfnlf886thevu4i5brat9e92', 6, 1),
-(131, '7fkh5s44hfnlf886thevu4i5brat9e92', 2, 1),
-(132, '5u3e0epo7ud6m7lueheh5bojsbaa8sti', 1, 1),
-(133, '5u3e0epo7ud6m7lueheh5bojsbaa8sti', 1, 1),
-(134, '5u3e0epo7ud6m7lueheh5bojsbaa8sti', 2, 1),
-(135, '5u3e0epo7ud6m7lueheh5bojsbaa8sti', 2, 1),
-(136, '5u3e0epo7ud6m7lueheh5bojsbaa8sti', 2, 1),
-(137, 'u7l02rgmcr348rk9nq1il3ccamam1tj4', 6, 1),
-(138, 'u7l02rgmcr348rk9nq1il3ccamam1tj4', 6, 1),
-(139, 'u7l02rgmcr348rk9nq1il3ccamam1tj4', 6, 1),
-(140, 'g2bl3gjjnq9as1g36s7pan5a6gmms04j', 1, 1),
-(141, 'g2bl3gjjnq9as1g36s7pan5a6gmms04j', 1, 1),
-(142, 'g2bl3gjjnq9as1g36s7pan5a6gmms04j', 6, 1),
-(161, '0cmd77levs255g3mdj82kiq1aj42oigs', 1, 1),
-(162, '0cmd77levs255g3mdj82kiq1aj42oigs', 1, 1),
-(163, '0cmd77levs255g3mdj82kiq1aj42oigs', 1, 1),
-(164, '0cmd77levs255g3mdj82kiq1aj42oigs', 1, 1),
-(165, '0cmd77levs255g3mdj82kiq1aj42oigs', 2, 1),
-(166, '5hqdlv9uo75mlv557jeaml6je4494fak', 1, 1),
-(167, '5hqdlv9uo75mlv557jeaml6je4494fak', 1, 1),
-(168, '5hqdlv9uo75mlv557jeaml6je4494fak', 6, 1),
-(169, '5hqdlv9uo75mlv557jeaml6je4494fak', 6, 1),
-(170, '5hqdlv9uo75mlv557jeaml6je4494fak', 6, 1),
-(171, 'snorv6sfrmifrisn6v4cugpdgdeae8im', 1, 1),
-(172, '0mvkj7kqsd7f1oetqg2kpb1jppsptcuj', 1, 1),
-(173, '0mvkj7kqsd7f1oetqg2kpb1jppsptcuj', 1, 1),
-(174, '0mvkj7kqsd7f1oetqg2kpb1jppsptcuj', 2, 1),
-(175, '84hitp0hka5ael98k0n377e6436sqr3f', 2, 1),
-(176, '84hitp0hka5ael98k0n377e6436sqr3f', 2, 1),
-(177, '84hitp0hka5ael98k0n377e6436sqr3f', 6, 1),
-(178, '84hitp0hka5ael98k0n377e6436sqr3f', 2, 1),
-(179, '84hitp0hka5ael98k0n377e6436sqr3f', 6, 1),
-(180, 's2l8c13aci03b0jh1k8fi7i2sit758e9', 1, 1);
+INSERT INTO `cart` (`id`, `session_id`, `goods_id`, `price`, `number`) VALUES
+(375, 'klq9d2bhgca2vb38rfe8l9jqr66lhba4', 1, 25, NULL),
+(381, 'klq9d2bhgca2vb38rfe8l9jqr66lhba4', 6, 12, NULL),
+(385, 'klq9d2bhgca2vb38rfe8l9jqr66lhba4', 2, 1, NULL),
+(390, 'rprg3306emuruorb18ce74ij4h3d5odn', 1, 25, 3),
+(391, 'rprg3306emuruorb18ce74ij4h3d5odn', 1, 25, 1),
+(392, 'rprg3306emuruorb18ce74ij4h3d5odn', 1, 25, 2),
+(393, 'rprg3306emuruorb18ce74ij4h3d5odn', 2, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -98,20 +65,21 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`id`, `name`, `text`) VALUES
-(6, 'Test_OD', '2231'),
-(16, 'Имя изменено', 'text снова изменён'),
+(6, 'Test_OD', '22315'),
 (47, 'Тест', 'Тестовый отзыв снова отредактирован'),
-(56, 'Алексей', 'Мой отзыв'),
 (57, 'Алексей', 'Мой исправленный отзыв'),
-(59, 'Алексей', 'Мой отзыв'),
-(62, 'test11', 'text'),
-(65, '12', '335'),
 (68, 'Исправлено имя', 'Исправлен текст'),
 (69, 'Проверка исправления', 'Отзыв исправлен'),
-(70, 'Новый отзыв', 'Добавлен'),
+(70, 'Новый отзыв', 'Добавлен и изменён'),
 (75, 'Tester', 'New feedback'),
-(76, '123', 'dsaf'),
-(78, 'Имя', 'Отзыв');
+(79, 'admin', 'Скорректированный отзыв админа'),
+(102, '11', '223'),
+(104, 'ewre', 'qwere1'),
+(105, 'asdf1', 'hgjhgj'),
+(106, '12', '32'),
+(107, 'A', '3'),
+(109, '1232', '2'),
+(110, '134', '2');
 
 -- --------------------------------------------------------
 
@@ -132,7 +100,7 @@ CREATE TABLE `goods` (
 --
 
 INSERT INTO `goods` (`id`, `name`, `image`, `description`, `price`) VALUES
-(1, 'Пицца', 'pizza.jpg', 'Вкусная домашняя пицца', '24.00'),
+(1, 'Пицца', 'pizza.jpg', 'Вкусная домашняя пицца', '25.00'),
 (2, 'Чай', 'tea.jpg', 'Крупнолистовой высокогорный чёрный', '1.00'),
 (6, 'Яблоко', 'apple.jpg', 'Спелое сочное', '12.00'),
 (43, 'Новое имя товара', 'cake.jgp', 'Новое описание товара', '456.00'),
@@ -215,15 +183,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `cart_session`, `login`, `customer_name`, `phone_number`) VALUES
-(14, 'knoe4o69jvhqqgfsc39aaeokklrm33fh', '', 'test Алексей', '12-123-23'),
-(15, '7fkh5s44hfnlf886thevu4i5brat9e92', '', 'user Никита', '55-55-55'),
-(16, '5u3e0epo7ud6m7lueheh5bojsbaa8sti', '', 'test', '11-11-11'),
-(17, 'u7l02rgmcr348rk9nq1il3ccamam1tj4', '', 'test', '22-22-33'),
-(18, 'g2bl3gjjnq9as1g36s7pan5a6gmms04j', '', 'admin', '45445455'),
 (19, '0cmd77levs255g3mdj82kiq1aj42oigs', 'test', 'test Алексей', '11-22-33'),
-(20, '5hqdlv9uo75mlv557jeaml6je4494fak', 'test', 'test Алексей', '12-123-23'),
-(21, 'snorv6sfrmifrisn6v4cugpdgdeae8im', 'test', 'test Алексей', '12-123-23'),
-(22, '0mvkj7kqsd7f1oetqg2kpb1jppsptcuj', 'user', 'user', '45445455'),
 (23, '84hitp0hka5ael98k0n377e6436sqr3f', 'user', 'user', '45445455'),
 (24, 's2l8c13aci03b0jh1k8fi7i2sit758e9', 'admin', 'admin', '123123');
 
@@ -245,16 +205,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `password`, `hash`) VALUES
-(17, 'test', '$2y$10$ob20o7HXjiND6TdeK25AQ.XOjeN1owsySymdXRbEf8Ix6uBW2BHYe', '1356634696624bd4100a5e34.00279342'),
-(18, 'admin', '$2y$10$kQ1uE/RuyHOL78PqpK9biuy13xbk9WndPyCbFEd9VL9me.ec1V4S.', '1758567421624bf366e43460.78362641'),
-(19, 'user', '$2y$10$CQoRfURtXEnXsFXNms6hwOFIM14Ge.Tl3HpDVJbOz44a3h768t5.m', NULL),
-(47, 'admin5', '12345', NULL),
-(48, 'admin5', '12345', NULL),
-(49, 'user5', '12345', '!@#$%$#%$@#$@'),
-(51, 'admin55', 'asdfdsafasdf', '!@#$%$#%$@#$@'),
-(52, 'admin55', 'asdfdsafasdf', '!@#$%$#%$@#$@'),
-(53, 'admin55', 'asdfdsafasdf', '!@#$%$#%$@#$@'),
-(54, 'admin55', 'asdfdsafasdf', '!@#$%$#%$@#$@');
+(17, 'test', '$2y$10$ob20o7HXjiND6TdeK25AQ.XOjeN1owsySymdXRbEf8Ix6uBW2BHYe', '545573856626ac6b99466f5.79660442'),
+(18, 'admin', '$2y$10$kQ1uE/RuyHOL78PqpK9biuy13xbk9WndPyCbFEd9VL9me.ec1V4S.', '1985551133626e8dc55701f0.04835435'),
+(49, 'user5', '12345', '!@#$%$#%$@#$@');
 
 --
 -- Индексы сохранённых таблиц
@@ -298,13 +251,15 @@ ALTER TABLE `news`
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `cart_session` (`cart_session`),
-  ADD KEY `cart_session_2` (`cart_session`);
+  ADD KEY `cart_session_2` (`cart_session`),
+  ADD KEY `login` (`login`);
 
 --
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -314,13 +269,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=394;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT для таблицы `goods`
