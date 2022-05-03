@@ -2,17 +2,20 @@
 
 session_start();
 
-use app\engine\{Autoload, Request};
+use app\engine\{Request};
 
 include dirname(__DIR__)."/config/config.php";
+
+/*После подключения composer дополнительные автозагрузчики не требуются, т.к. composer загружает все классы встроенным
+автозагрузчиком
 include ROOT."/engine/Autoload.php";
+spl_autoload_register([new Autoload(), 'loadClass']);*/
 
 //для автозагрузки сторонней библиотеки достаточно подключить её автозагрузчик через include
 
 //Автозагрузчик composer - создаётся автоматически для всех подключенных библиотек
 require_once ROOT.'/vendor/autoload.php';
 
-spl_autoload_register([new Autoload(), 'loadClass']);
 
 try {
     $request = new Request();
