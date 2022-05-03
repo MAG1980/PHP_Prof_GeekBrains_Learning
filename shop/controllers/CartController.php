@@ -24,12 +24,13 @@ class CartController extends Controller
         $data = (new Request())->getParams();
         $goods_id = (int) $data['id'];
         $price = $data['price'];
-        var_dump($data);
-        die();
+        $number = $data['number'];
         $session_id = (new Session())->getId();
 //TODO Переделать на getWhere
         //создаём экземпляр корзины и вызываем у него insert() или update()
-        $cart = new Cart($session_id, $goods_id, $price);
+        $cart = new Cart($session_id, $goods_id, $price, $number);
+//        var_dump($data, $cart);
+      
         if ((new CartRepository())->save($cart)) {
             $status = 'ok';
         } else {

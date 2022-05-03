@@ -57,16 +57,9 @@ abstract class Repository implements IRepository
         $columns = implode(', ', $columns);
         $values = implode(', ', array_keys($params));
 
-
-        $sql = "INSERT INTO {$tableName} {$names} VALUES {$values}";
-        Db::getInstance()->execute($sql, $params);
-
-
         $tableName = $this->getTableName();
 
         $sql = "INSERT INTO `{$tableName}`($columns) VALUES ($values)";
-
-//        var_dump($columns, $values, $sql);
 
         $result = Db::getInstance()->execute($sql, $params);
         $entity->id = Db::getInstance()->lastInsertId();

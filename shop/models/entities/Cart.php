@@ -35,5 +35,6 @@ class Cart extends Model
         $this->session_id = $session_id;
         $this->goods_id = $goods_id;
         $this->price = $price;
+        $this->number = $number;
     }
 }
