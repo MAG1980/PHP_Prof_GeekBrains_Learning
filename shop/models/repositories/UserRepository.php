@@ -2,6 +2,7 @@
 
 namespace app\models\repositories;
 
+use app\engine\Cookie;
 use app\engine\Request;
 use app\engine\Session;
 use app\models\entities\User;
@@ -24,12 +25,14 @@ class UserRepository extends Repository
             if (isset((new Request())->getParams()['save'])) {
                 //генерация hash для сохранения в cookie и БД
                 $hash = uniqid(rand(), true);
-                unset($user->hash);
-                $user->hash = $hash;
-                $user->update();
+//                unset($user->hash);
 
                 //обновляем hash в БД для соответствующего пользователя
-                setcookie('hash', $hash, time() + 3600, '/');
+                $user->hash = $hash;
+                $this->update($user);
+
+                new Cookie($hash);
+//                setcookie('hash', $hash, time() + 3600, '/');
             }
             return true;
         }
@@ -38,7 +41,8 @@ class UserRepository extends Repository
 
     public function isAuth()
     {
-        $cookieHash = $_COOKIE['hash'];
+//        $cookieHash = $_COOKIE['hash'];
+        $cookieHash = (new Cookie())->getCookieHash();
         if (isset($cookieHash)) {
             $user = $this->getWhere('hash', $cookieHash);
 
