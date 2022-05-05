@@ -1,5 +1,6 @@
 document.addEventListener( 'DOMContentLoaded', () => {
 	console.log( 'ready' )
+	const Order = document.querySelector( '.order' );
 	const CartTable = document.querySelector( '.cart__table' );
 	const count = document.getElementById( 'count' );
 	const ButtonsBuy = document.querySelectorAll( '.buy' );
@@ -8,7 +9,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const OrderSubmitForm = document.querySelector( '.order__submit-form' );
 	const OrderConfirmButton = document.querySelector( '.order-confirm-button' );
 	ButtonsBuy.forEach( ( button ) => {
-		button.addEventListener( 'click', () => {
+		button.addEventListener( 'click', async () => {
+			console.log( 'click' );
 			let id = button.getAttribute( 'data-id' );
 			let price = button.getAttribute( 'data-price' );
 			console.log( price );
@@ -16,7 +18,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			const Parent = button.parentElement;
 			let number = Parent.querySelector( '.item_number' ).value;
 			let totalPrice = Parent.querySelector( ".item_total-price" ).textContent;
-			console.log( "totalPrice=", totalPrice );
+
 			const data = {
 				'id': id,
 				'price': price,
@@ -24,50 +26,27 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				'totalPrice': totalPrice
 			};
 			console.log( data );
-			(async () => {
-					const response = await fetch( '/cart/add/',
-						{
-							method: 'POST',
-							body: JSON.stringify( data ), // данные могут быть 'строкой' или {объектом}!
-							headers: {
-								'Content-Type': 'application/json'
-							}
-						} )
-					const answer = await response.json();
-					console.log( answer );
-					console.log( count );
-					count.textContent = answer.count;
 
-				}
-			)()
+			const answer = await fetchData( '/cart/add/', data ).then( ( response ) => getData( response ) );
+
+			if ( answer.status === 'ok' ) {
+				count.textContent = answer.count;
+			}
 		} )
 	} )
 
 	ButtonsRemove.forEach( ( button ) => {
-		button.addEventListener( 'click', () => {
+		button.addEventListener( 'click', async () => {
 			let id = button.getAttribute( 'data-id' );
-			console.log( id );
 			const data = { 'id': id }
-			console.log( data );
-			(async () => {
-					const response = await fetch( '/cart/remove/',
-						{
-							method: 'POST',
-							body: JSON.stringify( data ), // данные могут быть 'строкой' или {объектом}!
-							headers: {
-								'Content-Type': 'application/json'
-							}
-						} )
-					const answer = await response.json();
-					console.log( answer );
-					if ( answer.status === 'ok' ) {
-						count.textContent = answer.count;
-						document.querySelector( '.cart__row-' + id ).remove();
-						console.log( ('cart__row-' + id + ' removed') )
-						orderPriceCount();
-					}
-				}
-			)()
+			const answer = await fetchData( '/cart/remove/', data ).then( ( response ) => getData( response ) );
+			console.log( answer );
+			if ( answer.status === 'ok' ) {
+				count.textContent = answer.count;
+				document.querySelector( '.cart__row-' + id ).remove();
+				console.log( ('cart__row-' + id + ' removed') )
+				orderPriceCount();
+			}
 		} )
 	} )
 
@@ -108,8 +87,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				input.style.background = 'white';
 				console.log( "input out of focus" );
 			} )
-
-
 		} )
 
 		const CartRowTotalPrices = document.querySelectorAll( '.cart__good-total-price' );
@@ -133,7 +110,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			CartItemsTotalPrices.forEach( item => {
 				console.log( +item.textContent );
 				rowsPrices.push( +item.textContent );
-				console.log( rowsPrices );
 			} )
 			console.log( rowsPrices );
 			orderPrice = rowsPrices.reduce( ( acc, price ) => {
@@ -149,9 +125,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		console.log( OrderPrice );
 	}
 
-	OrderConfirmButton.addEventListener( 'click', ( event ) => {
+	OrderConfirmButton.addEventListener( 'click', async ( event ) => {
+		console.log( 'click' );
 		event.preventDefault();
-		let OrderForm = document.forms.order;
+		let OrderForm = document.forms.order__form;
 		let cart_session = OrderForm.cart_session.value;
 		let customer_name = OrderForm.customer_name.value;
 		let phone_number = OrderForm.phone_number.value;
@@ -163,22 +140,28 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			'phone_number': phone_number,
 			'totalPrice': totalPrice
 		};
-		console.log( data );
-		(async () => {
-			const response = await fetch( '/order/add/',
-				{
-					method: 'POST',
-					body: JSON.stringify( data ), // данные могут быть 'строкой' или {объектом}!
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				} )
-			const answer = await response.json();
-			console.log( answer );
-			console.log( count );
-			count.textContent = answer.count;
+		const answer = await fetchData( '/order/add/', data ).then( ( response ) => getData( response ) );
 
-		})()
+		if ( answer.status === 'ok' ) {
+			count.textContent = 0;
+			Order.textContent = `Заказ №${ answer.order_id } успешно оформлен!`;
+		}
 	} )
 
+	async function fetchData( url, data ) {
+		const response = await fetch( url,
+			{
+				method: 'POST',
+				body: JSON.stringify( data ), // данные могут быть 'строкой' или {объектом}!
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			} )
+		return response;
+	}
+
+	async function getData( response ) {
+		const answer = await response.json();
+		return answer;
+	}
 } )

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\engine\Db;
 use app\engine\Request;
+use app\engine\Session;
 use app\models\entities\Order;
 use app\models\repositories\OrderRepository;
 
@@ -31,7 +32,7 @@ class OrderController extends Controller
             'status' => $status,
             'order_id' => Db::getInstance()->lastInsertId()
         ];
-
+        (new Session())->regenerate_id();
         echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         die();
 

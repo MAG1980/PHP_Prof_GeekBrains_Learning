@@ -1,56 +1,60 @@
+{#
 <pre>
     {{ dump(cart) }}
  </pre>
-
-<div class="cart">
-    {% if (cart == null) %}
-        <div class="cart__message"><?= $message ?></div>
-        <p>Ваша корзина пуста!</p>
-    {% else %}
-        <div class="cart__table">
-            <div class="cart__header cart__row">
-                <div class="cart__column">№</div>
-                <div class="cart__column">Наименование</div>
-                <div class="cart__column">Стоимость единицы товара</div>
-                <div class="cart__column">Количество</div>
-                <div class="cart__column">Цена</div>
-                <div class="cart__column"></div>
-            </div>
-            {% for key, cartLine in cart %}
-                <div class="cart__row cart__row-{{ cartLine.cart_id }}">
-                    <div class="cart__column cart__good-id">{{ key }}</div>
-                    <div class="cart__column cart__good-name">{{ cartLine.good_name }}</div>
-                    <div class="cart__column cart__goog-price">{{ cartLine.good_price }}</div>
-                    <div class="cart__column cart__good-quantity">{{ cartLine.good_number }}</div>
-                    <div class="cart__column cart__good-total-price">{{ cartLine.full_price }}</div>
-
-                    <input type="text" name="goods_id" value="{{ cartLine.goods_id }}" hidden>
-                    <input type="text" name="goods_count" value="{{ cartLine.number }}" hidden>
-                    <button class="remove" type="submit" data-id="{{ cartLine.cart_id }}">Удалить</button>
-
-                </div>
-            {% endfor %}
-            <div class="cart__header cart__row">
-                <div class="cart__full-price">Итого</div>
-                <div class="cart__column cart__order-price"></div>
-            </div>
-            <div class="cart__checkout">
-                <div class="cart__checkout-space"></div>
-                <button class="cart__button order__issue-button">Оформить</button>
-            </div>
-        </div>
-
-    {% endif %}
-</div>
+#}
 <div class="order">
-    <form name="order" class="order__submit-form dn" method="post">
-        <p>Укажите свои контактные данные:</p>
-        <input type="text" name="cart_session" value="{{ cart[0].session_id }}" hidden>
-        <input class="cart__checkout-input" type="text" name="customer_name" placeholder="Имя">
-        <input class="cart__checkout-input" type="tel" name="phone_number" placeholder="Номер телефона">
-        <button class="cart__button order-confirm-button" type="submit">Подтвердить заказ
-        </button>
-    </form>
+    <div class="cart">
+        {% if (cart == null) %}
+            <div class="cart__message"><?= $message ?></div>
+            <p>Ваша корзина пуста!</p>
+        {% else %}
+            <div class="cart__table">
+                <div class="cart__header cart__row">
+                    <div class="cart__column">№</div>
+                    <div class="cart__column">Наименование</div>
+                    <div class="cart__column">Стоимость единицы товара</div>
+                    <div class="cart__column">Количество</div>
+                    <div class="cart__column">Цена</div>
+                    <div class="cart__column"></div>
+                </div>
+                {% for key, cartLine in cart %}
+                    <div class="cart__row cart__row-{{ cartLine.cart_id }}">
+                        <div class="cart__column cart__good-id">{{ key }}</div>
+                        <div class="cart__column cart__good-name">{{ cartLine.good_name }}</div>
+                        <div class="cart__column cart__goog-price">{{ cartLine.good_price }}</div>
+                        <div class="cart__column cart__good-quantity">{{ cartLine.good_number }}</div>
+                        <div class="cart__column cart__good-total-price">{{ cartLine.full_price }}</div>
+
+                        <input type="text" name="goods_id" value="{{ cartLine.goods_id }}" hidden>
+                        <input type="text" name="goods_count" value="{{ cartLine.number }}" hidden>
+                        <button class="remove" type="submit" data-id="{{ cartLine.cart_id }}">Удалить</button>
+
+                    </div>
+                {% endfor %}
+                <div class="cart__header cart__row">
+                    <div class="cart__full-price">Итого</div>
+                    <div class="cart__column cart__order-price"></div>
+                </div>
+                <div class="cart__checkout">
+                    <div class="cart__checkout-space"></div>
+                    <button class="cart__button order__issue-button">Оформить</button>
+                </div>
+            </div>
+
+        {% endif %}
+    </div>
+    <div class="order__table">
+        <form name="order__form" class="order__submit-form dn" method="post">
+            <p>Укажите свои контактные данные:</p>
+            <input type="text" name="cart_session" value="{{ cart[0].session_id }}" hidden>
+            <input class="cart__checkout-input" type="text" name="customer_name" placeholder="Имя">
+            <input class="cart__checkout-input" type="tel" name="phone_number" placeholder="Номер телефона">
+            <button class="cart__button order-confirm-button" type="submit">Подтвердить заказ
+            </button>
+        </form>
+    </div>
 </div>
+
 
 
