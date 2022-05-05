@@ -1,0 +1,28 @@
+<pre>
+    {{ dump(orders) }}
+</pre>
+<h2>Ваши заказы</h2>
+<div class="orders">
+    {% for item in orders %}
+        <div class="orders__unit">
+            <a class="orders__link" href="/order/unit/?id={{ item.id }}">
+                <h3>Заказ №{{ item.id }}</h3>
+                <h4>Информация о заказчике:</h4>
+                <p>Логин:
+                    <span class="item_customer_login">
+                        {{ item.login }}
+                    </span>
+                </p>
+                <div>
+                    <p>Номер телефона:
+                        <span class="item_customer_phone_number">
+                        {{ item.phone_number }}
+                    </span>
+                    </p>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+<a href="/order/list/?page={{ page }}">Еще</a>

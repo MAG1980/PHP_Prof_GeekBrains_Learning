@@ -1,0 +1,19 @@
+<h2>Товар</h2>
+{{ dump(order) }}
+<div>
+    <h3>Заказ №{{ order.id }}</h3>
+    <p>Сведения о заказчике:</p>
+    <p>Имя {{ order.customer_name }}</p>
+    <p>Номер телефона {{ order.phone_number }}</p>
+    <p>Логин {{ order.login }}</p>
+    <p>Номер сессии {{ order.cart_session }}</p>
+    <div>
+        <p>Стоимость заказа:
+            </span> {{ product.price }}</span>
+        </p>
+    </div>
+    <div>
+        <h4>Состав заказа</h4>
+        <div></div>
+    </div>
+</div>

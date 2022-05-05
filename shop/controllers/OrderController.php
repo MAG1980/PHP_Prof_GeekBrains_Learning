@@ -14,7 +14,6 @@ class OrderController extends Controller
     {
         $data = (new Request())->getParams();
         $cart_session = $data['cart_session'];
-//        $login = (new Session())->getLogin();
         $customer_name = $data['customer_name'];
         $phone_number = $data['phone_number'];
 //TODO Переделать на getWhere
@@ -40,4 +39,29 @@ class OrderController extends Controller
                 header('Location:/product/catalog');
                 die();*/
     }
+
+    protected function actionList()
+    {
+//        $page = $_GET['page'] ?? 0;
+        $page = (new Request())->getParams()['page'] ?? 0;;
+//        $catalog = Product::getAll();
+        $orders = (new OrderRepository())->getLimit(($page + 1) * 3);
+        echo $this->render('orders/list', [
+            'orders' => $orders,
+            'page' => ++$page
+        ]);
+    }
+
+    protected function actionUnit()
+    {
+        $request = new Request();
+        //   $id = $_GET['id'];
+        $id = $request->getParams()['id'];
+        $order = (new OrderRepository())->getWhere('id', $id);
+
+        echo $this->render('orders/unit', [
+            'order' => $order
+        ]);
+    }
+
 }

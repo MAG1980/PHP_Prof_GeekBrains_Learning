@@ -27,8 +27,12 @@ class Order extends Model
      * @param  string|null  $customer_name
      * @param  string|null  $phone_number
      */
-    public function __construct(?string $cart_session, ?string $login, ?string $customer_name, ?string $phone_number)
-    {
+    public function __construct(
+        ?string $cart_session = null,
+        ?string $login = null,
+        ?string $customer_name = null,
+        ?string $phone_number = null
+    ) {
         $this->cart_session = (new Session())->getId();
         $this->login = (new UserRepository())->getLogin();
         $this->customer_name = $customer_name;

@@ -192,6 +192,14 @@ a:hover img {
 	margin: 0 auto;
 }
 
+.orders__unit {
+	padding: 10px 0;
+}
+
+.orders__link {
+	text-decoration: none;
+}
+
 .dn {
 	display: none;
 }
