@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\engine\Cookie;
 use app\engine\Request;
 use app\engine\Session;
 use app\models\{repositories\UserRepository};
@@ -30,7 +31,8 @@ class AuthController extends Controller
 
 
         //Делаем cookie просроченными
-        setcookie('hash', '', time() - 3600, '/');
+//        setcookie('hash', '', time() - 3600, '/');
+        (new Cookie())->setCookieOverdue();
         header('Location:/');
         die();
     }

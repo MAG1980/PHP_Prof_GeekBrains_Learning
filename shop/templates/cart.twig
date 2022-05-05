@@ -1,6 +1,6 @@
-{# <pre> #}
-{#    {{ dump(cart) }} #}
-{# </pre> #}
+<pre>
+    {{ dump(cart) }}
+ </pre>
 
 <div class="cart">
     {% if (cart == null) %}
@@ -43,12 +43,12 @@
     {% endif %}
 </div>
 <div class="order">
-    <form class="order__submit-form dn" action="/cart/checkout/" method="post">
+    <form name="order" class="order__submit-form dn" method="post">
         <p>Укажите свои контактные данные:</p>
-        <input type="text" name="checkout" value="{{ cartLine.session_id }}" hidden>
+        <input type="text" name="cart_session" value="{{ cart[0].session_id }}" hidden>
         <input class="cart__checkout-input" type="text" name="customer_name" placeholder="Имя">
         <input class="cart__checkout-input" type="tel" name="phone_number" placeholder="Номер телефона">
-        <button class="cart__button cart__checkout-submit-button" type="submit">Подтвердить заказ
+        <button class="cart__button order-confirm-button" type="submit">Подтвердить заказ
         </button>
     </form>
 </div>

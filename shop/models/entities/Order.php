@@ -4,6 +4,7 @@ namespace app\models\entities;
 
 use app\engine\Session;
 use app\models\Model;
+use app\models\repositories\UserRepository;
 
 class Order extends Model
 {
@@ -29,7 +30,7 @@ class Order extends Model
     public function __construct(?string $cart_session, ?string $login, ?string $customer_name, ?string $phone_number)
     {
         $this->cart_session = (new Session())->getId();
-        $this->login = $login;
+        $this->login = (new UserRepository())->getLogin();
         $this->customer_name = $customer_name;
         $this->phone_number = $phone_number;
     }

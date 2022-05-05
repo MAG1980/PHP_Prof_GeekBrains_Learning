@@ -3,8 +3,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const CartTable = document.querySelector( '.cart__table' );
 	const count = document.getElementById( 'count' );
 	const ButtonsBuy = document.querySelectorAll( '.buy' );
+	const ButtonsRemove = document.querySelectorAll( '.remove' );
 	const OrderIssueButton = document.querySelector( '.order__issue-button' );
 	const OrderSubmitForm = document.querySelector( '.order__submit-form' );
+	const OrderConfirmButton = document.querySelector( '.order-confirm-button' );
 	ButtonsBuy.forEach( ( button ) => {
 		button.addEventListener( 'click', () => {
 			let id = button.getAttribute( 'data-id' );
@@ -41,7 +43,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		} )
 	} )
 
-	const ButtonsRemove = document.querySelectorAll( '.remove' );
 	ButtonsRemove.forEach( ( button ) => {
 		button.addEventListener( 'click', () => {
 			let id = button.getAttribute( 'data-id' );
@@ -147,5 +148,37 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		OrderPrice.textContent = orderPrice;
 		console.log( OrderPrice );
 	}
+
+	OrderConfirmButton.addEventListener( 'click', ( event ) => {
+		event.preventDefault();
+		let OrderForm = document.forms.order;
+		let cart_session = OrderForm.cart_session.value;
+		let customer_name = OrderForm.customer_name.value;
+		let phone_number = OrderForm.phone_number.value;
+		const totalPrice = document.querySelector( '.cart__order-price' ).textContent;
+		console.log( cart_session, customer_name, phone_number );
+		const data = {
+			'cart_session': cart_session,
+			'customer_name': customer_name,
+			'phone_number': phone_number,
+			'totalPrice': totalPrice
+		};
+		console.log( data );
+		(async () => {
+			const response = await fetch( '/order/add/',
+				{
+					method: 'POST',
+					body: JSON.stringify( data ), // данные могут быть 'строкой' или {объектом}!
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				} )
+			const answer = await response.json();
+			console.log( answer );
+			console.log( count );
+			count.textContent = answer.count;
+
+		})()
+	} )
 
 } )

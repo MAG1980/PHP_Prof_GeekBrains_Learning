@@ -113,6 +113,8 @@ a:hover img {
 
 .cart__button {
 	padding: 10px 15px;
+	width: 30%;
+	align-self: center;
 }
 
 .cart__checkout {
@@ -186,6 +188,8 @@ a:hover img {
 .order__submit-form {
 	display: flex;
 	flex-direction: column;
+	width: 50%;
+	margin: 0 auto;
 }
 
 .dn {

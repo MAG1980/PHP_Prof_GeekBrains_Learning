@@ -16,4 +16,9 @@ class Cookie
     {
         return $_COOKIE['hash'];
     }
+
+    public function setCookieOverdue(string $hash = 'hash')
+    {
+        setcookie($hash, '', time() - 3600, '/');
+    }
 }
