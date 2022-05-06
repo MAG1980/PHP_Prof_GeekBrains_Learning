@@ -34,8 +34,7 @@ class Product extends Model
         string $name = null,
         string $image = null,
         string $description = null,
-        float $price =
-        null
+        float $price = null
     ) {
         $this->name = $name;
         $this->image = $image;

@@ -208,6 +208,51 @@ a:hover img {
 	transform: scale(1.1);
 }
 
+.order__heading {
+	display: flex;
+	justify-content: space-evenly;
+	font-size: 22px;
+}
+
+.order__row {
+	display: flex;
+	justify-content: space-around;
+}
+
+.order__button {
+	padding: 10px 15px;
+	width: 30%;
+	align-self: center;
+}
+
+.order__status-form {
+	display: flex;
+}
+
+.order__status-form {
+	margin-bottom: 10px;
+}
+
+.order__status-form-heading {
+	margin: 0;
+	padding: 10px 5px;
+	background-color: #241F1FFF;
+}
+
+.order__status-select {
+	/*padding: 10px 15px;*/
+}
+
+.order__set-status-button {
+	display: block;
+	margin: 0 auto;
+}
+
+.order__details {
+	display: block;
+	margin: 0 auto;
+}
+
 .dn {
 	display: none;
 }

@@ -1,19 +1,37 @@
 <h2>Товар</h2>
 {{ dump(order) }}
 <div>
-    <h3>Заказ №{{ order.id }}</h3>
-    <p>Сведения о заказчике:</p>
-    <p>Имя {{ order.customer_name }}</p>
-    <p>Номер телефона {{ order.phone_number }}</p>
-    <p>Логин {{ order.login }}</p>
-    <p>Номер сессии {{ order.cart_session }}</p>
-    <div>
+    <div class="order__heading">
+        <h3>Заказ №{{ order.id }}</h3>
         <p>Стоимость заказа:
-            </span> {{ product.price }}</span>
+            </span> {{ order.total_price }}</span>
         </p>
     </div>
-    <div>
-        <h4>Состав заказа</h4>
-        <div></div>
+    <div class="order__row">
+        <div><p>Сведения о заказчике:</p>
+            <p>Имя: {{ order.customer_name }}</p>
+            <p>Номер телефона: {{ order.phone_number }}</p>
+            <p>Логин: {{ order.login }}</p>
+            {#    <p>Номер сессии {{ order.cart_session }}</p> #}
+        </div>
+        <div>
+            <form class="order__status-form" action="option1.php">
+                <p class="order__status-form-heading">Статус заказа:</p>
+                <select class="order__status-select" size="1" name="status">
+                    <option class="order__status-option" disabled selected>Выберите статус</option>
+                    <option class="order__status-option" value="t1">оформлен</option>
+                    <option class="order__status-option" value="t2">в работе</option>
+                    <option class="order__status-option" value="t3">оплачен</option>
+                    <option class="order__status-option" value="t4">обработан</option>
+                    <option class="order__status-option" value="t4">передан в службу доставки</option>
+                    <option class="order__status-option" value="t4">получен заказчиком</option>
+                    <option class="order__status-option" value="t4">завершён</option>
+                </select>
+            </form>
+            <button type="submit" class="order__button order__set-status-button">Установить статус</button>
+
+        </div>
     </div>
+</div>
+<button type="submit" class="order__button order__details">Состав заказа</button>
 </div>

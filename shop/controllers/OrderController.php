@@ -17,9 +17,11 @@ class OrderController extends Controller
         $cart_session = $data['cart_session'];
         $customer_name = $data['customer_name'];
         $phone_number = $data['phone_number'];
+        $email = $data['email'];
+        $total_price = $data['total_price'];
 //TODO Переделать на getWhere
         //создаём экземпляр заказа и вызываем у него insert() или update()
-        $order = new Order($cart_session, $login, $customer_name, $phone_number);
+        $order = new Order($cart_session, $login, $customer_name, $phone_number, $email, $total_price);
 //        var_dump($data, $order);
 
         if ((new OrderRepository())->save($order)) {
@@ -51,20 +53,14 @@ class OrderController extends Controller
 
             $orders = (new OrderRepository())->getLimit($limit);
 
-            echo $this->render('orders/list', [
-                'orders' => $orders,
-                'page' => ++$page
-            ]);
         } else {
             $orders = (new OrderRepository())->getWhereWithLimit('login', $login, $limit);
 
-            echo $this->render('orders/list', [
-                'orders' => $orders,
-                'limit' => $limit
-            ]);
-
         }
-
+        echo $this->render('orders/list', [
+            'orders' => $orders,
+            'page' => ++$page
+        ]);
 
     }
 

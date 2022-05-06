@@ -139,13 +139,15 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			let cart_session = OrderForm.cart_session.value;
 			let customer_name = OrderForm.customer_name.value;
 			let phone_number = OrderForm.phone_number.value;
-			const totalPrice = document.querySelector( '.cart__order-price' ).textContent;
+			let email = OrderForm.email.value;
+			const totalPrice = +document.querySelector( '.cart__order-price' ).textContent;
 			console.log( cart_session, customer_name, phone_number );
 			const data = {
 				'cart_session': cart_session,
 				'customer_name': customer_name,
 				'phone_number': phone_number,
-				'totalPrice': totalPrice
+				'email': email,
+				'total_price': totalPrice
 			};
 			const answer = await fetchData( '/order/add/', data ).then( ( response ) => getData( response ) );
 
