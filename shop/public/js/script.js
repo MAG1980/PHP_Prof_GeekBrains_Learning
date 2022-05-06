@@ -8,6 +8,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const OrderIssueButton = document.querySelector( '.order__issue-button' );
 	const OrderSubmitForm = document.querySelector( '.order__submit-form' );
 	const OrderConfirmButton = document.querySelector( '.order-confirm-button' );
+	const SetOrderStatusButton = document.querySelector( '.order__set-status-button' )
 	ButtonsBuy.forEach( ( button ) => {
 		button.addEventListener( 'click', async () => {
 			console.log( 'click' );
@@ -54,6 +55,23 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		OrderIssueButton.addEventListener( 'click', () => {
 			OrderIssueButton.classList.add( 'dn' );
 			OrderSubmitForm.classList.remove( 'dn' );
+		} )
+	}
+
+	if ( SetOrderStatusButton ) {
+		SetOrderStatusButton.addEventListener( 'click', async () => {
+			let id = +document.querySelector( '.order__heading-id' ).textContent;
+			let status = document.querySelector( '.order__status-select' ).selectedOptions[0].value;
+			const data = {
+				'id': id,
+				'status': status
+			}
+			const answer = await fetchData( '/order/status/', data ).then( ( response ) => getData( response ) );
+			console.log( answer );
+			if ( answer.status === 'ok' ) {
+				console.log( 'ok' );
+				document.querySelector( '.order__status-message' ).textContent = "Новый статус заказа успешно установлен!"
+			}
 		} )
 	}
 

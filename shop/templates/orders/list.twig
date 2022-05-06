@@ -4,9 +4,9 @@
 <h2>Ваши заказы</h2>
 <div class="orders">
     {% for item in orders %}
+        <h3 class="orders__title">Заказ №{{ item.id }}</h3>
         <div class="orders__unit">
             <a class="orders__link" href="/order/unit/?id={{ item.id }}">
-                <h3>Заказ №{{ item.id }}</h3>
                 <h4>Информация о заказчике:</h4>
                 <p>Логин:
                     <span class="item_customer_login">
@@ -28,6 +28,7 @@
                     </p>
                 </div>
             </a>
+            <p class="order__list-status">Статус заказа: {{ item.status }}</p>
         </div>
     {% endfor %}
 </div>

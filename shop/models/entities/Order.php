@@ -15,13 +15,15 @@ class Order extends Model
     protected ?string $phone_number;
     protected ?string $email;
     protected ?float $total_price;
+    protected ?string $status;
     protected $props = [
         'cart_session' => false,
         'login' => false,
         'customer_name' => false,
         'phone_number' => false,
         'email' => false,
-        'total_price' => false
+        'total_price' => false,
+        'status' => false
     ];
 
 
@@ -31,7 +33,8 @@ class Order extends Model
         ?string $customer_name = null,
         ?string $phone_number = null,
         ?string $email = null,
-        ?float $total_price = null
+        ?float $total_price = null,
+        ?string $status = null
 
     ) {
         $this->cart_session = (new Session())->getId();
@@ -40,5 +43,6 @@ class Order extends Model
         $this->phone_number = $phone_number;
         $this->email = $email;
         $this->total_price = $total_price;
+        $this->status = $status;
     }
 }

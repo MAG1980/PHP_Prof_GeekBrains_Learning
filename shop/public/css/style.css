@@ -193,7 +193,17 @@ a:hover img {
 }
 
 .orders__unit {
-	padding: 10px 0;
+	display: flex;
+	justify-content: space-around;
+	padding: 0 0 10px;
+}
+
+.order__list-status {
+	align-self: center;
+}
+
+.orders__title {
+	text-align: center;
 }
 
 .orders__link {

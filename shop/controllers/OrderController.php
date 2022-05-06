@@ -76,4 +76,28 @@ class OrderController extends Controller
         ]);
     }
 
+    protected function actionStatus()
+    {
+        $data = (new Request())->getParams();
+        $id = $data['id'];
+        $status = $data['status'];
+        $order_repository = new OrderRepository();
+        $order = $order_repository->getWhere('id', $id);
+        $order->__set('status', $status);
+
+        if ($order_repository->update($order)) {
+            $status = 'ok';
+        } else {
+            $status = 'order-error2';
+        };
+
+        $response = [
+            'status' => $status
+        ];
+
+        echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        die();
+
+    }
+
 }
