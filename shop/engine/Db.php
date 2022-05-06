@@ -55,7 +55,7 @@ class Db
         );
     }
 
-    private function query(string $sql, array $params)
+    public function query(string $sql, array $params)
     {
         $STH = $this->getConnection()->prepare($sql);
 
@@ -65,6 +65,17 @@ class Db
         //объект с инкапсулированными даными, полученными из БД
         return $STH;
     }
+
+    public function queryWithLimit(string $sql, string $value, int $limit)
+    {
+        $STH = $this->getConnection()->prepare($sql);
+
+        $STH->bindValue(":value", $value, \PDO::PARAM_STR);
+        $STH->bindValue(":limit", $limit, \PDO::PARAM_INT);
+        $STH->execute();
+        return $STH->fetchAll();
+    }
+
 
     public function queryOneObject($sql, $params = [], $class)
     {

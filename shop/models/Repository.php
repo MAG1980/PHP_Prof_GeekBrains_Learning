@@ -43,6 +43,25 @@ abstract class Repository implements IRepository
         return Db::getInstance()->queryOne($sql, $params)['count'];
     }
 
+    /**
+     * Возвращает результат запроса к БД
+     * @param  string  $name  Название столбца в БД, по которому производится выборка
+     * @param  string  $value  Искомое значение
+     * @param  int  $limit  Шаг смещения
+     * @return void
+     */
+    public function getWhereWithLimit(string $name, string $value, int $limit)
+    {
+        $tableName = $this->getTableName();
+
+        //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
+        $sql = "SELECT * FROM $tableName WHERE {$name}=:value LIMIT 0, :limit";
+
+        $result = Db::getInstance()->queryWithLimit($sql, $value, $limit);
+        return $result;
+    }
+
+
     public function insert(Model $entity)
     {
         $params = [];

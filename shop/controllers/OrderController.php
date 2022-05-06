@@ -44,21 +44,23 @@ class OrderController extends Controller
     protected function actionList()
     {
         $login = (new UserRepository())->getLogin();
+        //        $page = $_GET['page'] ?? 0;
+        $page = (new Request())->getParams()['page'] ?? 0;;
+        $limit = ($page + 1) * 2;
         if ($login === 'admin') {
-            //        $page = $_GET['page'] ?? 0;
-            $page = (new Request())->getParams()['page'] ?? 0;;
-//        $catalog = Product::getAll();
-            $orders = (new OrderRepository())->getLimit(($page + 1) * 3);
+
+            $orders = (new OrderRepository())->getLimit($limit);
 
             echo $this->render('orders/list', [
                 'orders' => $orders,
                 'page' => ++$page
             ]);
         } else {
-            $orders = (new OrderRepository())->getWhere('login', $login);
+            $orders = (new OrderRepository())->getWhereWithLimit('login', $login, $limit);
 
             echo $this->render('orders/list', [
-                'orders' => $orders
+                'orders' => $orders,
+                'limit' => $limit
             ]);
 
         }
