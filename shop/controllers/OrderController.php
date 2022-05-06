@@ -7,6 +7,7 @@ use app\engine\Request;
 use app\engine\Session;
 use app\models\entities\Order;
 use app\models\repositories\OrderRepository;
+use app\models\repositories\UserRepository;
 
 class OrderController extends Controller
 {
@@ -42,14 +43,27 @@ class OrderController extends Controller
 
     protected function actionList()
     {
-//        $page = $_GET['page'] ?? 0;
-        $page = (new Request())->getParams()['page'] ?? 0;;
+        $login = (new UserRepository())->getLogin();
+        if ($login === 'admin') {
+            //        $page = $_GET['page'] ?? 0;
+            $page = (new Request())->getParams()['page'] ?? 0;;
 //        $catalog = Product::getAll();
-        $orders = (new OrderRepository())->getLimit(($page + 1) * 3);
-        echo $this->render('orders/list', [
-            'orders' => $orders,
-            'page' => ++$page
-        ]);
+            $orders = (new OrderRepository())->getLimit(($page + 1) * 3);
+
+            echo $this->render('orders/list', [
+                'orders' => $orders,
+                'page' => ++$page
+            ]);
+        } else {
+            $orders = (new OrderRepository())->getWhere('login', $login);
+
+            echo $this->render('orders/list', [
+                'orders' => $orders
+            ]);
+
+        }
+
+
     }
 
     protected function actionUnit()

@@ -50,10 +50,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		} )
 	} )
 
-	OrderIssueButton.addEventListener( 'click', () => {
-		OrderIssueButton.classList.add( 'dn' );
-		OrderSubmitForm.classList.remove( 'dn' );
-	} )
+	if ( OrderIssueButton ) {
+		OrderIssueButton.addEventListener( 'click', () => {
+			OrderIssueButton.classList.add( 'dn' );
+			OrderSubmitForm.classList.remove( 'dn' );
+		} )
+	}
 
 	rowsPricesCount();
 	orderPriceCount();
@@ -116,37 +118,43 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				return acc += price;
 			} )
 		} else {
-			CartTable.textContent = "Ваша корзина пуста!"
+			if ( CartTable ) {
+				CartTable.textContent = "Ваша корзина пуста!"
+			}
 		}
 
 		console.log( orderPrice );
 		const OrderPrice = document.querySelector( '.cart__order-price' );
-		OrderPrice.textContent = orderPrice;
-		console.log( OrderPrice );
+		if ( OrderPrice ) {
+			OrderPrice.textContent = orderPrice;
+			console.log( OrderPrice );
+		}
 	}
 
-	OrderConfirmButton.addEventListener( 'click', async ( event ) => {
-		console.log( 'click' );
-		event.preventDefault();
-		let OrderForm = document.forms.order__form;
-		let cart_session = OrderForm.cart_session.value;
-		let customer_name = OrderForm.customer_name.value;
-		let phone_number = OrderForm.phone_number.value;
-		const totalPrice = document.querySelector( '.cart__order-price' ).textContent;
-		console.log( cart_session, customer_name, phone_number );
-		const data = {
-			'cart_session': cart_session,
-			'customer_name': customer_name,
-			'phone_number': phone_number,
-			'totalPrice': totalPrice
-		};
-		const answer = await fetchData( '/order/add/', data ).then( ( response ) => getData( response ) );
+	if ( OrderConfirmButton ) {
+		OrderConfirmButton.addEventListener( 'click', async ( event ) => {
+			console.log( 'click' );
+			event.preventDefault();
+			let OrderForm = document.forms.order__form;
+			let cart_session = OrderForm.cart_session.value;
+			let customer_name = OrderForm.customer_name.value;
+			let phone_number = OrderForm.phone_number.value;
+			const totalPrice = document.querySelector( '.cart__order-price' ).textContent;
+			console.log( cart_session, customer_name, phone_number );
+			const data = {
+				'cart_session': cart_session,
+				'customer_name': customer_name,
+				'phone_number': phone_number,
+				'totalPrice': totalPrice
+			};
+			const answer = await fetchData( '/order/add/', data ).then( ( response ) => getData( response ) );
 
-		if ( answer.status === 'ok' ) {
-			count.textContent = 0;
-			Order.textContent = `Заказ №${ answer.order_id } успешно оформлен!`;
-		}
-	} )
+			if ( answer.status === 'ok' ) {
+				count.textContent = 0;
+				Order.textContent = `Заказ №${ answer.order_id } успешно оформлен!`;
+			}
+		} )
+	}
 
 	async function fetchData( url, data ) {
 		const response = await fetch( url,

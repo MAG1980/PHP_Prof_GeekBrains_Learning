@@ -197,7 +197,15 @@ a:hover img {
 }
 
 .orders__link {
+	display: block;
 	text-decoration: none;
+	cursor: pointer;
+	transition: .3s;
+
+}
+
+.orders__link:hover {
+	transform: scale(1.1);
 }
 
 .dn {
