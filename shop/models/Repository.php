@@ -31,7 +31,7 @@ abstract class Repository implements IRepository
 
         $conditions = implode(' AND ', $equalities);
         $sql = "SELECT * FROM $tableName WHERE $conditions";
-//        var_dump($params, $sql);
+        var_dump($params, $sql);
 
         //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
 //        $params = ['value' => $value];
@@ -47,6 +47,27 @@ abstract class Repository implements IRepository
             $params = ['value' => $value];
             return Db::getInstance()->queryOneObject($sql, $params, $this->getEntityClass());
         }*/
+
+    public function getAllWhere(array $parameters)
+    {
+        $tableName = $this->getTableName();
+        $equalities = [];
+        $params = [];
+
+        foreach ($parameters as $key => $value) {
+            $equalities[] = "{$key}=:{$key}";
+            $params["{$key}"] = $value;
+        }
+
+        $conditions = implode(' AND ', $equalities);
+        $sql = "SELECT * FROM $tableName WHERE $conditions";
+//        var_dump($params, $sql);
+
+        //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
+//        $params = ['value' => $value];
+        return Db::getInstance()->queryAll($sql, $params);
+
+    }
 
     /**
      * Подсчёт количества записей, удовлетворяющих параметрам запроса
@@ -100,7 +121,7 @@ abstract class Repository implements IRepository
         $tableName = $this->getTableName();
 
         $sql = "INSERT INTO `{$tableName}`($columns) VALUES ($values)";
-
+        var_dump($sql, $params);
         $result = Db::getInstance()->execute($sql, $params);
         $entity->id = Db::getInstance()->lastInsertId();
         return $result;

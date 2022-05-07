@@ -23,7 +23,7 @@ class OrderController extends Controller
 //TODO Переделать на getWhere
         //создаём экземпляр заказа и вызываем у него insert() или update()
         $order = new Order($cart_session, $login, $customer_name, $phone_number, $email, $total_price);
-//        var_dump($data, $order);
+        var_dump($data, $order);
 
         if ((new OrderRepository())->save($order)) {
             $status = 'ok';
@@ -84,6 +84,7 @@ class OrderController extends Controller
         $status = $data['status'];
         $order_repository = new OrderRepository();
         $order = $order_repository->getWhere(['id' => $id]);
+//        var_dump($order);
         $order->__set('status', $status);
 
         if ($order_repository->update($order)) {
@@ -104,27 +105,23 @@ class OrderController extends Controller
     protected function actionDetails()
     {
         $data = (new Request())->getParams();
-//        $cart_session = $data['cart_session'];
-//        $login = $data['login'];
 
         $parameters = [
             'session_id' => $data['cart_session'],
-//            'login' => $data['login']
         ];
 
 
-        $order = (new CartRepository())->getWhere($parameters);
-        var_dump($order);
-        die();
+        $cart = (new CartRepository())->getAllWhere($parameters);
 
-        if ($order_repository->update($order)) {
+        if ($cart) {
             $status = 'ok';
         } else {
-            $status = 'order-error2';
+            $status = 'order-error3';
         };
 
         $response = [
-            'status' => $status
+            'status' => $status,
+            'cart' => $cart
         ];
 
         echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

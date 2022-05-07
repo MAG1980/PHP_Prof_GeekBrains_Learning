@@ -43,6 +43,11 @@ class Order extends Model
         $this->phone_number = $phone_number;
         $this->email = $email;
         $this->total_price = $total_price;
-        $this->status = $status;
+        if (is_null($status)) {
+            $this->status = 'оформлен';
+        } else {
+            $this->status = $status;
+        }
+
     }
 }
