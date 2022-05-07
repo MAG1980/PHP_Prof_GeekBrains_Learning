@@ -61,6 +61,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 	if ( SetOrderStatusButton ) {
 		SetOrderStatusButton.addEventListener( 'click', async () => {
+			const OrderStatusSelect = document.querySelector( '.order__status-select' );
+			const OrderSetStatusMessage = document.querySelector( '.order__status-message' );
+			OrderStatusSelect.addEventListener( 'focusin', ( event ) => {
+				OrderSetStatusMessage.textContent = '';
+			} )
+
 			let id = +document.querySelector( '.order__heading-id' ).textContent;
 			let status = document.querySelector( '.order__status-select' ).selectedOptions[0].value;
 			const data = {
@@ -71,7 +77,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			console.log( answer );
 			if ( answer.status === 'ok' ) {
 				console.log( 'ok' );
-				document.querySelector( '.order__status-message' ).textContent = "Новый статус заказа успешно установлен!"
+				OrderSetStatusMessage.textContent = "Новый статус заказа успешно установлен!"
 			}
 		} )
 	}

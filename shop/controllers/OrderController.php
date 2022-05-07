@@ -23,7 +23,7 @@ class OrderController extends Controller
 //TODO Переделать на getWhere
         //создаём экземпляр заказа и вызываем у него insert() или update()
         $order = new Order($cart_session, $login, $customer_name, $phone_number, $email, $total_price);
-        var_dump($data, $order);
+//        var_dump($data, $order);
 
         if ((new OrderRepository())->save($order)) {
             $status = 'ok';
@@ -73,7 +73,8 @@ class OrderController extends Controller
         $order = (new OrderRepository())->getWhere(['id' => $id]);
 
         echo $this->render('orders/unit', [
-            'order' => $order
+            'order' => $order,
+            'isAdmin' => (new Session())->getLogin() === 'admin'
         ]);
     }
 

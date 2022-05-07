@@ -232,8 +232,14 @@ a:hover img {
 
 .order__button {
 	padding: 10px 15px;
-	width: 30%;
 	align-self: center;
+}
+
+.order__status {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .order__status-form {
@@ -257,6 +263,10 @@ a:hover img {
 .order__set-status-button {
 	display: block;
 	margin: 0 auto;
+}
+
+.order__status-message {
+	text-align: center;
 }
 
 .order__button-details {
