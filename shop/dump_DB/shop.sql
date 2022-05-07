@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Май 03 2022 г., 19:44
+-- Время создания: Май 07 2022 г., 18:08
 -- Версия сервера: 8.0.24
 -- Версия PHP: 7.4.27
 
@@ -40,13 +40,16 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `session_id`, `goods_id`, `price`, `number`) VALUES
-(375, 'klq9d2bhgca2vb38rfe8l9jqr66lhba4', 1, 25, NULL),
-(381, 'klq9d2bhgca2vb38rfe8l9jqr66lhba4', 6, 12, NULL),
-(385, 'klq9d2bhgca2vb38rfe8l9jqr66lhba4', 2, 1, NULL),
-(390, 'rprg3306emuruorb18ce74ij4h3d5odn', 1, 25, 3),
-(391, 'rprg3306emuruorb18ce74ij4h3d5odn', 1, 25, 1),
-(392, 'rprg3306emuruorb18ce74ij4h3d5odn', 1, 25, 2),
-(393, 'rprg3306emuruorb18ce74ij4h3d5odn', 2, 1, 5);
+(503, '6rta9l3h8g7mtf4hhmgga6smap5nt42h', 1, 25, 1),
+(504, 't21llifho7kkdb6qusgudqtonfib2pev', 1, 25, 1),
+(505, 'q5eileaers7ha75d29qn1fii31aau9ga', 1, 35, 2),
+(506, 'q5eileaers7ha75d29qn1fii31aau9ga', 2, 1, 3),
+(507, 'hl1p5f9kjc9d7fmkfkpfe87a2ffcl9h3', 2, 1, 1),
+(508, '39fog4jg7llmlqou5ao4j9guijg7sebn', 6, 12, 1),
+(509, '39fog4jg7llmlqou5ao4j9guijg7sebn', 43, 456, 5),
+(510, '5detm4ntorto56k2rmq5v4qa5p7nq8l2', 1, 35, 1),
+(511, '5detm4ntorto56k2rmq5v4qa5p7nq8l2', 2, 1, 5),
+(512, '5detm4ntorto56k2rmq5v4qa5p7nq8l2', 6, 12, 3);
 
 -- --------------------------------------------------------
 
@@ -100,7 +103,7 @@ CREATE TABLE `goods` (
 --
 
 INSERT INTO `goods` (`id`, `name`, `image`, `description`, `price`) VALUES
-(1, 'Пицца', 'pizza.jpg', 'Вкусная домашняя пицца', '25.00'),
+(1, 'Пицца', 'pizza.jpg', 'Вкусная домашняя пицца', '35.00'),
 (2, 'Чай', 'tea.jpg', 'Крупнолистовой высокогорный чёрный', '1.00'),
 (6, 'Яблоко', 'apple.jpg', 'Спелое сочное', '12.00'),
 (43, 'Новое имя товара', 'cake.jgp', 'Новое описание товара', '456.00'),
@@ -175,17 +178,21 @@ CREATE TABLE `orders` (
   `cart_session` varchar(255) NOT NULL,
   `login` varchar(255) NOT NULL,
   `customer_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `phone_number` varchar(10) NOT NULL
+  `phone_number` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `total_price` float NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'оформлен'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`id`, `cart_session`, `login`, `customer_name`, `phone_number`) VALUES
-(19, '0cmd77levs255g3mdj82kiq1aj42oigs', 'test', 'test Алексей', '11-22-33'),
-(23, '84hitp0hka5ael98k0n377e6436sqr3f', 'user', 'user', '45445455'),
-(24, 's2l8c13aci03b0jh1k8fi7i2sit758e9', 'admin', 'admin', '123123');
+INSERT INTO `orders` (`id`, `cart_session`, `login`, `customer_name`, `phone_number`, `email`, `total_price`, `status`) VALUES
+(50, 'q5eileaers7ha75d29qn1fii31aau9ga', 'test', ' Алексей', '806', 'ag0580@gmail.com', 73, 'в работе'),
+(51, 'hl1p5f9kjc9d7fmkfkpfe87a2ffcl9h3', 'test', 'SADFASD', 'F31246453', '123126576', 1, 'обработан'),
+(52, '39fog4jg7llmlqou5ao4j9guijg7sebn', 'user5', 'wre', '1322165', '412dfsg456', 2292, 'оформлен'),
+(53, '5detm4ntorto56k2rmq5v4qa5p7nq8l2', 'admin', 'weqrhy', '1456437578', '1234fgj695', 76, 'доставка');
 
 -- --------------------------------------------------------
 
@@ -205,9 +212,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `password`, `hash`) VALUES
-(17, 'test', '$2y$10$ob20o7HXjiND6TdeK25AQ.XOjeN1owsySymdXRbEf8Ix6uBW2BHYe', '545573856626ac6b99466f5.79660442'),
-(18, 'admin', '$2y$10$kQ1uE/RuyHOL78PqpK9biuy13xbk9WndPyCbFEd9VL9me.ec1V4S.', '1985551133626e8dc55701f0.04835435'),
-(49, 'user5', '12345', '!@#$%$#%$@#$@');
+(17, 'test', '$2y$10$ob20o7HXjiND6TdeK25AQ.XOjeN1owsySymdXRbEf8Ix6uBW2BHYe', '8921800762752b59609c32.82712399'),
+(18, 'admin', '$2y$10$kQ1uE/RuyHOL78PqpK9biuy13xbk9WndPyCbFEd9VL9me.ec1V4S.', '30602803762750b7ada7682.97570734'),
+(49, 'user5', '$2a$12$9HGsaKZ/UwlSB.xVbT7yXuYBsCkLWG7vLXboJPMuEtXrIdpOJQfeO', '!@#$%$#%$@#$@');
 
 --
 -- Индексы сохранённых таблиц
@@ -269,13 +276,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=394;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=513;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT для таблицы `goods`
@@ -299,7 +306,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
