@@ -6,6 +6,7 @@ use app\engine\Db;
 use app\engine\Request;
 use app\engine\Session;
 use app\models\entities\Order;
+use app\models\repositories\CartRepository;
 use app\models\repositories\OrderRepository;
 use app\models\repositories\UserRepository;
 
@@ -69,7 +70,7 @@ class OrderController extends Controller
         $request = new Request();
         //   $id = $_GET['id'];
         $id = $request->getParams()['id'];
-        $order = (new OrderRepository())->getWhere('id', $id);
+        $order = (new OrderRepository())->getWhere(['id' => $id]);
 
         echo $this->render('orders/unit', [
             'order' => $order
@@ -82,8 +83,39 @@ class OrderController extends Controller
         $id = $data['id'];
         $status = $data['status'];
         $order_repository = new OrderRepository();
-        $order = $order_repository->getWhere('id', $id);
+        $order = $order_repository->getWhere(['id' => $id]);
         $order->__set('status', $status);
+
+        if ($order_repository->update($order)) {
+            $status = 'ok';
+        } else {
+            $status = 'order-error2';
+        };
+
+        $response = [
+            'status' => $status
+        ];
+
+        echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        die();
+
+    }
+
+    protected function actionDetails()
+    {
+        $data = (new Request())->getParams();
+//        $cart_session = $data['cart_session'];
+//        $login = $data['login'];
+
+        $parameters = [
+            'session_id' => $data['cart_session'],
+//            'login' => $data['login']
+        ];
+
+
+        $order = (new CartRepository())->getWhere($parameters);
+        var_dump($order);
+        die();
 
         if ($order_repository->update($order)) {
             $status = 'ok';

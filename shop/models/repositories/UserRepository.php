@@ -18,7 +18,7 @@ class UserRepository extends Repository
      */
     public function Auth(string $login, string $password)
     {
-        $user = $this->getWhere('login', $login);
+        $user = $this->getWhere(['login' => $login]);
         if ($user != false && password_verify($password, $user->password)) {
             new Session($login);
 
@@ -44,7 +44,7 @@ class UserRepository extends Repository
 //        $cookieHash = $_COOKIE['hash'];
         $cookieHash = (new Cookie())->getCookieHash();
         if (isset($cookieHash)) {
-            $user = $this->getWhere('hash', $cookieHash);
+            $user = $this->getWhere(['hash' => $cookieHash]);
 
             if ($user) {
                 new Session($user->login);

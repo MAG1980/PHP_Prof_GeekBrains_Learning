@@ -8,7 +8,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const OrderIssueButton = document.querySelector( '.order__issue-button' );
 	const OrderSubmitForm = document.querySelector( '.order__submit-form' );
 	const OrderConfirmButton = document.querySelector( '.order-confirm-button' );
-	const SetOrderStatusButton = document.querySelector( '.order__set-status-button' )
+	const SetOrderStatusButton = document.querySelector( '.order__set-status-button' );
+	const OrderButtonDetails = document.querySelector( '.order__button-details' );
 	ButtonsBuy.forEach( ( button ) => {
 		button.addEventListener( 'click', async () => {
 			console.log( 'click' );
@@ -72,6 +73,23 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				console.log( 'ok' );
 				document.querySelector( '.order__status-message' ).textContent = "Новый статус заказа успешно установлен!"
 			}
+		} )
+	}
+
+	if ( OrderButtonDetails ) {
+		OrderButtonDetails.addEventListener( 'click', async () => {
+			const cart_session = document.querySelector( '.cart_session' ).textContent;
+			const login = document.querySelector( '.cart__login' ).textContent;
+
+			const data = {
+				'cart_session': cart_session,
+				'login': login
+			}
+
+			console.log( data );
+
+			const answer = await fetchData( '/order/details/', data ).then( ( response ) => getData( response ) );
+			console.log( answer );
 		} )
 	}
 

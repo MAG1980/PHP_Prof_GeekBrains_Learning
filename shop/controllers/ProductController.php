@@ -24,7 +24,7 @@ class ProductController extends Controller
         $request = new Request();
         //   $id = $_GET['id'];
         $id = $request->getParams()['id'];
-        $product = (new ProductRepository())->getWhere('id', $id);
+        $product = (new ProductRepository())->getWhere(['id' => $id]);
 
         echo $this->render('product/card', [
             'product' => $product

@@ -30,7 +30,7 @@ class CartController extends Controller
         //создаём экземпляр корзины и вызываем у него insert() или update()
         $cart = new Cart($session_id, $goods_id, $price, $number);
 //        var_dump($data, $cart);
-      
+
         if ((new CartRepository())->save($cart)) {
             $status = 'ok';
         } else {
@@ -61,7 +61,7 @@ class CartController extends Controller
         $session_id = (new Session())->getId();  // пользователь
 
         $status = 'ok';
-        $cart = (new CartRepository())->getWhere('id', $id);
+        $cart = (new CartRepository())->getWhere(['id' => $id]);
         if (!$cart) {
             $status = 'error1';
         }

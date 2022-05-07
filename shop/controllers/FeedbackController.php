@@ -20,7 +20,7 @@ class FeedbackController extends Controller
     {
         $id = (new Request())->getParams()['id'];
         $feedbacks = (new FeedbackRepository())->getAll();
-        $editable_feedback = (new FeedbackRepository())->getWhere('id', $id);
+        $editable_feedback = (new FeedbackRepository())->getWhere(['id' => $id]);
 
         echo $this->render('feedback/all_feedbacks', [
             'editable_feedback' => $editable_feedback,
@@ -38,7 +38,7 @@ class FeedbackController extends Controller
         $id = $id ? (int) $id:null;
 
         if (!is_null($id)) {
-            $feedback = (new FeedbackRepository())->getWhere('id', $id);
+            $feedback = (new FeedbackRepository())->getWhere(['id' => $id]);
             $feedback->__set('name', $name);
             $feedback->__set('text', $text);
         } else {
@@ -60,7 +60,7 @@ class FeedbackController extends Controller
     protected function actionDelete()
     {
         $id = (new Request())->getParams()['id'];
-        $feedback = (new FeedbackRepository())->getWhere('id', $id);
+        $feedback = (new FeedbackRepository())->getWhere(['id' => $id]);
         (new FeedbackRepository())->delete($feedback);
         header('Location:/feedback/get_all');
         die();

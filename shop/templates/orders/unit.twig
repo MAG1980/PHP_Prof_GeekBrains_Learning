@@ -1,6 +1,6 @@
 <h2>Товар</h2>
 {{ dump(order) }}
-<div>
+<div class="order">
     <div class="order__heading">
         <h3>Заказ №<span class="order__heading-id">{{ order.id }}</span></h3>
         <p>Стоимость заказа:
@@ -11,11 +11,11 @@
         <div><p>Сведения о заказчике:</p>
             <p>Имя: {{ order.customer_name }}</p>
             <p>Номер телефона: {{ order.phone_number }}</p>
-            <p>Логин: {{ order.login }}</p>
-            {#    <p>Номер сессии {{ order.cart_session }}</p> #}
+            <p>Логин: <span class="cart__login">{{ order.login }}</span></p>
+            <p hidden>Номер сессии <span class="cart_session">{{ order.cart_session }}</span></p>
         </div>
         <div>
-            <form class="order__status-form" action="option1.php">
+            <form class="order__status-form">
                 <p class="order__status-form-heading">Статус заказа:</p>
                 <select class="order__status-select" size="1" name="status">
                     <option class="order__status-option" disabled selected>Выберите статус</option>
@@ -34,5 +34,37 @@
         </div>
     </div>
 </div>
-<button type="submit" class="order__button order__details">Состав заказа</button>
+<button type="submit" class="order__button order__button-details">Состав заказа</button>
+<div class="order">
+    <div class="cart__table">
+        <div class="cart__header cart__row">
+            <div class="cart__column">№</div>
+            <div class="cart__column">Наименование</div>
+            <div class="cart__column">Стоимость единицы товара</div>
+            <div class="cart__column">Количество</div>
+            <div class="cart__column">Цена</div>
+            <div class="cart__column"></div>
+        </div>
+    </div>
+
+    <div class="cart__row cart__row-{{ cartLine.cart_id }}">
+        <div class="cart__column cart__good-id">{{ key }}</div>
+        <div class="cart__column cart__good-name">{{ cartLine.good_name }}</div>
+        <div class="cart__column cart__goog-price">{{ cartLine.good_price }}</div>
+        <div class="cart__column cart__good-quantity">{{ cartLine.good_number }}</div>
+        <div class="cart__column cart__good-total-price">{{ cartLine.full_price }}</div>
+
+        <input type="text" name="goods_id" value="{{ cartLine.goods_id }}" hidden>
+        <input type="text" name="goods_count" value="{{ cartLine.number }}" hidden>
+        <button class="remove" type="submit" data-id="{{ cartLine.cart_id }}">Удалить</button>
+    </div>
+
+    <div class="cart__header cart__row">
+        <div class="cart__full-price">Итого</div>
+        <div class="cart__column cart__order-price"></div>
+    </div>
+    <div class="cart__checkout">
+        <div class="cart__checkout-space"></div>
+        <button class="cart__button order__issue-button">Сохранить</button>
+    </div>
 </div>

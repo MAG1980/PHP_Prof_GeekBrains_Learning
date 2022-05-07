@@ -18,14 +18,35 @@ abstract class Repository implements IRepository
      * @param    $value string
      * @return mixed
      */
-    public function getWhere(string $name, string $value)
+    public function getWhere(array $parameters)
     {
         $tableName = $this->getTableName();
-        $sql = "SELECT * FROM $tableName WHERE {$name}=:value";
+        $equalities = [];
+        $params = [];
+
+        foreach ($parameters as $key => $value) {
+            $equalities[] = "{$key}=:{$key}";
+            $params["{$key}"] = $value;
+        }
+
+        $conditions = implode(' AND ', $equalities);
+        $sql = "SELECT * FROM $tableName WHERE $conditions";
+//        var_dump($params, $sql);
+
         //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
-        $params = ['value' => $value];
+//        $params = ['value' => $value];
         return Db::getInstance()->queryOneObject($sql, $params, $this->getEntityClass());
+
     }
+
+    /*    public function getWhere(string $name, string $value)
+        {
+            $tableName = $this->getTableName();
+            $sql = "SELECT * FROM $tableName WHERE {$name}=:value";
+            //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
+            $params = ['value' => $value];
+            return Db::getInstance()->queryOneObject($sql, $params, $this->getEntityClass());
+        }*/
 
     /**
      * Подсчёт количества записей, удовлетворяющих параметрам запроса
