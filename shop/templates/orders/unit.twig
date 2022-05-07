@@ -53,8 +53,8 @@
     <p class="order__status-message"></p>
 </div>
 <button type="submit" class="order__button order__button-details">Состав заказа</button>
-<div class="order">
-    <div class="cart__table">
+<div class="order__table dn">
+    <div class="order__cart-table">
         <div class="cart__header cart__row">
             <div class="cart__column">№</div>
             <div class="cart__column">Наименование</div>
@@ -64,25 +64,9 @@
             <div class="cart__column"></div>
         </div>
     </div>
-
-    <div class="cart__row cart__row-{{ cartLine.cart_id }}">
-        <div class="cart__column cart__good-id">{{ key }}</div>
-        <div class="cart__column cart__good-name">{{ cartLine.good_name }}</div>
-        <div class="cart__column cart__goog-price">{{ cartLine.good_price }}</div>
-        <div class="cart__column cart__good-quantity">{{ cartLine.good_number }}</div>
-        <div class="cart__column cart__good-total-price">{{ cartLine.full_price }}</div>
-
-        <input type="text" name="goods_id" value="{{ cartLine.goods_id }}" hidden>
-        <input type="text" name="goods_count" value="{{ cartLine.number }}" hidden>
-        <button class="remove" type="submit" data-id="{{ cartLine.cart_id }}">Удалить</button>
-    </div>
-
+    <div id='order__cart' class="order__cart"></div>
     <div class="cart__header cart__row">
         <div class="cart__full-price">Итого</div>
         <div class="cart__column cart__order-price"></div>
-    </div>
-    <div class="cart__checkout">
-        <div class="cart__checkout-space"></div>
-        <button class="cart__button order__issue-button">Сохранить</button>
     </div>
 </div>

@@ -275,5 +275,6 @@ a:hover img {
 }
 
 .dn {
-	display: none;
+	/*display: none;*/
+	opacity: 0;
 }

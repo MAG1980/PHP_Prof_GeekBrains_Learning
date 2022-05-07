@@ -96,6 +96,26 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 			const answer = await fetchData( '/order/details/', data ).then( ( response ) => getData( response ) );
 			console.log( answer );
+			if ( answer.status === 'ok' ) {
+				const OrderCartTable = document.querySelector( '.order__table' );
+				const OrderCart = document.getElementById( 'order__cart' );
+				let HTMLContent = '';
+				answer.cart.forEach( ( element ) => {
+					HTMLContent += `
+		<div class="cart__row ">
+        <div class="cart__column cart__good-id">${ element.goods_id }</div>
+        <div class="cart__column cart__good-name">${ element.name }</div>
+        <div class="cart__column cart__goog-price">${ element.price }</div>
+        <div class="cart__column cart__good-quantity">${ element.number }</div>
+        <div class="cart__column cart__good-total-price"></div>
+    </div>`;
+				} )
+				OrderCart.innerHTML = HTMLContent;
+				rowsPricesCount();
+				orderPriceCount();
+				OrderCartTable.classList.remove( 'dn' );
+			}
+
 		} )
 	}
 
@@ -147,15 +167,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 	function orderPriceCount() {
 		const CartItemsTotalPrices = document.querySelectorAll( '.cart__good-total-price' );
-		console.log( CartItemsTotalPrices );
+		// console.log( CartItemsTotalPrices );
 		const rowsPrices = [];
 		let orderPrice = 0;
 		if ( CartItemsTotalPrices.length !== 0 ) {
 			CartItemsTotalPrices.forEach( item => {
-				console.log( +item.textContent );
 				rowsPrices.push( +item.textContent );
 			} )
-			console.log( rowsPrices );
+
 			orderPrice = rowsPrices.reduce( ( acc, price ) => {
 				return acc += price;
 			} )
@@ -169,7 +188,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const OrderPrice = document.querySelector( '.cart__order-price' );
 		if ( OrderPrice ) {
 			OrderPrice.textContent = orderPrice;
-			console.log( OrderPrice );
 		}
 	}
 
