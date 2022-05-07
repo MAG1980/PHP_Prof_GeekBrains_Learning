@@ -24,4 +24,11 @@ class CartRepository extends Repository
         //Возвращает полное имя класса (вместе с namespace)
         return Cart::class;
     }
+
+    public function getAllJoinGoodsOnId($parameters)
+    {
+        $sql = "SELECT cart.id, session_id, goods_id, cart.price, goods.name, goods.image, goods.description FROM cart INNER JOIN goods ON cart.goods_id=goods.id  WHERE session_id = :session_id";
+
+        return Db::getInstance()->query($sql, $parameters)->fetchAll();
+    }
 }

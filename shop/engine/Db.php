@@ -60,7 +60,8 @@ class Db
         $STH = $this->getConnection()->prepare($sql);
 
         //передаём в качестве аргумента массив параметров запроса
-//        var_dump($params);
+        /*        var_dump($sql, $params);
+                die();*/
         $STH->execute($params);
 
         //объект с инкапсулированными даными, полученными из БД

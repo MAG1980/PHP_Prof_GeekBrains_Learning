@@ -112,8 +112,8 @@ class OrderController extends Controller
         ];
 
 
-        $cart = (new CartRepository())->getAllWhere($parameters);
-
+        $oldCart = (new CartRepository())->getAllWhere($parameters);
+        $cart = (new CartRepository())->getAllJoinGoodsOnId($parameters);
         if ($cart) {
             $status = 'ok';
         } else {
