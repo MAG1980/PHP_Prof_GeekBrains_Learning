@@ -2,9 +2,7 @@
 
 namespace app\models\repositories;
 
-use app\engine\Cookie;
-use app\engine\Request;
-use app\engine\Session;
+use app\engine\App;
 use app\models\entities\User;
 use app\models\Repository;
 
@@ -20,9 +18,11 @@ class UserRepository extends Repository
     {
         $user = $this->getWhere(['login' => $login]);
         if ($user != false && password_verify($password, $user->password)) {
-            new Session($login);
+//            new Session($login);
+            App::call()->session->set('login', $login);
 
-            if (isset((new Request())->getParams()['save'])) {
+//            if (isset((new Request())->getParams()['save'])) {
+            if (isset(App::call()->request->getParams()['save'])) {
                 //генерация hash для сохранения в cookie и БД
                 $hash = uniqid(rand(), true);
 //                unset($user->hash);
@@ -31,7 +31,8 @@ class UserRepository extends Repository
                 $user->hash = $hash;
                 $this->update($user);
 
-                new Cookie($hash);
+//                new Cookie($hash);
+                App::call()->cookie->set('hash', $hash);
 //                setcookie('hash', $hash, time() + 3600, '/');
             }
             return true;
@@ -42,21 +43,24 @@ class UserRepository extends Repository
     public function isAuth()
     {
 //        $cookieHash = $_COOKIE['hash'];
-        $cookieHash = (new Cookie())->getCookieHash();
+        $cookieHash = App::call()->cookie->getCookieHash();
         if (isset($cookieHash)) {
             $user = $this->getWhere(['hash' => $cookieHash]);
 
             if ($user) {
-                new Session($user->login);
+//                new Session($user->login);
+                App::call()->session->set('login', $user->login);
             }
         }
-        $login = (new Session())->getLogin();
+//        $login = (new Session())->getLogin();
+        $login = App::call()->session->getLogin();
         return isset($login);
     }
 
     public function getLogin()
     {
-        return (new Session())->getLogin();
+//        return (new Session())->getLogin();
+        return App::call()->session->getLogin();
     }
 
     protected function getTableName(): string

@@ -5,10 +5,16 @@ namespace app\engine;
 class Cookie
 {
 
-    public function __construct(string $hash = null)
+//    public function __construct(string $hash = null)
+//    {
+//        if (!is_null($hash)) {
+//            setcookie('hash', $hash, time() + 3600, '/');
+//        }
+//    }
+    public function set($key, $value)
     {
-        if (!is_null($hash)) {
-            setcookie('hash', $hash, time() + 3600, '/');
+        if ($key === 'hash') {
+            setcookie('hash', $value, time() + 3600, '/');
         }
     }
 

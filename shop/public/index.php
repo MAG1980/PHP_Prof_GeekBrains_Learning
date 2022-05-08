@@ -2,9 +2,10 @@
 
 session_start();
 
-use app\engine\{Request};
+use app\engine\App;
 
-include dirname(__DIR__)."/config/config.php";
+//include dirname(__DIR__)."/config/config.php";
+
 
 /*После подключения composer дополнительные автозагрузчики не требуются, т.к. composer загружает все классы встроенным
 автозагрузчиком
@@ -14,17 +15,18 @@ spl_autoload_register([new Autoload(), 'loadClass']);*/
 //для автозагрузки сторонней библиотеки достаточно подключить её автозагрузчик через include
 
 //Автозагрузчик composer - создаётся автоматически для всех подключенных библиотек
-require_once ROOT.'/vendor/autoload.php';
-
+require_once dirname(__DIR__).'/vendor/autoload.php';
+$config = include dirname(__DIR__)."/config/config.php";
 
 try {
-    $request = new Request();
+    //Вынесено в App->runController()
+    /* $request = new Request();
 
 
-    /*Получаем имена контроллера и экшена из адресной строки браузера
-    Если имя контроллера из адресной строки не получено, то выбираем 'product'.*/
-    /*$controllerName = $_GET['c'] ? :'index';
-    $actionName = $_GET['a'];*/
+//    Получаем имена контроллера и экшена из адресной строки браузера
+//     Если имя контроллера из адресной строки не получено, то выбираем 'product'.
+//  $controllerName = $_GET['c'] ? :'index';
+//    $actionName = $_GET['a'];
 
 
     $controllerName = $request->getControllerName() ? :'index';
@@ -41,7 +43,8 @@ try {
         $controller->runAction($actionName);
     } else {
         die("Нет такого контроллера");
-    }
+    }*/
+    App::call()->run($config);
 } catch (PDOException $exception) {
     var_dump($exception->getMessage());
 } catch (\app\exceptions\ModelException $exception) {
@@ -50,31 +53,6 @@ try {
     var_dump($exception->getMessage());
 }
 
-
-/*$product->insert();
-
-$product = $product->getOne(68)->delete();
-
-
-$product = new Product();
-$product = $product->getOne(43);
-
-
-$product->name = 'Новое имя товара';
-$product->description = "Новое описание товара";
-$product->price = 456;
-
-$product->update();
-
-
-$user = new User('user5', "12345");
-$user->insert();
-
-$user->login = 'admin55';
-$user->password = "asdfdsafasdf";
-$user->hash = "!@#$%$#%$ASDFASDW$@#$@";
-
-$user->update();*/
 
 
 

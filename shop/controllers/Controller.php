@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\engine\App;
 use app\interfaces\IRender;
-use app\models\repositories\CartRepository;
-use app\models\repositories\UserRepository;
+
+//use app\models\repositories\CartRepository;
+//use app\models\repositories\UserRepository;
 
 abstract class Controller
 {
@@ -22,6 +24,7 @@ abstract class Controller
         //Если экшен не передан, то выполняем дефолтный
         $this->action = $action ? :$this->defaultAction;
         $method = 'action'.ucfirst($this->action);
+
         if (method_exists($this, $method)) {
             $this->$method();
         } else {
@@ -33,11 +36,14 @@ abstract class Controller
     В отличие от него метод renderTemplate() не привязан к какому-либо классу.*/
     protected function render($template, $params = [])
     {
-        $params ['is_auth'] = (new UserRepository())->isAuth();
-        $params ['user'] = (new UserRepository())->getLogin();
+//        $params ['is_auth'] = (new UserRepository())->isAuth();
+        $params ['is_auth'] = App::call()->userRepository->isAuth();
+//        $params ['user'] = (new UserRepository())->getLogin();
+        $params ['user'] = App::call()->userRepository->getLogin();
 
         //Количество товаров в корзине, соответствующее данной сессии
-        $params ['count'] = (new CartRepository())->getCountWhere('session_id', session_id());
+//        $params ['count'] = (new CartRepository())->getCountWhere('session_id', session_id());
+        $params ['count'] = App::call()->cartRepository->getCountWhere('session_id', session_id());
 
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', $params),

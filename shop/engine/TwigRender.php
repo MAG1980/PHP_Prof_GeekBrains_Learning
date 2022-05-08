@@ -11,7 +11,7 @@ class TwigRender implements IRender
 
     public function __construct()
     {
-        $this->loader = new \Twig\Loader\FilesystemLoader(ROOT.'/templates');
+        $this->loader = new \Twig\Loader\FilesystemLoader(App::call()->config['root'].'/templates');
 
         $this->twig = new \Twig\Environment($this->loader, [
             'debug' => true,

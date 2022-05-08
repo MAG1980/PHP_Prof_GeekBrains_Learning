@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\engine\Db;
+use app\engine\App;
 use app\interfaces\IRepository;
 
 abstract class Repository implements IRepository
@@ -34,7 +34,8 @@ abstract class Repository implements IRepository
 
         //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
 //        $params = ['value' => $value];
-        return Db::getInstance()->queryOneObject($sql, $params, $this->getEntityClass());
+//        return Db::getInstance()->queryOneObject($sql, $params, $this->getEntityClass());
+        return App::call()->db->queryOneObject($sql, $params, $this->getEntityClass());
 
     }
 
@@ -64,7 +65,8 @@ abstract class Repository implements IRepository
 
         //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
 //        $params = ['value' => $value];
-        return Db::getInstance()->queryAll($sql, $params);
+//        return Db::getInstance()->queryAll($sql, $params);
+        return App::call()->db->queryAll($sql, $params);
 
     }
 
@@ -81,7 +83,8 @@ abstract class Repository implements IRepository
         $tableName = $this->getTableName();
         $sql = "SELECT count(id) as count FROM {$tableName} WHERE {$name}=:value";
         $params = ['value' => $value];
-        return Db::getInstance()->queryOne($sql, $params)['count'];
+//        return Db::getInstance()->queryOne($sql, $params)['count'];
+        return App::call()->db->queryOne($sql, $params)['count'];
     }
 
     /**
@@ -98,7 +101,8 @@ abstract class Repository implements IRepository
         //$name не может прийти от пользователя, поэтому для этой переменной подготовленный запрос не требуется
         $sql = "SELECT * FROM $tableName WHERE {$name}=:value LIMIT 0, :limit";
 
-        $result = Db::getInstance()->queryWithLimit($sql, $value, $limit);
+//        $result = Db::getInstance()->queryWithLimit($sql, $value, $limit);
+        $result = App::call()->db->queryWithLimit($sql, $value, $limit);
         return $result;
     }
 
@@ -121,8 +125,10 @@ abstract class Repository implements IRepository
 
         $sql = "INSERT INTO `{$tableName}`($columns) VALUES ($values)";
 //        var_dump($sql, $params);
-        $result = Db::getInstance()->execute($sql, $params);
-        $entity->id = Db::getInstance()->lastInsertId();
+//        $result = Db::getInstance()->execute($sql, $params);
+        $result = App::call()->db->execute($sql, $params);
+//        $entity->id = Db::getInstance()->lastInsertId();
+        $entity->id = App::call()->db->lastInsertId();
         return $result;
     }
 
@@ -145,7 +151,8 @@ abstract class Repository implements IRepository
         $params['id'] = $entity->id;
 
         $sql = "UPDATE `{$tableName}` SET {$colums} WHERE `id` = :id";
-        $result = Db::getInstance()->execute($sql, $params);
+//        $result = Db::getInstance()->execute($sql, $params);
+        $result = App::call()->db->execute($sql, $params);
         return $result;
     }
 
@@ -158,7 +165,8 @@ abstract class Repository implements IRepository
     {
         $tableName = $this->getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
-        return Db::getInstance()->execute($sql, ['id' => $entity->id]);
+//        return Db::getInstance()->execute($sql, ['id' => $entity->id]);
+        return App::call()->db->execute($sql, ['id' => $entity->id]);
     }
 
 
@@ -167,7 +175,7 @@ abstract class Repository implements IRepository
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
 //        return Db::getInstance()->queryOne($sql, ['id' => $id]);
-        return Db::getInstance()->queryOneObject($sql, ['id' => $id], $this->getEntityClass());
+        return App::call()->db->queryOneObject($sql, ['id' => $id], $this->getEntityClass());
 
     }
 
@@ -175,14 +183,14 @@ abstract class Repository implements IRepository
     {
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName}";
-        return Db::getInstance()->queryAll($sql);
+        return App::call()->db->queryAll($sql);
     }
 
     public function getLimit($limit)
     {
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} LIMIT 0, ?";
-        return Db::getInstance()->queryLimit($sql, $limit);
+        return App::call()->db->queryLimit($sql, $limit);
 
     }
 

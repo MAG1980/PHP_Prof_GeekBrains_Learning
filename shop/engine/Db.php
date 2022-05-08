@@ -2,23 +2,40 @@
 
 namespace app\engine;
 
-use app\traits\TSingletone;
+//use app\traits\TSingletone; Теперь синглтон - App
 use PDO;
 
 class Db
 {
-    private array $config = [
+    //Теперь config поступает "снаружи"
+    private $config;
+    /*private array $config = [
         'driver' => 'mysql',
         'host' => 'localhost:3307',
         'login' => 'root',
         'password' => '',
         'database' => 'shop',
         'charset' => 'utf8'
-    ];
+    ];*/
 
     private $connection = null;
 
-    use TSingletone;
+    public function __construct(
+        $driver = null,
+        $host = null,
+        $login = null,
+        $password = null,
+        $database = null,
+        $charset = 'utf8'
+    ) {
+        $this->config['driver'] = $driver;
+        $this->config['host'] = $host;
+        $this->config['login'] = $login;
+        $this->config['password'] = $password;
+        $this->config['database'] = $database;
+        $this->config['charset'] = $charset;
+    }
+
 
     private function getConnection(): PDO
     {

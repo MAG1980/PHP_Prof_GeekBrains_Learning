@@ -5,12 +5,17 @@ namespace app\engine;
 class Session
 {
 
-    public function __construct(string $login = null)
+    public function set($key, $value)
     {
-        if (!is_null($login)) {
-            $_SESSION['login'] = $login;
-        }
+        $_SESSION[$key] = $value;
     }
+
+//    public function __construct(string $login = null)
+//    {
+//        if (!is_null($login)) {
+//            $_SESSION['login'] = $login;
+//        }
+//    }
 
 
     /**

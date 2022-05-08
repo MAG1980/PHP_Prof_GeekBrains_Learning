@@ -23,7 +23,8 @@ class PhpRender implements IRender
         extract($params);
 
         //Собираем путь до файла с шаблоном страницы и подключаем его
-        include VIEWS_DIR.$template.'.php';
+//        include VIEWS_DIR.$template.'.php';
+        include App::call()->config['views_dir'].$template.'.php';
 
         /*  Заканчиваем буферизацию вывода, возвращаем накопленное содержимое буфера вывода и очищаем буфер */
         return ob_get_clean();

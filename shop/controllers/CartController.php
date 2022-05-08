@@ -2,18 +2,18 @@
 
 namespace app\controllers;
 
-use app\engine\Request;
-use app\engine\Session;
+use app\engine\App;
 use app\models\entities\Cart;
-use app\models\repositories\CartRepository;
 
 class CartController extends Controller
 {
     //Выполняется, если экшен не передан
     public function actionIndex()
     {
-        $session_id = (new Session())->getId();
-        $cart = (new CartRepository())->getCart($session_id);
+//        $session_id = (new Session())->getId();
+        $session_id = App::call()->session->getId();
+//        $cart = (new CartRepository())->getCart($session_id);
+        $cart = App::call()->cartRepository->getCart($session_id);
         echo $this->render('cart', [
             'cart' => $cart
         ]);
@@ -21,17 +21,20 @@ class CartController extends Controller
 
     public function actionAdd()
     {
-        $data = (new Request())->getParams();
+//        $data = (new Request())->getParams();
+        $data = App::call()->request->getParams();
         $goods_id = (int) $data['id'];
         $price = $data['price'];
         $number = $data['number'];
-        $session_id = (new Session())->getId();
+//        $session_id = (new Session())->getId();
+        $session_id = App::call()->session->getId();
 //TODO Переделать на getWhere
         //создаём экземпляр корзины и вызываем у него insert() или update()
         $cart = new Cart($session_id, $goods_id, $price, $number);
 //        var_dump($data, $cart);
 
-        if ((new CartRepository())->save($cart)) {
+//        if ((new CartRepository())->save($cart)) {
+        if (App::call()->cartRepository->save($cart)) {
             $status = 'ok';
         } else {
             $status = 'error3';
@@ -39,7 +42,8 @@ class CartController extends Controller
 
         $response = [
             'status' => $status,
-            'count' => (new CartRepository())->getCountWhere('session_id', $session_id)
+//            'count' => (new CartRepository())->getCountWhere('session_id', $session_id)
+            'count' => App::call()->cartRepository->getCountWhere('session_id', $session_id)
         ];
 
         echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
@@ -54,30 +58,36 @@ class CartController extends Controller
     {
 //Получение данных c Frontend вынес в класс Request
 
-        $data = (new Request())->getParams();
+//        $data = (new Request())->getParams();
+        $data = App::call()->request->getParams();
 
         $id = (int) $data['id'];
 
-        $session_id = (new Session())->getId();  // пользователь
+//        $session_id = (new Session())->getId();  // пользователь
+        $session_id = App::call()->session->getId();  // пользователь
 
         $status = 'ok';
-        $cart = (new CartRepository())->getWhere(['id' => $id]);
+//        $cart = (new CartRepository())->getWhere(['id' => $id]);
+        $cart = App::call()->cartRepository->getWhere(['id' => $id]);
         if (!$cart) {
             $status = 'error1';
         }
 
-        $currentSession = (new Session())->getId(); // пользователь
+//        $currentSession = (new Session())->getId(); // пользователь
+        $currentSession = App::call()->session->getId(); // пользователь
 
         //Проверка прав пользователя на удаление товара
         if ($currentSession === $cart->session_id) {
-            (new CartRepository())->delete($cart);
+//            (new CartRepository())->delete($cart);
+            App::call()->cartRepository->delete($cart);
         } else {
             $status = 'error2';
         }
 
         $response = [
             'status' => $status,
-            'count' => (new CartRepository())->getCountWhere('session_id', $currentSession)
+//            'count' => (new CartRepository())->getCountWhere('session_id', $currentSession)
+            'count' => App::call()->cartRepository->getCountWhere('session_id', $currentSession)
         ];
 
         echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

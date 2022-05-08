@@ -2,15 +2,15 @@
 
 namespace app\controllers;
 
-use app\engine\Request;
+use app\engine\App;
 use app\models\entities\Feedback;
-use app\models\repositories\FeedbackRepository;
 
 class FeedbackController extends Controller
 {
     protected function actionGet_all()
     {
-        $feedbacks = (new FeedbackRepository())->getAll();
+//        $feedbacks = (new FeedbackRepository())->getAll();
+        $feedbacks = App::call()->feedbackRepository->getAll();
         echo $this->render('feedback/all_feedbacks', [
             'feedbacks' => $feedbacks
         ]);
@@ -18,9 +18,12 @@ class FeedbackController extends Controller
 
     protected function actionEdit()
     {
-        $id = (new Request())->getParams()['id'];
-        $feedbacks = (new FeedbackRepository())->getAll();
-        $editable_feedback = (new FeedbackRepository())->getWhere(['id' => $id]);
+//        $id = (new Request())->getParams()['id'];
+        $id = App::call()->request->getParams()['id'];
+//        $feedbacks = (new FeedbackRepository())->getAll();
+        $feedbacks = App::call()->feedbackRepository->getAll();
+//        $editable_feedback = (new FeedbackRepository())->getWhere(['id' => $id]);
+        $editable_feedback = App::call()->feedbackRepository->getWhere(['id' => $id]);
 
         echo $this->render('feedback/all_feedbacks', [
             'editable_feedback' => $editable_feedback,
@@ -30,7 +33,8 @@ class FeedbackController extends Controller
 
     protected function actionSave()
     {
-        $request = new Request();
+//        $request = new Request();
+        $request = App::call()->request;
 
         $id = $request->getParams()['id'];
         $name = $request->getParams()['name'];
@@ -38,7 +42,8 @@ class FeedbackController extends Controller
         $id = $id ? (int) $id:null;
 
         if (!is_null($id)) {
-            $feedback = (new FeedbackRepository())->getWhere(['id' => $id]);
+//            $feedback = (new FeedbackRepository())->getWhere(['id' => $id]);
+            $feedback = App::call()->feedbackRepository->getWhere(['id' => $id]);
             $feedback->__set('name', $name);
             $feedback->__set('text', $text);
         } else {
@@ -51,7 +56,7 @@ class FeedbackController extends Controller
         if ($feedback->name === '' || $feedback->text === '') {
             header('Location:/feedback/?status=error');
         } else {
-            (new FeedbackRepository())->save($feedback);
+            App::call()->feedbackRepository->save($feedback);
             header('Location:/feedback/get_all');
             die();
         }
@@ -59,9 +64,9 @@ class FeedbackController extends Controller
 
     protected function actionDelete()
     {
-        $id = (new Request())->getParams()['id'];
-        $feedback = (new FeedbackRepository())->getWhere(['id' => $id]);
-        (new FeedbackRepository())->delete($feedback);
+        $id = App::call()->request->getParams()['id'];
+        $feedback = App::call()->feedbackRepository->getWhere(['id' => $id]);
+        App::call()->feedbackRepository->delete($feedback);
         header('Location:/feedback/get_all');
         die();
     }

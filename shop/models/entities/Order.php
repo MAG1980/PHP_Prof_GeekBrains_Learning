@@ -2,9 +2,8 @@
 
 namespace app\models\entities;
 
-use app\engine\Session;
+use app\engine\App;
 use app\models\Model;
-use app\models\repositories\UserRepository;
 
 class Order extends Model
 {
@@ -37,8 +36,9 @@ class Order extends Model
         ?string $status = null
 
     ) {
-        $this->cart_session = (new Session())->getId();
-        $this->login = (new UserRepository())->getLogin();
+        $this->cart_session = App::call()->session->getId();
+//        $this->login = (new UserRepository())->getLogin();
+        $this->login = App::call()->userRepository->getLogin();
         $this->customer_name = $customer_name;
         $this->phone_number = $phone_number;
         $this->email = $email;
