@@ -1,0 +1,19 @@
+<h2>Товар</h2>
+{# {{ dump(product) }} #}
+<div>
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    <div>
+        <p>price:
+            <span class="item_price">
+                        {{ product.price }}
+                    </span> x
+            <input type="number" class="item_number" name="number" step="1" value="1" min="1" max="11">
+            =
+            <span class="item_total-price">{{ product.price }}</span>
+        </p>
+    </div>
+    <button class="buy" data-id="{{ product.id }}" data-price="{{ product.price }}" type="submit">
+        Купить
+    </button>
+</div>

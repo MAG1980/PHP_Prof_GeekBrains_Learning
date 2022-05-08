@@ -1,0 +1,72 @@
+<h2>Товар</h2>
+{# {{ dump(order) }} #}
+<div class="order">
+    <div class="order__heading">
+        <h3>Заказ №<span class="order__heading-id">{{ order.id }}</span></h3>
+        <p>Стоимость заказа:
+            </span> {{ order.total_price }}</span>
+        </p>
+    </div>
+    <div class="order__row">
+        <div>
+            <p>Сведения о заказчике:</p>
+            <p>Имя: {{ order.customer_name }}</p>
+            <p>Номер телефона: {{ order.phone_number }}</p>
+            <p>Логин: <span class="cart__login">{{ order.login }}</span></p>
+            <p hidden>Номер сессии <span class="cart_session">{{ order.cart_session }}</span></p>
+        </div>
+        <div class="order__status">
+            <form class="order__status-form">
+                <p class="order__status-form-heading">Статус заказа:</p>
+                <select class="order__status-select" size="1" name="status"
+                        {% if isAdmin == false %} disabled="disabled"{% endif %}>
+                    <option class="order__status-option" disabled>Выберите статус</option>
+                    <option class="order__status-option" value="оформлен"
+                            {% if order.status == "оформлен" %} selected="selected"{% endif %}>оформлен
+                    </option>
+                    <option class="order__status-option" value="в работе"
+                            {% if order.status == "в работе" %} selected="selected"{% endif %}>в работе
+                    </option>
+                    <option class="order__status-option" value="оплачен"
+                            {% if order.status == "оплачен" %} selected="selected"{% endif %}>олачен
+                    </option>
+                    <option class="order__status-option" value="обработан"
+                            {% if order.status == "обработан" %} selected="selected"{% endif %}>обработан
+                    </option>
+                    <option class="order__status-option" value="доставка"
+                            {% if order.status == "доставка" %} selected="selected"{% endif %}>доставка
+                    </option>
+                    <option class="order__status-option" value="получен"
+                            {% if order.status == "получен" %} selected="selected"{% endif %}>получен
+                    </option>
+                    <option class="order__status-option" value="завершён"
+                            {% if order.status == "завершён" %} selected="selected"{% endif %}>завершён
+                    </option>
+                </select>
+            </form>
+            <button type="submit"
+                    class="order__button order__set-status-button {% if isAdmin == false %} dn{% endif %}">Установить
+                статус
+            </button>
+        </div>
+    </div>
+    <p class="order__status-message"></p>
+</div>
+<button type="submit" class="order__button order__button-details">Состав заказа</button>
+<div class="order__table dn">
+    <div class="order__cart-table">
+        <div class="cart__header cart__row">
+            <div class="cart__column">№</div>
+            <div class="cart__column">Наименование</div>
+            <div class="cart__column">Стоимость единицы товара</div>
+            <div class="cart__column">Количество</div>
+            <div class="cart__column">Цена</div>
+            <div class="cart__column"></div>
+        </div>
+    </div>
+    <div id='order__cart' class="order__cart"></div>
+    <div class="cart__header cart__row">
+        <div class="cart__full-price">Итого</div>
+        <div class="cart__column cart__order-price"></div>
+    </div>
+</div>

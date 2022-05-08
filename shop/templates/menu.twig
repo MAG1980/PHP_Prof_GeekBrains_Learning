@@ -1,0 +1,26 @@
+{% if  is_auth != true %}
+    <form action="/auth/login" method="post">
+        <input class="menu__input" type="text" name="login" placeholder="Login">
+        <input class="menu__input" type="password" name="password" placeholder="Password">
+        Save? <input type="checkbox" name="save">
+        <button class="menu__button" type="submit" name="send">Sign In</button>
+        <a class="menu__button menu__button-link" href="/registration/">Sign Up</a>
+    </form>
+{% else %}
+    Добро пожаловать, {{ user }}!  <a href="/auth/logout">Exit</a></br>
+{% endif %}
+
+<ul class="menu">
+    <li class="menu_item"><a class="menu__link" href="/">Главная</a></li>
+    <li class="menu_item"><a class="menu__link" href="/product/catalog">Каталог</a></li>
+    <li class="menu_item"><a class="menu__link" href="/feedback/get_all">Отзывы</a>
+    </li>
+    <li class="menu_item"><a class="menu__link menu__cart" href="/cart">
+            Корзина<span id='count'>{{ count }}</span>
+        </a>
+    </li>
+    {% if  is_auth == true %}
+        <li class="menu_item"><a class="menu__link" href="/order/list">Заказы</a>
+        </li>
+    {% endif %}
+</ul>

@@ -1,0 +1,27 @@
+{# <pre>
+    {{ dump(menu) }}
+    {{ dump(content) }}
+</pre> #}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+    {% endblock %}
+
+    <title>Document</title>
+</head>
+<body>
+<div class="container">
+    {{ menu | raw }}
+    {{ content | raw }}
+</div>
+
+{% block  javascripts %}
+    <script src="/js/script.js"></script>
+{% endblock %}
+
+</body>
+</html>
