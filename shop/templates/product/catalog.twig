@@ -1,0 +1,26 @@
+<pre>
+    {{ dump(catalog) }}
+</pre>
+<h2>Каталог</h2>
+{% for item in catalog %}
+    <div>
+        <div>
+            <h3><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h3>
+            <div>
+                <p>price:
+                    <span class="item_price">
+                        {{ item.price }}
+                    </span> x
+                    <input type="number" class="item_number" name="number" step="1" value="1" min="1" max="11">
+                    =
+                    <span class="item_total-price">{{ item.price }}</span>
+                </p>
+            </div>
+
+
+            <button class="buy" type="submit" data-id="{{ item.id }}" data-price="{{ item.price }}">Купить</button>
+        </div>
+    </div>
+{% endfor %}
+
+<a href="/product/catalog/?page={{ page }}">Еще</a>
